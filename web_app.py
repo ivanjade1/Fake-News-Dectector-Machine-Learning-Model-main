@@ -210,8 +210,8 @@ def initialize_model():
         detector.model = None
         detector.accuracy = None
 
-# Initialize model only once when module is imported (not in main block)
-if not _initialized and __name__ == '__main__':
+# Initialize model only once when module is imported
+if not _initialized:
     print("🚀 Starting application initialization...")
     initialize_model()
 
