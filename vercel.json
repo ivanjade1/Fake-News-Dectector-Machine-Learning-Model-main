@@ -19,11 +19,5 @@
   "env": {
     "FLASK_ENV": "production",
     "PYTHONPATH": "."
-  },
-  "functions": {
-    "api/index.py": {
-      "maxDuration": 60,
-      "memory": 1024
-    }
   }
 }
