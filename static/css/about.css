@@ -1,0 +1,551 @@
+/* ===== About Page Styling - Consistent with Home & History Design System ===== */
+
+:root {
+  /* Match results.css background approach exactly */
+  --nav-h: 70px;
+  --hero-h: 520px;
+  --hero-top: var(--nav-h);
+  
+  /* Exact gradient background from results.css */
+  --about-grad: linear-gradient(
+    to bottom,
+    #ffffff 0%,
+    rgba(246,247,251,0.95) 28%,
+    rgba(238,240,248,0.88) 60%,
+    #ffffff 100%
+  );
+}
+
+html.dark {
+  --about-grad: linear-gradient(
+    to bottom,
+    #0b0f1a 0%,
+    rgba(10,13,23,0.9) 40%,
+    rgba(10,13,23,0.66) 72%,
+    rgba(10,13,23,0) 100%
+  );
+}
+
+/* Use results.css background system exactly */
+.results-bg::before {
+  content: "";
+  position: fixed;
+  top: var(--nav-h);
+  left: 50%;
+  transform: translate3d(-50%, 0, 0);
+  width: 100svw;
+  height: 100vh;
+  background: var(--about-grad);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.results-bg::after {
+  content: "";
+  position: fixed;
+  top: calc(var(--nav-h) - 96px);
+  left: 50%;
+  transform: translate3d(-50%, 0, 0);
+  width: 48rem;
+  height: 16rem;
+  background: radial-gradient(closest-side, rgba(99,102,241,0.25), transparent);
+  filter: blur(32px);
+  opacity: 0.3;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.results-content {
+  position: relative;
+  z-index: 1;
+}
+
+/* Results card styling - exactly matching history.css */
+.results-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(16px);
+  border-radius: 1.5rem;
+  border: 1px solid rgb(229, 231, 235);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05);
+  padding: 2rem;
+  transition: all 0.3s ease;
+}
+
+.results-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+}
+
+html.dark .results-card {
+  background: rgba(15, 15, 15, 0.7);
+  border-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+html.dark .results-card:hover {
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+}
+
+/* Action buttons - exactly matching history.css */
+.action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 1rem;
+  padding: 0.875rem 1.5rem;
+  font-weight: 600;
+  font-size: 0.925rem;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  text-decoration: none;
+}
+
+/* Primary button - matches detector analyzeBtn */
+.action-btn-primary {
+  background: #4f46e5;
+  color: white;
+  border-radius: 1rem;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(79, 70, 229, 0.3);
+}
+
+.action-btn-primary:hover {
+  background: #4338ca;
+  color: white;
+  text-decoration: none;
+}
+
+/* Secondary button - matches detector resetBtn */
+.action-btn-secondary {
+  background: white;
+  color: #4338ca;
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  border-radius: 1rem;
+  font-weight: 500;
+}
+
+.action-btn-secondary:hover {
+  background: rgba(99, 102, 241, 0.05);
+  color: #4338ca;
+  text-decoration: none;
+}
+
+html.dark .action-btn-secondary {
+  background: transparent;
+  color: #a5b4fc;
+  border-color: rgba(99, 102, 241, 0.3);
+}
+
+html.dark .action-btn-secondary:hover {
+  background: rgba(99, 102, 241, 0.1);
+  color: #a5b4fc;
+  text-decoration: none;
+}
+
+/* Results icon - exactly matching history.css */
+.results-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 0.75rem;
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+/* Accordion styling - matching history.css patterns */
+.accordion-item {
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(8px);
+}
+
+.accordion-item:not(:last-child) {
+  margin-bottom: 8px;
+}
+
+html.dark .accordion-item {
+  border-color: rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.2);
+}
+
+/* Score range cards styling */
+.score-range-card {
+  padding: 16px;
+  border-radius: 8px;
+  border: 1px solid;
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(4px);
+}
+
+html.dark .score-range-card {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+/* Green score card */
+.score-range-card.green {
+  border-color: #bbf7d0;
+  background: rgba(220, 252, 231, 0.8);
+}
+
+html.dark .score-range-card.green {
+  border-color: #166534;
+  background: rgba(20, 83, 45, 0.2);
+}
+
+/* Red score card */
+.score-range-card.red {
+  border-color: #fecaca;
+  background: rgba(254, 226, 226, 0.8);
+}
+
+html.dark .score-range-card.red {
+  border-color: #991b1b;
+  background: rgba(153, 27, 27, 0.2);
+}
+
+/* Yellow score card */
+.score-range-card.yellow {
+  border-color: #fef3c7;
+  background: rgba(255, 251, 235, 0.8);
+}
+
+html.dark .score-range-card.yellow {
+  border-color: #92400e;
+  background: rgba(146, 64, 14, 0.2);
+}
+
+/* Contact cards styling */
+.contact-card {
+  padding: 16px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  background: rgba(249, 250, 251, 0.8);
+  backdrop-filter: blur(4px);
+  transition: all 0.2s ease;
+}
+
+.contact-card:hover {
+  background: rgba(243, 244, 246, 0.9);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+html.dark .contact-card {
+  border-color: rgba(255, 255, 255, 0.1);
+  background: rgba(55, 65, 81, 0.5);
+}
+
+html.dark .contact-card:hover {
+  background: rgba(55, 65, 81, 0.7);
+}
+
+/* Email links in contact cards */
+.contact-card a {
+  color: #4f46e5;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.contact-card a:hover {
+  color: #4338ca;
+  text-decoration: underline;
+}
+
+html.dark .contact-card a {
+  color: #818cf8;
+}
+
+html.dark .contact-card a:hover {
+  color: #a5b4fc;
+}
+
+/* Process step styling */
+.process-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.process-step-number {
+  background: #e0e7ff;
+  color: #3730a3;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 4px 8px;
+  border-radius: 9999px;
+  flex-shrink: 0;
+  min-width: 24px;
+  text-align: center;
+}
+
+html.dark .process-step-number {
+  background: #312e81;
+  color: #c7d2fe;
+}
+
+.process-step-content h5 {
+  margin: 0 0 4px 0;
+  font-weight: 500;
+  color: #1f2937;
+  font-size: 14px;
+}
+
+html.dark .process-step-content h5 {
+  color: #f9fafb;
+}
+
+.process-step-content p {
+  margin: 0;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+html.dark .process-step-content p {
+  color: #9ca3af;
+}
+
+/* Dark mode text color fixes - matching history.css exactly */
+html.dark .text-gray-800 {
+  color: #f9fafb !important;
+}
+
+html.dark .text-gray-700 {
+  color: #e5e7eb !important;
+}
+
+html.dark .text-gray-600 {
+  color: #d1d5db !important;
+}
+
+html.dark .text-gray-500 {
+  color: #9ca3af !important;
+}
+
+html.dark .text-blue-800 {
+  color: #dbeafe !important;
+}
+
+html.dark .text-blue-600 {
+  color: #93c5fd !important;
+}
+
+html.dark .text-blue-700 {
+  color: #bfdbfe !important;
+}
+
+html.dark .text-green-800 {
+  color: #bbf7d0 !important;
+}
+
+html.dark .text-green-700 {
+  color: #86efac !important;
+}
+
+html.dark .text-green-600 {
+  color: #4ade80 !important;
+}
+
+html.dark .text-red-800 {
+  color: #fecaca !important;
+}
+
+html.dark .text-red-700 {
+  color: #fca5a5 !important;
+}
+
+html.dark .text-red-600 {
+  color: #f87171 !important;
+}
+
+html.dark .text-yellow-800 {
+  color: #fef3c7 !important;
+}
+
+html.dark .text-yellow-700 {
+  color: #fde68a !important;
+}
+
+html.dark .text-yellow-600 {
+  color: #fbbf24 !important;
+}
+
+/* Border colors for accordion - matching history.css exactly */
+html.dark .border-gray-200 {
+  border-color: rgba(75, 85, 99, 0.3) !important;
+}
+
+html.dark .border-gray-300 {
+  border-color: rgba(75, 85, 99, 0.5) !important;
+}
+
+/* Background colors for accordion - matching history.css exactly */
+html.dark .bg-gray-200 {
+  background-color: #374151 !important;
+}
+
+html.dark .bg-gray-100 {
+  background-color: rgba(55, 65, 81, 0.7) !important;
+}
+
+html.dark .border-green-200 {
+  border-color: #166534 !important;
+}
+
+html.dark .border-red-200 {
+  border-color: #991b1b !important;
+}
+
+html.dark .border-yellow-200 {
+  border-color: #92400e !important;
+}
+
+/* Background colors for cards - matching history.css exactly */
+html.dark .bg-gray-200 {
+  background-color: rgba(55, 65, 81, 0.5) !important;
+}
+
+/* Accordion - exactly matching history.css structure and colors */
+.accordion-header {
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.accordion-header:hover {
+  background-color: rgba(99, 102, 241, 0.05) !important;
+}
+
+html.dark .accordion-header {
+  background-color: rgba(15, 15, 15, 0.5) !important;
+  color: #e5e7eb !important;
+}
+
+html.dark .accordion-header:hover {
+  background-color: rgba(99, 102, 241, 0.1) !important;
+}
+
+html.dark .accordion-header h4 {
+  color: #e5e7eb !important;
+}
+
+html.dark .accordion-icon {
+  color: #9ca3af !important;
+}
+
+.accordion-content {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(8px);
+}
+
+html.dark .accordion-content {
+  background: rgba(15, 15, 15, 0.8);
+  color: #d1d5db !important;
+}
+
+/* Spacing between accordion items - matching results.html structure */
+.border.border-gray-200.rounded-lg:not(:last-child) {
+  margin-bottom: 1rem;
+}
+
+/* Accordion icon rotation */
+.accordion-icon {
+  transition: transform 0.3s ease;
+}
+
+.accordion-header[aria-expanded="true"] .accordion-icon {
+  transform: rotate(180deg);
+}
+
+/* Accordion content visibility */
+.accordion-content.hidden {
+  display: none !important;
+}
+
+.accordion-content:not(.hidden) {
+  display: block !important;
+}
+
+html.dark .border-green-200 {
+  border-color: #166534 !important;
+}
+
+html.dark .border-red-200 {
+  border-color: #991b1b !important;
+}
+
+html.dark .border-yellow-200 {
+  border-color: #92400e !important;
+}
+
+/* Background colors for cards - matching history.css exactly */
+html.dark .bg-gray-200 {
+  background-color: rgba(55, 65, 81, 0.5) !important;
+}
+
+html.dark .bg-gray-100 {
+  background-color: rgba(31, 41, 55, 0.3) !important;
+}
+
+html.dark .bg-green-50 {
+  background-color: rgba(20, 83, 45, 0.2) !important;
+}
+
+html.dark .bg-red-50 {
+  background-color: rgba(153, 27, 27, 0.2) !important;
+}
+
+html.dark .bg-yellow-50 {
+  background-color: rgba(146, 64, 14, 0.2) !important;
+}
+
+/* Utility classes */
+.text-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Focus styles for accessibility - matching history.css */
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid #4f46e5;
+  outline-offset: 2px;
+}
+
+html.dark button:focus-visible,
+html.dark a:focus-visible {
+  outline-color: #818cf8;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .results-card {
+    padding: 16px;
+  }
+  
+  .accordion-header {
+    padding: 12px;
+  }
+  
+  .accordion-content.show {
+    padding: 12px;
+  }
+  
+  .contact-card {
+    padding: 12px;
+  }
+}
+
+/* Smooth transitions for all interactive elements */
+* {
+  transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}

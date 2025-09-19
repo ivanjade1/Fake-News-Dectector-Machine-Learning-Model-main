@@ -1,0 +1,318 @@
+{% extends "base.html" %}
+{% block title %}TruthGuard • Profile{% endblock %}
+
+{% block head_extra %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/auth/auth.css') }}?v=6">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/auth/profile.css') }}?v=6">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+{% endblock %}
+
+{% block content %}
+<div class="auth-bg min-h-screen">
+  <div class="auth-content">
+    <!-- Hero Section -->
+    <section class="relative isolate mx-auto max-w-7xl px-4 pt-12 md:px-6 md:pt-16">
+      <div class="mx-auto max-w-md">
+        <!-- Hero -->
+        <div class="auth-hero">
+          <span class="auth-badge">
+            <span class="h-2 w-2 rounded-full bg-green-500"></span>
+            Your Account
+          </span>
+          
+          <h1 class="auth-title">
+            User Profile
+          </h1>
+          
+          <p class="auth-subtitle">
+            Manage your TruthGuard account and preferences
+          </p>
+        </div>
+
+        <!-- Profile Card -->
+        <div class="auth-card p-8">
+          <div class="text-center mb-8">
+            <div class="method-icon bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 mx-auto mb-4">
+              <i class="bi bi-person-circle"></i>
+            </div>
+            <h2 class="text-xl font-semibold text-neutral-800 dark:text-neutral-200 mb-2">
+              {{ user.username }}
+            </h2>
+            <p class="text-neutral-600 dark:text-neutral-400">
+              {{ user.email }}
+            </p>
+          </div>
+
+          <!-- Success Message Area -->
+          <div id="profile-success-message" class="alert alert-success hidden mb-6">
+            <div class="flex items-center">
+              <i class="bi bi-check-circle mr-2"></i>
+              <span id="profile-success-text"></span>
+            </div>
+          </div>
+
+          <!-- Profile Information -->
+          <div class="space-y-6">
+            <div class="form-group">
+              <label class="form-label">
+                <i class="bi bi-person form-icon"></i>
+                Username
+              </label>
+              <div class="relative">
+                <div class="auth-input bg-white dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-600">
+                  {{ user.username }}
+                </div>
+                <button class="edit-btn" data-edit-type="username" title="Edit username">
+                  <i class="bi bi-pencil"></i>
+                </button>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">
+                <i class="bi bi-envelope form-icon"></i>
+                Email Address
+              </label>
+              <div class="relative">
+                <div class="auth-input bg-white dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-600">
+                  {{ user.email }}
+                </div>
+                <button class="edit-btn" data-edit-type="email" title="Edit email address">
+                  <i class="bi bi-pencil"></i>
+                </button>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">
+                <i class="bi bi-lock form-icon"></i>
+                Password
+              </label>
+              <div class="relative">
+                <div class="auth-input bg-white dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-600">
+                  ••••••••••
+                </div>
+                <button class="edit-btn" data-edit-type="password" title="Change password">
+                  <i class="bi bi-pencil"></i>
+                </button>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">
+                <i class="bi bi-calendar form-icon"></i>
+                Member Since
+              </label>
+              <div class="auth-input bg-white dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-600 cursor-not-allowed">
+                {{ user.created_at|pht_date }}
+              </div>
+            </div>
+
+            {% if user.last_login %}
+            <div class="form-group">
+              <label class="form-label">
+                <i class="bi bi-clock form-icon"></i>
+                Last Login
+              </label>
+              <div class="auth-input bg-white dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-600 cursor-not-allowed">
+                {{ user.last_login|pht }}
+              </div>
+            </div>
+            {% endif %}
+
+            <!-- Action Buttons -->
+            <div class="flex flex-col gap-3">
+              <a href="{{ url_for('main.detector_page') }}" class="auth-btn-primary">
+                <i class="bi bi-search mr-2"></i>
+                Continue Fact-Checking
+              </a>
+              
+              <a href="{{ url_for('main.history_page') }}" class="auth-btn-secondary">
+                <i class="bi bi-clock-history mr-2"></i>
+                View Analysis History
+              </a>
+              
+              <a href="{{ url_for('auth.logout') }}" class="auth-btn-secondary text-red-600 dark:text-red-400 border-red-200 dark:border-red-600/30 hover:bg-red-50 dark:hover:bg-red-900/10">
+                <i class="bi bi-box-arrow-right mr-2"></i>
+                Sign Out
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Account Stats -->
+        <div class="features-grid">
+          <div class="feature-item">
+            <div class="feature-icon bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400">
+              <i class="bi bi-shield-check"></i>
+            </div>
+            <h3 class="text-sm font-semibold text-neutral-800 dark:text-neutral-200 mb-1">Account Secure</h3>
+            <p class="text-xs text-neutral-600 dark:text-neutral-400">Protected & verified</p>
+          </div>
+          
+          <div class="feature-item">
+            <div class="feature-icon bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400">
+              <i class="bi bi-graph-up"></i>
+            </div>
+            <h3 class="text-sm font-semibold text-neutral-800 dark:text-neutral-200 mb-1">AI Powered</h3>
+            <p class="text-xs text-neutral-600 dark:text-neutral-400">Advanced analysis</p>
+          </div>
+          
+          <div class="feature-item">
+            <div class="feature-icon bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400">
+              <i class="bi bi-people"></i>
+            </div>
+            <h3 class="text-sm font-semibold text-neutral-800 dark:text-neutral-200 mb-1">Community</h3>
+            <p class="text-xs text-neutral-600 dark:text-neutral-400">Join fact-checkers</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Edit Username Modal -->
+  <div id="edit-username-modal" class="fixed inset-0 modal-backdrop z-50 hidden">
+    <div class="min-h-screen flex items-center justify-center p-4">
+      <div class="modal-card w-full max-w-md">
+        <div class="flex justify-between items-center p-6 border-b border-gray-300 dark:border-neutral-700">
+          <h3 class="text-xl font-semibold text-neutral-800 dark:text-neutral-200">Edit Username</h3>
+          <button class="modal-close text-neutral-500 hover:text-neutral-700 dark:text-neutral-400 dark:hover:text-neutral-200 transition-colors" data-modal="edit-username-modal">
+            <i class="bi bi-x-lg text-xl"></i>
+          </button>
+        </div>
+        <form id="edit-username-form" class="p-6">
+          <div class="form-group">
+            <label class="form-label">
+              <i class="bi bi-person form-icon"></i>
+              New Username
+            </label>
+            <input type="text" id="new-username" class="auth-input ring-1 ring-inset ring-neutral-400/40 dark:ring-white/15 focus:ring-2 focus:ring-indigo-600 dark:focus:ring-2 dark:focus:ring-indigo-600" placeholder="Enter new username" required>
+            <div class="char-counter" id="username-feedback"></div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">
+              <i class="bi bi-lock form-icon"></i>
+              Current Password
+            </label>
+            <div class="relative">
+              <input type="password" id="username-password" class="auth-input ring-1 ring-inset ring-neutral-400/40 dark:ring-white/15 focus:ring-2 focus:ring-indigo-600 dark:focus:ring-2 dark:focus:ring-indigo-600" placeholder="Confirm with your password" required>
+              <button type="button" class="password-toggle" onclick="togglePassword('username-password')" aria-label="Toggle password visibility">
+                <i class="bi bi-eye"></i>
+              </button>
+            </div>
+            <div class="char-counter" id="username-password-feedback"></div>
+          </div>
+          <div class="flex gap-3 mt-6 pt-4 border-t border-gray-300 dark:border-neutral-700">
+            <button type="button" class="auth-btn-secondary flex-1" data-modal="edit-username-modal">Cancel</button>
+            <button type="submit" class="auth-btn-primary flex-1">Update Username</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Email Modal -->
+  <div id="edit-email-modal" class="fixed inset-0 modal-backdrop z-50 hidden">
+    <div class="min-h-screen flex items-center justify-center p-4">
+      <div class="modal-card w-full max-w-md">
+        <div class="flex justify-between items-center p-6 border-b border-gray-300 dark:border-neutral-700">
+          <h3 class="text-xl font-semibold text-neutral-800 dark:text-neutral-200">Edit Email Address</h3>
+          <button class="modal-close text-neutral-500 hover:text-neutral-700 dark:text-neutral-400 dark:hover:text-neutral-200 transition-colors" data-modal="edit-email-modal">
+            <i class="bi bi-x-lg text-xl"></i>
+          </button>
+        </div>
+        <form id="edit-email-form" class="p-6">
+          <div class="form-group">
+            <label class="form-label">
+              <i class="bi bi-envelope form-icon"></i>
+              New Email Address
+            </label>
+            <input type="email" id="new-email" class="auth-input ring-1 ring-inset ring-neutral-400/40 dark:ring-white/15 focus:ring-2 focus:ring-indigo-600 dark:focus:ring-2 dark:focus:ring-indigo-600" placeholder="Enter new email address" required>
+            <div class="char-counter" id="email-feedback"></div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">
+              <i class="bi bi-lock form-icon"></i>
+              Current Password
+            </label>
+            <div class="relative">
+              <input type="password" id="email-password" class="auth-input ring-1 ring-inset ring-neutral-400/40 dark:ring-white/15 focus:ring-2 focus:ring-indigo-600 dark:focus:ring-2 dark:focus:ring-indigo-600" placeholder="Confirm with your password" required>
+              <button type="button" class="password-toggle" onclick="togglePassword('email-password')" aria-label="Toggle password visibility">
+                <i class="bi bi-eye"></i>
+              </button>
+            </div>
+            <div class="char-counter" id="email-password-feedback"></div>
+          </div>
+          <div class="flex gap-3 mt-6 pt-4 border-t border-gray-300 dark:border-neutral-700">
+            <button type="button" class="auth-btn-secondary flex-1" data-modal="edit-email-modal">Cancel</button>
+            <button type="submit" class="auth-btn-primary flex-1">Update Email</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Password Modal -->
+  <div id="edit-password-modal" class="fixed inset-0 modal-backdrop z-50 hidden">
+    <div class="min-h-screen flex items-center justify-center p-4">
+      <div class="modal-card w-full max-w-md">
+        <div class="flex justify-between items-center p-6 border-b border-gray-300 dark:border-neutral-700">
+          <h3 class="text-xl font-semibold text-neutral-800 dark:text-neutral-200">Change Password</h3>
+          <button class="modal-close text-neutral-500 hover:text-neutral-700 dark:text-neutral-400 dark:hover:text-neutral-200 transition-colors" data-modal="edit-password-modal">
+            <i class="bi bi-x-lg text-xl"></i>
+          </button>
+        </div>
+        <form id="edit-password-form" class="p-6">
+          <div class="form-group">
+            <label class="form-label">
+              <i class="bi bi-lock form-icon"></i>
+              Current Password
+            </label>
+            <div class="relative">
+              <input type="password" id="current-password" class="auth-input ring-1 ring-inset ring-neutral-400/40 dark:ring-white/15 focus:ring-2 focus:ring-indigo-600 dark:focus:ring-2 dark:focus:ring-indigo-600" placeholder="Enter current password" required>
+              <button type="button" class="password-toggle" onclick="togglePassword('current-password')" aria-label="Toggle current password visibility">
+                <i class="bi bi-eye"></i>
+              </button>
+            </div>
+            <div class="char-counter" id="current-password-feedback"></div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">
+              <i class="bi bi-key form-icon"></i>
+              New Password
+            </label>
+            <div class="relative">
+              <input type="password" id="new-password" class="auth-input ring-1 ring-inset ring-neutral-400/40 dark:ring-white/15 focus:ring-2 focus:ring-indigo-600 dark:focus:ring-2 dark:focus:ring-indigo-600" placeholder="Enter new password" required>
+              <button type="button" class="password-toggle" onclick="togglePassword('new-password')" aria-label="Toggle new password visibility">
+                <i class="bi bi-eye"></i>
+              </button>
+            </div>
+            <div class="char-counter" id="password-strength"></div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">
+              <i class="bi bi-check-circle form-icon"></i>
+              Confirm New Password
+            </label>
+            <div class="relative">
+              <input type="password" id="confirm-password" class="auth-input ring-1 ring-inset ring-neutral-400/40 dark:ring-white/15 focus:ring-2 focus:ring-indigo-600 dark:focus:ring-2 dark:focus:ring-indigo-600" placeholder="Confirm new password" required>
+              <button type="button" class="password-toggle" onclick="togglePassword('confirm-password')" aria-label="Toggle confirm password visibility">
+                <i class="bi bi-eye"></i>
+              </button>
+            </div>
+            <div class="char-counter" id="password-match"></div>
+          </div>
+          <div class="flex gap-3 mt-6 pt-4 border-t border-gray-300 dark:border-neutral-700">
+            <button type="button" class="auth-btn-secondary flex-1" data-modal="edit-password-modal">Cancel</button>
+            <button type="submit" class="auth-btn-primary flex-1">Change Password</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block body_extra %}
+<script src="{{ url_for('static', filename='js/auth/profile.js') }}?v=1"></script>
+{% endblock %}

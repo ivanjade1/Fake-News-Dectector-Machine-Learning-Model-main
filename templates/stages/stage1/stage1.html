@@ -1,0 +1,203 @@
+{% extends "base.html" %}
+
+{% block title %}Headline Check • TruthGuard{% endblock %}
+
+{% block body_class %}game-stage stage1{% endblock %}
+
+{% block head_extra %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/stages/shared/stats.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/stages/stage1/stage1.css') }}">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+{% endblock %}
+
+{% block content %}
+<div class="results-bg min-h-screen">
+  <div class="results-content">
+    <!-- Hero Section with Pill Header -->
+    <section class="relative isolate mx-auto max-w-7xl px-4 pt-12 md:px-6 md:pt-16">
+      <div class="mx-auto max-w-3xl text-center mb-8">
+        <span class="inline-flex items-center gap-2 rounded-full border border-neutral-200 bg-white px-3 py-1 text-xs text-neutral-700 shadow-sm ring-1 ring-black/10 dark:border-white/10 dark:bg-neutral-900 dark:text-neutral-300">
+          <span class="h-2 w-2 rounded-full bg-indigo-500"></span>
+          Stage 1
+        </span>
+
+        <h1 class="mt-4 text-4xl font-extrabold tracking-tight sm:text-5xl">
+          Headline Check
+        </h1>
+
+        <p class="mt-4 mx-auto max-w-xl text-neutral-700 dark:text-neutral-300">
+          Learn to identify real vs fake news headlines in 15 seconds
+        </p>
+      </div>
+    </section>
+    
+    <!-- Include Stage Stats Header -->
+    {% include 'stages/shared/stats.html' %}
+    
+    <!-- Main Game Content Container -->
+    <div class="stage-content-container">
+      <div class="stage1-content" id="stage1-content">
+        <!-- Instructions Screen -->
+        <div class="instructions-screen" id="instructions-screen">
+          <div class="results-card instructions-container">
+            <div class="instructions-header">
+              <div class="results-icon" style="background: linear-gradient(135deg, #4f46e5, #4338ca); color: white; margin: 0 auto 1rem;">
+                <i class="bi bi-crosshair"></i>
+              </div>
+              <h2>Game Instructions</h2>
+              <p>Ready to test your fake news detection skills?</p>
+            </div>
+            
+            <div class="instructions-content">
+              <div class="instructions-section">
+                <h3><i class="bi bi-controller"></i> How to Play</h3>
+                <p>You'll see 2 headlines per round. Drag the correct stamps to label each headline as REAL or FAKE.</p>
+              </div>
+              
+              <div class="instructions-section">
+                <h3><i class="bi bi-gem"></i> Scoring System</h3>
+                <div class="results-card scoring-breakdown">
+                  <div class="score-item">
+                    <span class="score-label">Correct Answer:</span>
+                    <span class="score-value">+25 XP</span>
+                  </div>
+                  <div class="score-item">
+                    <span class="score-label">Speed Bonus (&lt;5s):</span>
+                    <span class="score-value">+5 XP</span>
+                  </div>
+                  <div class="score-item">
+                    <span class="score-label">Lightning Bonus (&lt;3s):</span>
+                    <span class="score-value">+5 XP</span>
+                  </div>
+                  <div class="score-item special">
+                    <span class="score-label">Maximum per round:</span>
+                    <span class="score-value">35 XP</span>
+                  </div>
+                  <div class="score-item penalty">
+                    <span class="score-label">Using Hint:</span>
+                    <span class="score-value">Max drops to 30 XP</span>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="instructions-section">
+                <h3><i class="bi bi-flag-fill"></i> What to Look For in Headlines</h3>
+                <ul>
+                  <li><strong>Fake Headlines:</strong> Sensational words (destroys, steals, betrays), absolute claims (all, never, forever), conspiracy terms (secretly, hidden), specific doomsday predictions</li>
+                  <li><strong>Real Headlines:</strong> Official government language (signs law, seeks, voids), neutral procedural terms, factual reporting without emotional manipulation</li>
+                </ul>
+              </div>
+              
+              <div class="game-stats results-card">
+                <div class="stat">
+                  <span class="stat-label">Rounds:</span>
+                  <span class="stat-value">10</span>
+                </div>
+                <div class="stat">
+                  <span class="stat-label">Time per round:</span>
+                  <span class="stat-value">15s</span>
+                </div>
+                <div class="stat">
+                  <span class="stat-label">Max XP:</span>
+                  <span class="stat-value">350</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="instructions-actions">
+              <button class="action-btn action-btn-primary start-game-button" id="start-game-btn">
+                Start Game
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Game Screen -->
+        <div class="game-screen" id="game-screen" style="display: none;">
+          <div class="results-card game-container">
+            <div class="game-header">
+              <div class="game-info">
+                <h2 id="game-title">Headline 1</h2>
+                <p>Drag stamps to label each headline as REAL or FAKE</p>
+              </div>
+              
+              <div class="game-controls">
+                <div class="timer-container">
+                  <div class="timer" id="timer">10</div>
+                </div>
+                
+                <div class="hint-section">
+                  <button class="action-btn action-btn-secondary hint-button" id="hint-button">
+                    <span class="hint-text">Hint</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+            
+            <div class="hint-container">
+              <div class="hint-text" id="hint-text" style="display: none;"></div>
+            </div>
+            
+            <div class="game-layout">
+              <div class="headlines-section">
+                <div class="results-card headline-card" data-type="" id="headline-1">
+                  <div class="headline-content">
+                    <div class="headline-number">1</div>
+                    <h3 class="headline-text"></h3>
+                  </div>
+                  <div class="stamp-drop-zone" data-headline="1">
+                    <span class="drop-hint">Drop stamp here</span>
+                  </div>
+                </div>
+                
+                <div class="results-card headline-card" data-type="" id="headline-2">
+                  <div class="headline-content">
+                    <div class="headline-number">2</div>
+                    <h3 class="headline-text"></h3>
+                  </div>
+                  <div class="stamp-drop-zone" data-headline="2">
+                    <span class="drop-hint">Drop stamp here</span>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="stamps-section">
+                <div class="results-card stamps-container">
+                  <h4>Drag stamps to headlines:</h4>
+                  <div class="stamps-area">
+                    <div class="stamp-item real-stamp" draggable="true" data-stamp="real" id="real-stamp">
+                      <span class="stamp-text">REAL</span>
+                    </div>
+                    <div class="stamp-item fake-stamp" draggable="true" data-stamp="fake" id="fake-stamp">
+                      <span class="stamp-text">FAKE</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="action-container">
+              <button class="action-btn action-btn-primary submit-button" id="submit-button" disabled>
+                Submit Answer
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Feedback Screen -->
+        <div class="feedback-screen" id="feedback-screen" style="display: none;">
+          <!-- Feedback content will be populated by JavaScript -->
+        </div>
+        
+        <!-- Stage Complete Screen -->
+        <div class="complete-screen" id="complete-screen" style="display: none;">
+          <!-- Complete content will be populated by JavaScript -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/stages/shared/stats.js') }}"></script>
+<script src="{{ url_for('static', filename='js/stages/stage1/stage1.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,618 @@
+{% extends "base.html" %}
+{% block title %}TruthGuard • Sign Up{% endblock %}
+
+{% block head_extra %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/auth/auth.css') }}?v=1">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+{% endblock %}
+
+{% block content %}
+<div class="auth-bg min-h-screen">
+  <div class="auth-content">
+    <section class="relative isolate mx-auto max-w-7xl px-4 pt-12 md:px-6 md:pt-16">
+      <div class="mx-auto max-w-md">
+        <!-- Hero -->
+        <div class="auth-hero fade-in">
+          <span class="auth-badge">
+            <span class="h-2 w-2 rounded-full bg-purple-500"></span>
+            Join us today
+          </span>
+          <h1 class="auth-title">Create Account</h1>
+          <p class="auth-subtitle">Join TruthGuard today and start fact-checking with confidence</p>
+        </div>
+
+        <!-- Register Form Card -->
+        <div class="auth-card p-8 fade-in">
+          <div class="text-center mb-8">
+            <div class="method-icon bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 mx-auto mb-4">
+              <i class="bi bi-person-plus"></i>
+            </div>
+            <h2 class="text-xl font-semibold text-neutral-800 dark:text-neutral-200 mb-2">Get Started</h2>
+            <p class="text-neutral-600 dark:text-neutral-400">Create your account to access advanced fact-checking</p>
+          </div>
+
+          {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              {% if category == 'error' %}
+              <div class="alert alert-error">
+                <div class="flex items-center">
+                  <i class="bi bi-exclamation-triangle"></i>
+                  <div class="flex-1 ml-3">
+                    <div class="font-medium">Registration Failed</div>
+                    <div class="text-sm mt-1">{{ message }}</div>
+                  </div>
+                </div>
+              </div>
+              {% endif %}
+            {% endfor %}
+          {% endif %}
+          {% endwith %}
+
+          {% if errors %}
+          <div class="alert alert-error">
+            <div class="flex items-start">
+              <i class="bi bi-exclamation-triangle mr-3 mt-1"></i>
+              <div>
+                <div class="font-medium">Please fix the following errors:</div>
+                <ul class="ml-4 space-y-1 text-sm">
+                  {% for error in errors %}
+                  <li>• {{ error }}</li>
+                  {% endfor %}
+                </ul>
+              </div>
+            </div>
+          </div>
+          {% endif %}
+
+          <!-- Registration Form -->
+          <!-- Autocomplete ON so Chrome can save/generate; make username the credential identifier -->
+          <form method="POST" class="space-y-6" id="registerForm" autocomplete="on" novalidate>
+
+            <!-- Username (explicit credential identifier) -->
+            <div class="form-group">
+              <label for="username" class="form-label">
+                <i class="bi bi-person form-icon"></i>
+                Username
+              </label>
+              <div class="relative">
+                <input
+                  type="text"
+                  id="username"
+                  name="username"
+                  class="auth-input ring-1 ring-inset ring-neutral-400/40 dark:ring-white/15 focus:ring-2 focus:ring-indigo-600 dark:focus:ring-2 dark:focus:ring-indigo-600"
+                  placeholder="Choose a username"
+                  required
+                  minlength="3"
+                  maxlength="20"
+                  autocomplete="username"
+                  autocapitalize="none"
+                  spellcheck="false"
+                  inputmode="text"
+                >
+                <div class="absolute inset-y-0 right-0 flex items-center pr-3">
+                  <i class="bi bi-person text-neutral-400" id="usernameIcon"></i>
+                </div>
+              </div>
+              <div class="char-counter" id="usernameCount">0/20 characters (minimum 3)</div>
+            </div>
+
+            <!-- Email (contact; NOT the credential identifier) -->
+            <div class="form-group">
+              <label for="email" class="form-label">
+                <i class="bi bi-envelope form-icon"></i>
+                Email Address
+              </label>
+              <div class="relative">
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  class="auth-input ring-1 ring-inset ring-neutral-400/40 dark:ring-white/15 focus:ring-2 focus:ring-indigo-600 dark:focus:ring-2 dark:focus:ring-indigo-600"
+                  placeholder="Enter your email address"
+                  required
+                  autocomplete="email"
+                  autocapitalize="none"
+                  autocorrect="off"
+                  spellcheck="false"
+                  inputmode="email"
+                >
+                <div class="absolute inset-y-0 right-0 flex items-center pr-3">
+                  <i class="bi bi-envelope text-neutral-400" id="emailIcon"></i>
+                </div>
+              </div>
+            </div>
+
+            <!-- Password -->
+            <div class="form-group">
+              <label for="password" class="form-label">
+                <i class="bi bi-lock form-icon"></i>
+                Password
+              </label>
+              <div class="relative">
+                <input type="password" id="password" name="password"
+                  class="auth-input ring-1 ring-inset ring-neutral-400/40 dark:ring-white/15 focus:ring-2 focus:ring-indigo-600 dark:focus:ring-2 dark:focus:ring-indigo-600"
+                  placeholder="Create a strong password" required minlength="6"
+                  autocomplete="new-password" data-masked="true">
+                <button type="button" class="password-toggle" onclick="togglePasswordMask('password')" aria-label="Toggle password visibility">
+                  <i class="bi bi-eye"></i>
+                </button>
+              </div>
+
+              <!-- Strength -->
+              <div class="strength-bar">
+                <div id="strengthFill" class="strength-fill" style="width:0%"></div>
+              </div>
+              <div class="flex justify-between items-center mt-1">
+                <span class="text-sm text-neutral-600 dark:text-neutral-400">Password strength:</span>
+                <span id="strengthText" class="text-sm font-medium">Weak</span>
+              </div>
+
+              <!-- Requirements -->
+              <div class="requirements-list">
+                <div class="text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">Requirements:</div>
+                <div class="space-y-1">
+                  <div class="requirement-item" id="reqLength"><i class="bi bi-x-circle"></i><span>At least 6 characters</span></div>
+                  <div class="requirement-item" id="reqUpper"><i class="bi bi-x-circle"></i><span>One uppercase letter</span></div>
+                  <div class="requirement-item" id="reqLower"><i class="bi bi-x-circle"></i><span>One lowercase letter</span></div>
+                  <div class="requirement-item" id="reqNumber"><i class="bi bi-x-circle"></i><span>One number</span></div>
+                  <div class="requirement-item" id="reqSpecial"><i class="bi bi-x-circle"></i><span>One special character (!@#$%^&*)</span></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Confirm Password -->
+            <div class="form-group">
+              <label for="confirmPassword" class="form-label">
+                <i class="bi bi-shield-check form-icon"></i>
+                Confirm Password
+              </label>
+              <div class="relative">
+                <input type="password" id="confirmPassword" name="confirm_password"
+                  class="auth-input ring-1 ring-inset ring-neutral-400/40 dark:ring-white/15 focus:ring-2 focus:ring-indigo-600 dark:focus:ring-2 dark:focus:ring-indigo-600"
+                  placeholder="Confirm your password" required
+                  autocomplete="new-password" data-masked="true">
+                <button type="button" class="password-toggle" onclick="togglePasswordMask('confirmPassword')" aria-label="Toggle password visibility">
+                  <i class="bi bi-eye"></i>
+                </button>
+              </div>
+              <div id="passwordMatch" class="password-match hidden">
+                <i class="bi bi-check-circle"></i>
+                <span>Passwords match</span>
+              </div>
+            </div>
+
+            <button type="submit" class="auth-btn-primary" id="registerBtn" disabled>
+              <i class="bi bi-person-plus mr-2"></i>
+              Create Account
+            </button>
+          </form>
+
+          <div class="text-center mt-6">
+            <p class="text-neutral-600 dark:text-neutral-400">
+              Already have an account?
+              <a href="{{ url_for('auth.login') }}" class="auth-link">Sign in here</a>
+            </p>
+          </div>
+        </div>
+
+        <!-- Features -->
+        <div class="features-grid fade-in">
+          <div class="feature-item">
+            <div class="feature-icon bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400">
+              <i class="bi bi-shield-check"></i>
+            </div>
+            <h3 class="text-sm font-semibold text-neutral-800 dark:text-neutral-200 mb-1">Secure Access</h3>
+            <p class="text-xs text-neutral-600 dark:text-neutral-400">Protected login system</p>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400">
+              <i class="bi bi-clock-history"></i>
+            </div>
+            <h3 class="text-sm font-semibold text-neutral-800 dark:text-neutral-200 mb-1">Your History</h3>
+            <p class="text-xs text-neutral-600 dark:text-neutral-400">Access past analyses</p>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400">
+              <i class="bi bi-lightning"></i>
+            </div>
+            <h3 class="text-sm font-semibold text-neutral-800 dark:text-neutral-200 mb-1">Quick Access</h3>
+            <p class="text-xs text-neutral-600 dark:text-neutral-400">Instant fact-checking</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<!-- Email Confirmation Modal -->
+<div id="emailConfirmationModal" class="fixed inset-0 modal-backdrop z-50 hidden">
+  <div class="min-h-screen flex items-center justify-center p-4">
+    <div class="modal-card w-full max-w-md overflow-hidden flex flex-col">
+      <!-- Fixed Header -->
+      <div class="flex justify-between items-center p-6 border-b border-neutral-200 dark:border-neutral-700">
+        <h2 class="text-xl font-semibold text-neutral-800 dark:text-neutral-200">
+          <i class="bi bi-envelope-check text-indigo-600 dark:text-indigo-400 mr-2"></i>
+          <span id="confirmationModalTitle">Email Confirmation Required</span>
+        </h2>
+        <button id="closeEmailConfirmationModal" class="text-neutral-500 hover:text-neutral-700 dark:text-neutral-400 dark:hover:text-neutral-200 transition-colors">
+          <i class="bi bi-x-lg text-xl"></i>
+        </button>
+      </div>
+      
+      <!-- Modal Content -->
+      <div id="confirmationModalContent" class="p-6 text-center">
+        <!-- Loading State -->
+        <div id="confirmationLoading" class="mb-4">
+          <div class="mx-auto mb-4 h-12 w-12 rounded-full border-4 border-neutral-200 border-t-indigo-600 animate-spin dark:border-neutral-700 dark:border-t-indigo-400"></div>
+          <h3 class="text-lg font-semibold text-neutral-800 dark:text-neutral-200 mb-2">Awaiting Email Confirmation</h3>
+          <p class="text-neutral-600 dark:text-neutral-400 mb-4">
+            <span id="confirmationStatus">We've sent a confirmation email to your address. Please check your inbox and click the verification link.</span>
+          </p>
+          <div class="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4 mb-4">
+            <div class="flex items-center justify-center mb-2">
+              <i class="bi bi-envelope text-blue-600 dark:text-blue-400 text-2xl"></i>
+            </div>
+            <p class="text-sm text-blue-800 dark:text-blue-200" id="confirmationEmail">user@example.com</p>
+          </div>
+        </div>
+        
+        <!-- Success State -->
+        <div id="confirmationSuccess" class="hidden">
+          <div class="mx-auto mb-4 h-12 w-12 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center">
+            <i class="bi bi-check-circle text-green-600 dark:text-green-400 text-2xl"></i>
+          </div>
+          <h3 class="text-lg font-semibold text-green-800 dark:text-green-200 mb-2">Email Confirmed!</h3>
+          <p class="text-neutral-600 dark:text-neutral-400 mb-4">Your account has been created successfully. Redirecting to detector...</p>
+        </div>
+        
+        <!-- Error State -->
+        <div id="confirmationError" class="hidden">
+          <div class="mx-auto mb-4 h-12 w-12 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center">
+            <i class="bi bi-exclamation-circle text-red-600 dark:text-red-400 text-2xl"></i>
+          </div>
+          <h3 class="text-lg font-semibold text-red-800 dark:text-red-200 mb-2">Verification Failed</h3>
+          <p class="text-red-600 dark:text-red-400 mb-4" id="confirmationErrorMessage">Invalid or expired confirmation link.</p>
+          <button onclick="closeEmailConfirmationModal()" class="auth-btn-secondary">Try Again</button>
+        </div>
+      </div>
+      
+      <!-- Modal Footer -->
+      <div id="confirmationModalFooter" class="border-t border-neutral-200 dark:border-neutral-700 p-4">
+        <div class="flex justify-center gap-3">
+          <button onclick="closeEmailConfirmationModal()" class="auth-btn-secondary">
+            <i class="bi bi-arrow-left mr-2"></i>Back to Registration
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block body_extra %}
+<script>
+(function () {
+  const form = document.getElementById('registerForm');
+
+  // Eye toggle for real password fields (type switch)
+  window.togglePasswordMask = function (id) {
+    const input = document.getElementById(id);
+    const icon = input.nextElementSibling.querySelector('i');
+    const show = input.type === 'password';
+    input.type = show ? 'text' : 'password';
+    input.setAttribute('data-masked', String(!show));
+    icon.classList.toggle('bi-eye', !show);
+    icon.classList.toggle('bi-eye-slash', show);
+  };
+
+  // Validation & UX
+  const usernameInput = document.getElementById('username');
+  const emailInput = document.getElementById('email');
+  const passwordInput = document.getElementById('password');
+  const confirmPasswordInput = document.getElementById('confirmPassword');
+  const submitBtn = document.getElementById('registerBtn');
+
+  const state = { username: false, email: false, password: false, confirmPassword: false };
+  function setBtn() { submitBtn.disabled = !Object.values(state).every(Boolean); }
+
+  function vUsername() {
+    const v = usernameInput.value.trim();
+    const ok = v.length >= 3 && v.length <= 20 && /^[a-zA-Z0-9_]+$/.test(v);
+    const icon = document.getElementById('usernameIcon');
+    const counter = document.getElementById('usernameCount');
+    counter.textContent = `${v.length}/20 characters (minimum 3)`;
+    usernameInput.classList.toggle('input-success', ok);
+    usernameInput.classList.toggle('input-error', !ok && v.length > 0);
+    icon.className = ok
+      ? 'bi bi-check-circle text-green-500'
+      : (v.length ? 'bi bi-x-circle text-red-500' : 'bi bi-person text-neutral-400');
+    counter.className = ok
+      ? 'char-counter text-green-600 dark:text-green-400'
+      : (v.length ? 'char-counter text-red-600 dark:text-red-400' : 'char-counter');
+    state.username = ok;
+    setBtn();
+    return ok;
+  }
+
+  function vEmail() {
+    const v = emailInput.value.trim();
+    const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+    const icon = document.getElementById('emailIcon');
+    emailInput.classList.toggle('input-success', ok);
+    emailInput.classList.toggle('input-error', !ok && v.length > 0);
+    icon.className = ok
+      ? 'bi bi-check-circle text-green-500'
+      : (v.length ? 'bi bi-x-circle text-red-500' : 'bi bi-envelope text-neutral-400');
+    state.email = ok;
+    setBtn();
+    return ok;
+  }
+
+  function vPassword() {
+    const v = passwordInput.value;
+    const req = {
+      length: v.length >= 6,
+      upper: /[A-Z]/,
+      lower: /[a-z]/,
+      number: /[0-9]/,
+      special: /[!@#$%^&*]/
+    };
+    const checks = {
+      Length: req.length,
+      Upper: req.upper.test(v),
+      Lower: req.lower.test(v),
+      Number: req.number.test(v),
+      Special: req.special.test(v)
+    };
+
+    // Update requirement ticks
+    [['Length'], ['Upper'], ['Lower'], ['Number'], ['Special']].forEach(([L]) => {
+      const el = document.getElementById(`req${L}`);
+      const ic = el.querySelector('i');
+      if (checks[L]) {
+        el.classList.add('fulfilled');
+        ic.className = 'bi bi-check-circle';
+      } else {
+        el.classList.remove('fulfilled');
+        ic.className = 'bi bi-x-circle';
+      }
+    });
+
+    // Strength meter
+    const n = Object.values(checks).filter(Boolean).length;
+    const pct = (n / 5) * 100;
+    const bar = document.getElementById('strengthFill');
+    const txt = document.getElementById('strengthText');
+    bar.style.width = pct + '%';
+    if (n <= 2) {
+      bar.className = 'strength-fill strength-weak';
+      txt.textContent = 'Weak';
+      txt.className = 'text-sm font-medium text-red-600 dark:text-red-400';
+    } else if (n <= 3) {
+      bar.className = 'strength-fill strength-medium';
+      txt.textContent = 'Medium';
+      txt.className = 'text-sm font-medium text-yellow-600 dark:text-yellow-400';
+    } else if (n <= 4) {
+      bar.className = 'strength-fill strength-strong';
+      txt.textContent = 'Good';
+      txt.className = 'text-sm font-medium text-blue-600 dark:text-blue-400';
+    } else {
+      bar.className = 'strength-fill strength-very-strong';
+      txt.textContent = 'Strong';
+      txt.className = 'text-sm font-medium text-green-600 dark:text-green-400';
+    }
+
+    state.password = (n === 5);
+    setBtn();
+    return state.password;
+  }
+
+  function vConfirm() {
+    const ok = confirmPasswordInput.value === passwordInput.value && passwordInput.value.length > 0;
+    const pm = document.getElementById('passwordMatch');
+
+    if (!confirmPasswordInput.value.length) {
+      pm.classList.add('hidden');
+      confirmPasswordInput.classList.remove('input-success', 'input-error');
+    } else if (ok) {
+      pm.classList.remove('hidden', 'no-match');
+      pm.classList.add('match');
+      pm.innerHTML = '<i class="bi bi-check-circle"></i><span>Passwords match</span>';
+      confirmPasswordInput.classList.add('input-success');
+      confirmPasswordInput.classList.remove('input-error');
+    } else {
+      pm.classList.remove('hidden', 'match');
+      pm.classList.add('no-match');
+      pm.innerHTML = '<i class="bi bi-x-circle"></i><span>Passwords do not match</span>';
+      confirmPasswordInput.classList.add('input-error');
+      confirmPasswordInput.classList.remove('input-success');
+    }
+
+    state.confirmPassword = ok;
+    setBtn();
+    return ok;
+  }
+
+  function validateAll() {
+    vUsername();
+    vEmail();
+    vPassword();
+    vConfirm();
+  }
+
+  usernameInput.addEventListener('input', validateAll);
+  emailInput.addEventListener('input', validateAll);
+  passwordInput.addEventListener('input', () => { vPassword(); vConfirm(); });
+  confirmPasswordInput.addEventListener('input', validateAll);
+
+  // Submit: validate, then handle email confirmation
+  form.addEventListener('submit', function (e) {
+    e.preventDefault(); // Always prevent default to handle email confirmation
+    
+    validateAll();
+    if (!Object.values(state).every(Boolean)) {
+      return;
+    }
+    
+    const btn = document.getElementById('registerBtn');
+    btn.innerHTML = '<span class="loading-spinner"></span>Sending Confirmation...';
+    btn.disabled = true;
+    
+    // Submit registration with email confirmation
+    const formData = new FormData(form);
+    
+    fetch('/auth/register-with-confirmation', {
+      method: 'POST',
+      body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        showEmailConfirmationModal(data.email);
+      } else {
+        // Handle registration errors
+        showRegistrationError(data.error || 'Registration failed');
+        btn.innerHTML = '<i class="bi bi-person-plus mr-2"></i>Create Account';
+        btn.disabled = false;
+      }
+    })
+    .catch(error => {
+      console.error('Registration error:', error);
+      showRegistrationError('Network error occurred during registration');
+      btn.innerHTML = '<i class="bi bi-person-plus mr-2"></i>Create Account';
+      btn.disabled = false;
+    });
+  });
+
+  // Email confirmation modal functions
+  function showEmailConfirmationModal(email) {
+    const modal = document.getElementById('emailConfirmationModal');
+    const emailSpan = document.getElementById('confirmationEmail');
+    emailSpan.textContent = email;
+    
+    // Reset modal state
+    document.getElementById('confirmationLoading').style.display = 'block';
+    document.getElementById('confirmationSuccess').style.display = 'none';
+    document.getElementById('confirmationError').style.display = 'none';
+    
+    modal.classList.remove('hidden');
+  }
+
+  function closeEmailConfirmationModal() {
+    const modal = document.getElementById('emailConfirmationModal');
+    modal.classList.add('hidden');
+    
+    // Reset form for retry
+    const btn = document.getElementById('registerBtn');
+    btn.innerHTML = '<i class="bi bi-person-plus mr-2"></i>Create Account';
+    btn.disabled = false;
+  }
+
+  function showEmailConfirmationSuccess() {
+    document.getElementById('confirmationLoading').style.display = 'none';
+    document.getElementById('confirmationSuccess').style.display = 'block';
+    
+    // Auto-redirect after 2 seconds
+    setTimeout(() => {
+      window.location.href = '/detector';
+    }, 2000);
+  }
+
+  function checkConfirmationStatus() {
+    // Check if user has been logged in (meaning email was confirmed)
+    fetch('/auth/check-login-status', {
+      method: 'GET',
+      credentials: 'same-origin'
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.logged_in) {
+        // User is now logged in, show success and redirect
+        showEmailConfirmationSuccess();
+      }
+    })
+    .catch(error => {
+      console.log('Status check error:', error);
+    });
+  }
+
+  // Check confirmation status when user returns to tab
+  document.addEventListener('visibilitychange', function() {
+    if (!document.hidden) {
+      // User returned to tab, check if they completed email confirmation
+      const modal = document.getElementById('emailConfirmationModal');
+      if (!modal.classList.contains('hidden')) {
+        // Modal is still open, check status
+        setTimeout(checkConfirmationStatus, 500); // Small delay to ensure any redirects have processed
+      }
+    }
+  });
+
+  function showEmailConfirmationError(message) {
+    document.getElementById('confirmationLoading').style.display = 'none';
+    document.getElementById('confirmationError').style.display = 'block';
+    document.getElementById('confirmationErrorMessage').textContent = message;
+  }
+
+  function showRegistrationError(message) {
+    // Create or update error alert
+    const existingAlert = document.querySelector('.alert-error');
+    if (existingAlert) {
+      existingAlert.querySelector('.text-sm').textContent = message;
+    } else {
+      // Create new error alert
+      const alertHtml = `
+        <div class="alert alert-error">
+          <div class="flex items-center">
+            <i class="bi bi-exclamation-triangle"></i>
+            <div class="flex-1 ml-3">
+              <div class="font-medium">Registration Failed</div>
+              <div class="text-sm mt-1">${message}</div>
+            </div>
+          </div>
+        </div>
+      `;
+      const formCard = document.querySelector('.auth-card');
+      const formElement = document.getElementById('registerForm');
+      formCard.insertBefore(
+        document.createRange().createContextualFragment(alertHtml).firstElementChild,
+        formElement
+      );
+    }
+  }
+
+  // Modal close button event
+  document.getElementById('closeEmailConfirmationModal').addEventListener('click', closeEmailConfirmationModal);
+
+  // Make functions globally available
+  window.showEmailConfirmationModal = showEmailConfirmationModal;
+  window.closeEmailConfirmationModal = closeEmailConfirmationModal;
+  window.showEmailConfirmationSuccess = showEmailConfirmationSuccess;
+  window.showEmailConfirmationError = showEmailConfirmationError;
+
+  // Auto-hide error flash messages after 5 seconds (consistent with login.html)
+  const errorAlerts = document.querySelectorAll('.alert-error');
+  errorAlerts.forEach(alert => {
+    setTimeout(() => {
+      alert.style.transition = 'opacity 0.5s ease-out, transform 0.5s ease-out';
+      alert.style.opacity = '0';
+      alert.style.transform = 'translateY(-10px)';
+      
+      // Clear any field highlighting when error message disappears
+      const allInputs = document.querySelectorAll('input');
+      allInputs.forEach(input => {
+        input.classList.remove('input-error');
+      });
+      
+      setTimeout(() => {
+        alert.style.display = 'none';
+      }, 500); // Wait for fade transition to complete
+    }, 5000); // Hide after 5 seconds (consistent with login.html)
+  });
+
+  // Initial validation
+  validateAll();
+})();
+</script>
+{% endblock %}

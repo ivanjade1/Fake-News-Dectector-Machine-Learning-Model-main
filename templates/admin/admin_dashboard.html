@@ -1,0 +1,644 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard - TruthGuard{% endblock %}
+
+{% block head_extra %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin/admin_dashboard.css') }}?v=4">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+{% endblock %}
+
+{% block content %}
+<div class="results-bg min-h-screen">
+  <div class="results-content">
+    <!-- Hero Section -->
+    <section class="relative isolate mx-auto max-w-7xl px-4 pt-12 md:px-6 md:pt-16">
+      <div class="mx-auto max-w-3xl text-center mb-8">
+        <span class="inline-flex items-center gap-2 rounded-full border border-neutral-200 bg-white px-3 py-1 text-xs text-neutral-700 shadow-sm ring-1 ring-black/10 dark:border-white/10 dark:bg-neutral-900 dark:text-neutral-300">
+          <span class="h-2 w-2 rounded-full bg-purple-500"></span>
+          Admin Dashboard
+        </span>
+
+        <h1 class="mt-4 text-4xl font-extrabold tracking-tight sm:text-5xl">
+          System Overview
+        </h1>
+
+        <p class="mt-4 mx-auto max-w-xl text-neutral-700 dark:text-neutral-300">
+          Monitor system statistics, user activity, and application performance
+        </p>
+      </div>
+
+      <!-- Main Content Container -->
+      <div class="mx-auto max-w-6xl space-y-6">
+
+        <!-- Loading State -->
+        <div id="loadingState" class="results-card text-center">
+          <div class="loading-spinner mx-auto mb-4"></div>
+          <p class="text-neutral-600 dark:text-neutral-400">Loading dashboard data...</p>
+        </div>
+
+        <!-- Statistics Overview -->
+        <div id="statsContainer" class="hidden space-y-6">
+          
+          <!-- Key Metrics Row -->
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- Total Users -->
+            <div class="results-card text-center">
+              <div class="results-icon bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400 mx-auto mb-4">
+                <i class="bi bi-people"></i>
+              </div>
+              <h3 class="text-2xl font-bold text-neutral-800 dark:text-neutral-200" id="totalUsers">0</h3>
+              <p class="text-sm text-neutral-600 dark:text-neutral-400">Total Users</p>
+              <p class="text-xs text-green-600 dark:text-green-400 mt-1" id="recentUsers">+0 this month</p>
+            </div>
+
+            <!-- Total Articles -->
+            <div class="results-card text-center">
+              <div class="results-icon bg-green-100 dark:bg-green-900/50 text-green-600 dark:text-green-400 mx-auto mb-4">
+                <i class="bi bi-file-text"></i>
+              </div>
+              <h3 class="text-2xl font-bold text-neutral-800 dark:text-neutral-200" id="totalArticles">0</h3>
+              <p class="text-sm text-neutral-600 dark:text-neutral-400">Articles Analyzed</p>
+              <p class="text-xs text-green-600 dark:text-green-400 mt-1" id="recentArticles">+0 this week</p>
+            </div>
+
+            <!-- Game Sessions -->
+            <div class="results-card text-center">
+              <div class="results-icon bg-purple-100 dark:bg-purple-900/50 text-purple-600 dark:text-purple-400 mx-auto mb-4">
+                <i class="bi bi-controller"></i>
+              </div>
+              <h3 class="text-2xl font-bold text-neutral-800 dark:text-neutral-200" id="totalGameSessions">0</h3>
+              <p class="text-sm text-neutral-600 dark:text-neutral-400">Game Sessions</p>
+              <p class="text-xs text-blue-600 dark:text-blue-400 mt-1">Avg XP: <span id="avgScore">0</span></p>
+            </div>
+
+            <!-- Feedback Items -->
+            <div class="results-card text-center">
+              <div class="results-icon bg-orange-100 dark:bg-orange-900/50 text-orange-600 dark:text-orange-400 mx-auto mb-4">
+                <i class="bi bi-chat-dots"></i>
+              </div>
+              <h3 class="text-2xl font-bold text-neutral-800 dark:text-neutral-200" id="totalFeedback">0</h3>
+              <p class="text-sm text-neutral-600 dark:text-neutral-400">Feedback Items</p>
+              <p class="text-xs text-orange-600 dark:text-orange-400 mt-1" id="recentFeedback">+0 this week</p>
+            </div>
+          </div>
+
+          <!-- Quick Actions -->
+          <div class="results-card">
+            <div class="flex items-center justify-between mb-6">
+              <div class="flex items-center gap-3">
+                <div class="results-icon bg-purple-100 dark:bg-purple-900/50 text-purple-600 dark:text-purple-400">
+                  <i class="bi bi-person-gear"></i>
+                </div>
+                <h3 class="text-lg font-semibold text-neutral-800 dark:text-neutral-200">Quick Actions</h3>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              <a href="{{ url_for('admin.admin_feedback') }}" class="action-btn action-btn-primary text-center">
+                <i class="bi bi-chat-square-text mr-2"></i>
+                View Feedback
+              </a>
+              
+              <button onclick="exportDashboardToPDF()" class="action-btn action-btn-secondary">
+                <i class="bi bi-file-earmark-pdf mr-2"></i>
+                Export
+              </button>
+              
+              <button onclick="refreshStats()" class="action-btn action-btn-secondary">
+                <i class="bi bi-arrow-clockwise mr-2"></i>
+                Refresh Data
+              </button>
+              
+              <button onclick="showSystemInfo()" class="action-btn action-btn-secondary">
+                <i class="bi bi-info-circle mr-2"></i>
+                System Info
+              </button>
+            </div>
+          </div>
+
+          <!-- Charts and Details Row -->
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            
+            <!-- Article Classification Breakdown -->
+            <div class="results-card">
+              <div class="flex items-center gap-3 mb-6">
+                <div class="results-icon bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400">
+                  <i class="bi bi-pie-chart"></i>
+                </div>
+                <h3 class="text-lg font-semibold text-neutral-800 dark:text-neutral-200">Article Classification</h3>
+              </div>
+              
+              <div class="space-y-4">
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center gap-3">
+                    <div class="w-4 h-4 bg-green-500 rounded"></div>
+                    <span class="text-sm text-neutral-700 dark:text-neutral-300">Real News</span>
+                  </div>
+                  <div class="text-right">
+                    <span class="font-semibold text-neutral-800 dark:text-neutral-200" id="realArticles">0</span>
+                    <span class="text-xs text-neutral-500 dark:text-neutral-400 ml-2" id="realPercent">(0%)</span>
+                  </div>
+                </div>
+                
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center gap-3">
+                    <div class="w-4 h-4 bg-red-500 rounded"></div>
+                    <span class="text-sm text-neutral-700 dark:text-neutral-300">Fake News</span>
+                  </div>
+                  <div class="text-right">
+                    <span class="font-semibold text-neutral-800 dark:text-neutral-200" id="fakeArticles">0</span>
+                    <span class="text-xs text-neutral-500 dark:text-neutral-400 ml-2" id="fakePercent">(0%)</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- User Activity Chart -->
+            <div class="results-card">
+              <div class="flex items-center gap-3 mb-6">
+                <div class="results-icon bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400">
+                  <i class="bi bi-graph-up"></i>
+                </div>
+                <h3 class="text-lg font-semibold text-neutral-800 dark:text-neutral-200">Daily Activity (Last 7 Days)</h3>
+              </div>
+              
+              <div id="activityChart" class="space-y-2">
+                <!-- Chart will be populated by JavaScript -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Recent Users Table -->
+          <div class="results-card">
+            <div class="flex items-center justify-between mb-6">
+              <div class="flex items-center gap-3">
+                <div class="results-icon bg-green-100 dark:bg-green-900/50 text-green-600 dark:text-green-400">
+                  <i class="bi bi-person-plus"></i>
+                </div>
+                <h3 class="text-lg font-semibold text-neutral-800 dark:text-neutral-200">User Management</h3>
+              </div>
+              <div class="text-sm text-neutral-600 dark:text-neutral-400">
+                <span id="activeUsersCount">0</span> active users
+              </div>
+            </div>
+
+            <!-- User Search -->
+            <div class="mb-4">
+              <div class="relative">
+                <i class="bi bi-search absolute left-4 top-1/2 transform -translate-y-1/2 text-blue-600 dark:text-blue-400 text-lg font-semibold z-10 pointer-events-none"></i>
+                <input type="text" id="userSearchInput" placeholder="Search users..." 
+                       class="search-input w-full pl-12 pr-4 py-3 rounded-xl border border-gray-200 dark:border-white/10 bg-white/80 dark:bg-black/30 backdrop-blur-lg">
+              </div>
+            </div>
+
+            <!-- Users Table -->
+            <div id="usersTableContainer" class="table-container">
+              <!-- Mobile Card Template - hidden by default -->
+              <div id="mobileUserCardTemplate" class="mobile-user-card" style="display: none;">
+                <div class="mobile-user-header">
+                  <div class="user-avatar bg-gradient-to-r from-purple-500 to-purple-400 text-white w-12 h-12 rounded-full flex items-center justify-center font-semibold text-lg" data-field="avatar">
+                    <!-- Avatar letter will be populated -->
+                  </div>
+                  <div class="mobile-user-info">
+                    <div class="font-semibold text-neutral-800 dark:text-neutral-200 text-lg" data-field="username">
+                      <!-- Username will be populated -->
+                    </div>
+                    <div class="text-sm text-neutral-600 dark:text-neutral-400" data-field="email">
+                      <!-- Email will be populated -->
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="mobile-user-details">
+                  <div class="mobile-detail-item">
+                    <div class="mobile-detail-label">Role</div>
+                    <span class="role-badge" data-field="role">
+                      <!-- Role will be populated -->
+                    </span>
+                  </div>
+                  <div class="mobile-detail-item">
+                    <div class="mobile-detail-label">Status</div>
+                    <span class="status-badge" data-field="status">
+                      <span class="status-indicator" data-field="status-indicator"></span>
+                      <span data-field="status-text">
+                        <!-- Status text will be populated -->
+                      </span>
+                    </span>
+                  </div>
+                  <div class="mobile-detail-item">
+                    <div class="mobile-detail-label">Joined</div>
+                    <div class="text-sm text-neutral-600 dark:text-neutral-400" data-field="joined">
+                      <!-- Join date will be populated -->
+                    </div>
+                  </div>
+                </div>
+
+                <div class="mobile-actions">
+                  <button class="table-action-btn warning" data-field="role-btn" title="Toggle Role">
+                    <i class="bi bi-person-gear mr-1"></i>
+                    Toggle Role
+                  </button>
+                  <button class="table-action-btn" data-field="status-btn" title="Toggle Status">
+                    <i data-field="status-icon" class="mr-1"></i>
+                    <span data-field="status-action-text">
+                      <!-- Action text will be populated -->
+                    </span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Mobile Users Grid Container -->
+              <div id="mobileUsersGrid" class="mobile-users-grid" style="display: none;">
+                <!-- Mobile cards will be populated here -->
+              </div>
+
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th class="user-column">User</th>
+                    <th class="role-column">Role</th>
+                    <th class="status-column">Status</th>
+                    <th class="joined-column">Joined</th>
+                    <th class="actions-column">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="usersTableBody">
+                  <!-- Template row for cloning - hidden by default -->
+                  <tr id="userRowTemplate" class="user-row-template" style="display: none;">
+                    <td class="user-cell">
+                      <div class="flex items-center gap-3">
+                        <div class="user-avatar bg-gradient-to-r from-purple-500 to-purple-400 text-white w-10 h-10 rounded-full flex items-center justify-center font-semibold" data-field="avatar">
+                          <!-- Avatar letter will be populated -->
+                        </div>
+                        <div>
+                          <div class="font-semibold text-neutral-800 dark:text-neutral-200" data-field="username">
+                            <!-- Username will be populated -->
+                          </div>
+                          <div class="text-sm text-neutral-600 dark:text-neutral-400" data-field="email">
+                            <!-- Email will be populated -->
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="role-cell">
+                      <span class="role-badge" data-field="role">
+                        <!-- Role will be populated -->
+                      </span>
+                    </td>
+                    <td class="status-cell">
+                      <span class="status-badge" data-field="status">
+                        <span class="status-indicator" data-field="status-indicator"></span>
+                        <span data-field="status-text">
+                          <!-- Status text will be populated -->
+                        </span>
+                      </span>
+                    </td>
+                    <td class="joined-cell text-sm text-neutral-600 dark:text-neutral-400" data-field="joined">
+                      <!-- Join date will be populated -->
+                    </td>
+                    <td class="actions-cell">
+                      <div class="flex gap-2">
+                        <button class="table-action-btn warning" data-field="role-btn" title="Toggle Role">
+                          <i class="bi bi-person-gear"></i>
+                        </button>
+                        <button class="table-action-btn" data-field="status-btn" title="Toggle Status">
+                          <i data-field="status-icon"></i>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                  <!-- Actual user rows will be populated here -->
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Users Pagination -->
+            <div id="usersPagination" class="pagination-container hidden">
+              <!-- Pagination content will be populated by JavaScript -->
+            </div>
+          </div>
+
+          <!-- Password Reset Management -->
+          <div class="results-card">
+            <div class="flex items-center justify-between mb-6">
+              <div class="flex items-center gap-3">
+                <div class="results-icon bg-yellow-100 dark:bg-yellow-900/50 text-yellow-600 dark:text-yellow-400">
+                  <i class="bi bi-key"></i>
+                </div>
+                <h3 class="text-lg font-semibold text-neutral-800 dark:text-neutral-200">Password Reset Management</h3>
+              </div>
+              <div class="text-sm text-neutral-600 dark:text-neutral-400">
+                <span id="pendingRequestsCount">0</span> pending requests
+              </div>
+            </div>
+
+            <!-- Password Reset Search -->
+            <div class="mb-4">
+              <div class="relative">
+                <i class="bi bi-search absolute left-4 top-1/2 transform -translate-y-1/2 text-blue-600 dark:text-blue-400 text-lg font-semibold z-10 pointer-events-none"></i>
+                <input type="text" id="passwordResetSearchInput" placeholder="Search password reset requests..." 
+                       class="search-input w-full pl-12 pr-4 py-3 rounded-xl border border-gray-200 dark:border-white/10 bg-white/80 dark:bg-black/30 backdrop-blur-lg">
+              </div>
+            </div>
+
+            <!-- Password Reset Requests Table -->
+            <div id="passwordResetTableContainer" class="table-container">
+              <!-- Mobile Password Reset Card Template - hidden by default -->
+              <div id="mobileResetCardTemplate" class="mobile-reset-card" style="display: none;">
+                <div class="mobile-user-header">
+                  <div class="user-avatar bg-gradient-to-r from-purple-500 to-purple-400 text-white w-12 h-12 rounded-full flex items-center justify-center font-semibold text-lg" data-field="avatar">
+                    <!-- Avatar letter will be populated -->
+                  </div>
+                  <div class="mobile-user-info">
+                    <div class="font-semibold text-neutral-800 dark:text-neutral-200 text-lg" data-field="username">
+                      <!-- Username will be populated -->
+                    </div>
+                    <div class="text-sm text-neutral-600 dark:text-neutral-400" data-field="email">
+                      <!-- Email will be populated -->
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="mobile-user-details">
+                  <div class="mobile-detail-item">
+                    <div class="mobile-detail-label">Status</div>
+                    <span class="status-badge" data-field="status">
+                      <span class="status-indicator" data-field="status-indicator"></span>
+                      <span data-field="status-text">
+                        <!-- Status text will be populated -->
+                      </span>
+                    </span>
+                  </div>
+                  <div class="mobile-detail-item">
+                    <div class="mobile-detail-label">Requested</div>
+                    <div class="text-sm text-neutral-600 dark:text-neutral-400" data-field="requested">
+                      <!-- Request date will be populated -->
+                    </div>
+                  </div>
+                </div>
+
+                <div class="mobile-actions">
+                  <button class="table-action-btn success" data-field="approve-btn" title="Approve Request">
+                    <i class="bi bi-check-circle mr-1"></i>
+                    Approve
+                  </button>
+                  <button class="table-action-btn danger" data-field="deny-btn" title="Deny Request">
+                    <i class="bi bi-x-circle mr-1"></i>
+                    Deny
+                  </button>
+                  <button class="table-action-btn warning" data-field="delete-btn" title="Delete Request">
+                    <i class="bi bi-trash mr-1"></i>
+                    Delete
+                  </button>
+                </div>
+              </div>
+
+              <!-- Mobile Reset Grid Container -->
+              <div id="mobileResetGrid" class="mobile-reset-grid" style="display: none;">
+                <!-- Mobile reset cards will be populated here -->
+              </div>
+
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th class="user-column">User</th>
+                    <th class="role-column">Email</th>
+                    <th class="status-column">Status</th>
+                    <th class="joined-column">Requested</th>
+                    <th class="actions-column">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="passwordResetTableBody">
+                  <!-- Password reset requests will be populated by JavaScript -->
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Password Reset Pagination -->
+            <div id="passwordResetPagination" class="pagination-container hidden">
+              <!-- Pagination content will be populated by JavaScript -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Error State -->
+        <div id="errorState" class="results-card text-center hidden">
+          <i class="bi bi-exclamation-triangle text-4xl text-red-500 mb-4"></i>
+          <h3 class="text-xl font-semibold mb-2 text-neutral-800 dark:text-neutral-200">Error Loading Dashboard</h3>
+          <p class="text-neutral-600 dark:text-neutral-400 mb-6" id="errorMessage">
+            Unable to load dashboard data. Please try refreshing the page.
+          </p>
+          <button onclick="refreshStats()" class="action-btn action-btn-primary">
+            <i class="bi bi-arrow-clockwise mr-2"></i>
+            Try Again
+          </button>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<!-- System Info Modal -->
+<div id="systemInfoModal" class="fixed inset-0 modal-backdrop z-50 hidden">
+  <div class="min-h-screen flex items-center justify-center p-4">
+    <div class="modal-card w-full max-w-2xl">
+      <div class="flex justify-between items-center p-6 border-b border-neutral-200 dark:border-neutral-700">
+        <h2 class="text-xl font-semibold text-neutral-800 dark:text-neutral-200">
+          <i class="bi bi-info-circle text-blue-600 dark:text-blue-400 mr-2"></i>
+          System Information
+        </h2>
+        <button onclick="closeSystemInfo()" class="text-neutral-500 hover:text-neutral-700 dark:text-neutral-400 dark:hover:text-neutral-200">
+          <i class="bi bi-x-lg text-xl"></i>
+        </button>
+      </div>
+      <div id="systemInfoContent" class="p-6">
+        <!-- System info will be populated by JavaScript -->
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block body_extra %}
+<script src="{{ url_for('static', filename='js/utils/timezone-utils.js') }}"></script>
+<script type="module" src="{{ url_for('static', filename='js/admin/admin_dashboard.js') }}?v=4"></script>
+
+<script>
+// Password Reset Functionality
+function approvePasswordReset(requestId) {
+  // Get the clicked button to check if it's disabled
+  const clickedButton = document.querySelector(`button[onclick="approvePasswordReset(${requestId})"]`);
+  if (clickedButton && clickedButton.disabled) {
+    return; // Exit early if button is disabled
+  }
+
+  // Get request status to check if it's finalized
+  const requestRow = clickedButton.closest('tr, .mobile-reset-card');
+  const statusBadge = requestRow.querySelector('.status-badge');
+  const statusText = statusBadge ? statusBadge.textContent.trim().toLowerCase() : '';
+  
+  // Prevent action on finalized requests
+  if (statusText === 'approved' || statusText === 'denied') {
+    alert('This password reset request has already been finalized. If the user needs a new password reset, they should submit a new request.');
+    return;
+  }
+  
+  const confirmMessage = 'Are you sure you want to approve this password reset request?';
+  
+  if (confirm(confirmMessage)) {
+    // Disable all buttons in this row to prevent double-clicking
+    const buttons = requestRow.querySelectorAll('.table-action-btn');
+    buttons.forEach(btn => {
+      btn.disabled = true;
+      btn.classList.add('disabled');
+    });
+    
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = '{{ url_for("passwordreset.approve_password_reset") }}';
+    
+    const input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = 'request_id';
+    input.value = requestId;
+    
+    form.appendChild(input);
+    document.body.appendChild(form);
+    form.submit();
+  }
+}
+
+function denyPasswordReset(requestId) {
+  // Get the clicked button to check if it's disabled
+  const clickedButton = document.querySelector(`button[onclick="denyPasswordReset(${requestId})"]`);
+  if (clickedButton && clickedButton.disabled) {
+    return; // Exit early if button is disabled
+  }
+
+  // Get request status to check if it's finalized
+  const requestRow = clickedButton.closest('tr, .mobile-reset-card');
+  const statusBadge = requestRow.querySelector('.status-badge');
+  const statusText = statusBadge ? statusBadge.textContent.trim().toLowerCase() : '';
+  
+  // Prevent action on finalized requests
+  if (statusText === 'approved' || statusText === 'denied') {
+    alert('This password reset request has already been finalized. If the user needs a new password reset, they should submit a new request.');
+    return;
+  }
+  
+  const confirmMessage = 'Are you sure you want to deny this password reset request?';
+  
+  if (confirm(confirmMessage)) {
+    // Disable all buttons in this row to prevent double-clicking
+    const buttons = requestRow.querySelectorAll('.table-action-btn');
+    buttons.forEach(btn => {
+      btn.disabled = true;
+      btn.classList.add('disabled');
+    });
+    
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = '{{ url_for("passwordreset.deny_password_reset") }}';
+    
+    const input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = 'request_id';
+    input.value = requestId;
+    
+    form.appendChild(input);
+    document.body.appendChild(form);
+    form.submit();
+  }
+}
+
+function deletePasswordReset(requestId) {
+  const confirmMessage = 'Are you sure you want to delete this password reset request? This action cannot be undone.';
+  
+  if (confirm(confirmMessage)) {
+    // Find the clicked button
+    const clickedButton = document.querySelector(`button[onclick="deletePasswordReset(${requestId})"]`);
+    const requestRow = clickedButton.closest('tr, .mobile-reset-card');
+    
+    // Disable all buttons in this row to prevent double-clicking
+    const buttons = requestRow.querySelectorAll('.table-action-btn');
+    buttons.forEach(btn => {
+      btn.disabled = true;
+      btn.classList.add('disabled');
+    });
+    
+    // Make API call to delete the request
+    fetch(`/admin/api/password-reset-requests/${requestId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        // Refresh the password reset requests data
+        if (window.adminDashboard) {
+          window.adminDashboard.loadPasswordResetRequests();
+        }
+        
+        // Show success message
+        const alertDiv = document.createElement('div');
+        alertDiv.className = 'alert alert-success';
+        alertDiv.innerHTML = `
+          <div class="flex items-center">
+            <i class="bi bi-check-circle mr-2"></i>
+            <span>Password reset request deleted successfully.</span>
+          </div>
+        `;
+        
+        // Insert the alert at the top of the password reset section
+        const resetSection = document.querySelector('#passwordResetSection');
+        if (resetSection) {
+          resetSection.insertBefore(alertDiv, resetSection.firstChild);
+          
+          // Auto-hide after 3 seconds
+          setTimeout(() => {
+            alertDiv.style.opacity = '0';
+            setTimeout(() => alertDiv.remove(), 300);
+          }, 3000);
+        }
+      } else {
+        // Show error message
+        alert('Failed to delete password reset request: ' + (data.error || 'Unknown error'));
+        
+        // Re-enable buttons
+        buttons.forEach(btn => {
+          btn.disabled = false;
+          btn.classList.remove('disabled');
+        });
+      }
+    })
+    .catch(error => {
+      console.error('Error deleting password reset request:', error);
+      alert('Failed to delete password reset request. Please try again.');
+      
+      // Re-enable buttons
+      buttons.forEach(btn => {
+        btn.disabled = false;
+        btn.classList.remove('disabled');
+      });
+    });
+  }
+}
+
+// Load password reset requests (placeholder - would need API endpoint)
+function loadPasswordResetRequests() {
+  // This would fetch from an API endpoint
+  // For now, just update the badge to show no pending requests
+  const badge = document.getElementById('pendingRequestsBadge');
+  if (badge) {
+    badge.textContent = '0 pending';
+  }
+}
+
+// Call this when page loads
+document.addEventListener('DOMContentLoaded', function() {
+  loadPasswordResetRequests();
+});
+</script>
+{% endblock %}

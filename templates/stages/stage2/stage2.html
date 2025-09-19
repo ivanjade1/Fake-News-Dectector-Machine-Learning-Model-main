@@ -1,0 +1,214 @@
+{% extends "base.html" %}
+
+{% block title %}Source Showdown • TruthGuard{% endblock %}
+
+{% block body_class %}game-stage stage2{% endblock %}
+
+{% block head_extra %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/stages/shared/stats.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/stages/stage2/stage2.css') }}">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+{% endblock %}
+
+{% block content %}
+<div class="results-bg min-h-screen">
+  <div class="results-content">
+    <!-- Hero Section with Pill Header -->
+    <section class="relative isolate mx-auto max-w-7xl px-4 pt-12 md:px-6 md:pt-16">
+      <div class="mx-auto max-w-3xl text-center mb-8">
+        <span class="inline-flex items-center gap-2 rounded-full border border-neutral-200 bg-white px-3 py-1 text-xs text-neutral-700 shadow-sm ring-1 ring-black/10 dark:border-white/10 dark:bg-neutral-900 dark:text-neutral-300">
+          <span class="h-2 w-2 rounded-full bg-indigo-500"></span>
+          Stage 2
+        </span>
+
+        <h1 class="mt-4 text-4xl font-extrabold tracking-tight sm:text-5xl">
+          Source Showdown
+        </h1>
+
+        <p class="mt-4 mx-auto max-w-xl text-neutral-700 dark:text-neutral-300">
+          Identify the more trustworthy source by evaluating outlet reliability, URL accuracy, and article preview
+        </p>
+      </div>
+    </section>
+    
+    <!-- Include Stage Stats Header -->
+    {% include 'stages/shared/stats.html' %}
+    
+    <!-- Main Game Content Container -->
+    <div class="stage-content-container">
+      <div class="stage2-content" id="stage2-content">
+        <!-- Instructions Screen -->
+        <div class="instructions-screen" id="instructions-screen">
+          <div class="results-card instructions-container">
+            <div class="instructions-header">
+              <div class="results-icon" style="background: linear-gradient(135deg, #4f46e5, #4338ca); color: white; margin: 0 auto 1rem;">
+                <i class="bi bi-shield-check"></i>
+              </div>
+              <h2>Game Instructions</h2>
+              <p>Ready to master source verification skills?</p>
+            </div>
+            
+            <div class="instructions-content">
+              <div class="instructions-section">
+                <h3><i class="bi bi-controller"></i> How to Play</h3>
+                <p>You'll see two different sources reporting on news. Choose the more trustworthy and reliable source based on URL accuracy, outlet credibility, headline quality, and article preview.</p>
+              </div>
+              
+              <div class="instructions-section">
+                <h3><i class="bi bi-gem"></i> Scoring System</h3>
+                <div class="results-card scoring-breakdown">
+                  <div class="score-item">
+                    <span class="score-label">Correct Answer:</span>
+                    <span class="score-value">+30 XP</span>
+                  </div>
+                  <div class="score-item">
+                    <span class="score-label">Speed Bonus (&lt;8s):</span>
+                    <span class="score-value">+10 XP</span>
+                  </div>
+                  <div class="score-item">
+                    <span class="score-label">Lightning Bonus (&lt;4s):</span>
+                    <span class="score-value">+10 XP</span>
+                  </div>
+                  <div class="score-item special">
+                    <span class="score-label">Maximum per round:</span>
+                    <span class="score-value">50 XP</span>
+                  </div>
+                  <div class="score-item penalty">
+                    <span class="score-label">Using Hint:</span>
+                    <span class="score-value">Max drops to 40 XP</span>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="instructions-section">
+                <h3><i class="bi bi-flag-fill"></i> What to Look For in Sources</h3>
+                <ul>
+                  <li><strong>Reliable Sources:</strong> Established news outlets, correct domain spelling, proper TLD (.com, .net, .org), official government sites, recognized wire services</li>
+                  <li><strong>Unreliable Sources:</strong> Typosquatted domains, extra letters/subdomains, wrong TLDs (.co instead of .com), blog-style sites mimicking news, character swaps in domains</li>
+                  <li><strong>Red Flags:</strong> Double TLDs (.ph.co), misspelled domains, look-alike sites, unknown "newsy" domains, premature conclusions without official confirmation</li>
+                </ul>
+              </div>
+              
+              <div class="game-stats results-card">
+                <div class="stat">
+                  <span class="stat-label">Rounds:</span>
+                  <span class="stat-value">10</span>
+                </div>
+                <div class="stat">
+                  <span class="stat-label">Time per round:</span>
+                  <span class="stat-value">30s</span>
+                </div>
+                <div class="stat">
+                  <span class="stat-label">Max XP:</span>
+                  <span class="stat-value">500</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="instructions-actions">
+              <button class="action-btn action-btn-primary start-game-button" id="start-game-btn">
+                Start Game
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Game Screen -->
+        <div class="game-screen" id="game-screen" style="display: none;">
+          <div class="results-card game-container">
+            <div class="game-header">
+              <div class="game-info">
+                <h2 id="game-title">Source Comparison 1</h2>
+                <p>Choose the more trustworthy source</p>
+              </div>
+              
+              <div class="game-controls">
+                <div class="timer-container">
+                  <div class="timer" id="timer">30</div>
+                </div>
+                
+                <div class="hint-section">
+                  <button class="action-btn action-btn-secondary hint-button" id="hint-button">
+                    <span class="hint-text">Hint</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+            
+            <div class="hint-container">
+              <div class="hint-text" id="hint-text" style="display: none;"></div>
+            </div>
+            
+            <!-- Source Options -->
+            <div class="sources-section">
+              <div class="source-option results-card" data-option="0" id="source-option-0">
+                <div class="source-header">
+                  <div class="source-number">Source A</div>
+                </div>
+                <div class="source-url" id="source-url-0">
+                  <!-- URL will be inserted here -->
+                </div>
+                <div class="source-content">
+                  <h4 class="source-headline" id="source-headline-0">
+                    <!-- Source headline will be inserted here -->
+                  </h4>
+                  <div class="source-meta">
+                    <span class="source-date" id="source-date-0">
+                      <!-- Date will be inserted here -->
+                    </span>
+                  </div>
+                  <p class="source-preview" id="source-preview-0">
+                    <!-- Content preview will be inserted here -->
+                  </p>
+                </div>
+              </div>
+              
+              <div class="source-option results-card" data-option="1" id="source-option-1">
+                <div class="source-header">
+                  <div class="source-number">Source B</div>
+                </div>
+                <div class="source-url" id="source-url-1">
+                  <!-- URL will be inserted here -->
+                </div>
+                <div class="source-content">
+                  <h4 class="source-headline" id="source-headline-1">
+                    <!-- Source headline will be inserted here -->
+                  </h4>
+                  <div class="source-meta">
+                    <span class="source-date" id="source-date-1">
+                      <!-- Date will be inserted here -->
+                    </span>
+                  </div>
+                  <p class="source-preview" id="source-preview-1">
+                    <!-- Content preview will be inserted here -->
+                  </p>
+                </div>
+              </div>
+            </div>
+            
+            <div class="action-container">
+              <button class="action-btn action-btn-primary submit-button" id="submit-button" disabled>
+                Submit Answer
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Feedback Screen -->
+        <div class="feedback-screen" id="feedback-screen" style="display: none;">
+          <!-- Feedback content will be populated by JavaScript -->
+        </div>
+        
+        <!-- Stage Complete Screen -->
+        <div class="complete-screen" id="complete-screen" style="display: none;">
+          <!-- Complete content will be populated by JavaScript -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/utils/timezone-utils.js') }}"></script>
+<script src="{{ url_for('static', filename='js/stages/shared/stats.js') }}"></script>
+<script src="{{ url_for('static', filename='js/stages/stage2/stage2.js') }}"></script>
+{% endblock %}

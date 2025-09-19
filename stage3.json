@@ -1,0 +1,172 @@
+[
+  {
+    "Headline": "Konektadong Pinoy Bill has lapsed into law — Palace",
+    "Choices": [
+      {
+        "Content": "Malacañang confirmed that the Konektadong Pinoy bill lapsed into law, opening the data-only market to more providers. Officials framed it as a competition and digital-inclusion push. The measure lets data-only providers operate without a legislative franchise or CPCN.",
+        "Label": "Credible"
+      },
+      {
+        "Content": "The law was described as pushed through past midnight with little chance for public input. The outcome was portrayed as favoring major telecoms over smaller entrants. Unclear implementation rules were said to give regulators wide leeway.",
+        "Label": "Unreliable",
+        "Highlights": ["past midnight", "favoring major telecoms", "unclear implementation rules"]
+      }
+    ],
+    "Answer_Index": 0,
+    "Lesson": "Be cautious of narratives hinging on late-night passage, unspecified 'favoring,' or 'unclear rules'—look for explicit provisions or official schedules.",
+    "Hint": "Which option names concrete policy mechanics (e.g., franchise/CPCN rules and market opening) instead of emphasizing timing or motives?"
+  },
+  {
+    "Headline": "Marcos signs law declaring Paoay Lake a protected area",
+    "Choices": [
+      {
+        "Content": "A new law designates Paoay Lake in Ilocos Norte as a protected area under NIPAS. It establishes a Protected Area Management Board. Officials said the measure balances conservation with livelihood needs.",
+        "Label": "Credible"
+      },
+      {
+        "Content": "The measure was framed as tightening access around the lake, with talk of relocating families if necessary. Discussion lingered on unclear settlement plans and who might be affected.",
+        "Label": "Unreliable",
+        "Highlights": ["tightening access", "relocating families if necessary", "unclear settlement plans"]
+      }
+    ],
+    "Answer_Index": 0,
+    "Lesson": "Watch for conditional language about relocation or access limits unless tied to specific sections or implementing rules.",
+    "Hint": "Look for references to established frameworks (NIPAS, a management board) rather than open-ended possibilities about relocations."
+  },
+  {
+    "Headline": "Bill seeks SALN disclosure for President, VP, key officials",
+    "Choices": [
+      {
+        "Content": "A House bill would require public disclosure of the SALNs of the President, Vice President, and top officials. It sets timelines and penalties for noncompliance. Advocates urged swift passage.",
+        "Label": "Credible"
+      },
+      {
+        "Content": "Drafts were said to carve out exemptions for select senior officials. The move was presented as a balanced approach to protect sensitive data. Debate centered on transparency versus privacy, with specifics expected in committee.",
+        "Label": "Unreliable",
+        "Highlights": ["exemptions for select senior officials", "balanced approach", "specifics expected in committee"]
+      }
+    ],
+    "Answer_Index": 0,
+    "Lesson": "Verify whether exemptions appear in the bill text or are merely expectations pending committee drafting.",
+    "Hint": "Which write-up points to concrete requirements (disclosure, timelines, penalties) rather than anticipated carve-outs still to be drafted?"
+  },
+  {
+    "Headline": "House prosecutors seek subpoena of Sara Duterte’s bank records",
+    "Choices": [
+      {
+        "Content": "House prosecutors said they will ask the Senate court to subpoena Vice President Sara Duterte’s bank records. They argue financial trails are relevant to the charges. Defense allies raised privacy concerns.",
+        "Label": "Credible"
+      },
+      {
+        "Content": "Lawmakers were described as lining up access to the records even before any ruling. Quiet strategy sessions were said to map out next steps. Specific understandings were kept off the record.",
+        "Label": "Unreliable",
+        "Highlights": ["lining up access before any ruling", "quiet strategy sessions", "kept off the record"]
+      }
+    ],
+    "Answer_Index": 0,
+    "Lesson": "Treat claims about behind-the-scenes preparation cautiously; rely on filed motions and court orders.",
+    "Hint": "Favor the option that mentions formal steps (motions, subpoenas, court venue) over unsourced descriptions of private planning."
+  },
+  {
+    "Headline": "Marcos OKs natural gas industry development law",
+    "Choices": [
+      {
+        "Content": "A law was signed to establish the Philippine Downstream Natural Gas Industry. It promotes gas as a secure and efficient fuel. The Department of Energy will set permits and standards.",
+        "Label": "Credible"
+      },
+      {
+        "Content": "The measure was portrayed as handing regulators wide latitude over permits. Favorable treatment for familiar firms was floated as a possibility. Key procedures were left to be determined at a later date.",
+        "Label": "Unreliable",
+        "Highlights": ["wide latitude over permits", "favorable treatment for familiar firms", "to be determined procedures"]
+      }
+    ],
+    "Answer_Index": 0,
+    "Lesson": "If reporting stresses regulator discretion or 'to be determined' procedures, check the IRR, permit criteria, and timelines.",
+    "Hint": "Which description identifies responsible agencies and concrete functions (permits, standards) rather than forecasted outcomes?"
+  },
+  {
+    "Headline": "Marcos inks law extending NHA’s corporate term",
+    "Choices": [
+      {
+        "Content": "A law extended the corporate term of the National Housing Authority by 25 years starting July 31, 2025. Officials said it ensures continuity of housing programs. Guidelines will be issued by implementing agencies.",
+        "Label": "Credible"
+      },
+      {
+        "Content": "The extension was cast as a potential drag on new housing initiatives. Questions about funding were said to cloud near-term projects. Doubts lingered over the agency’s ability to pivot under the longer mandate.",
+        "Label": "Unreliable",
+        "Highlights": ["potential drag on new initiatives", "questions about funding", "doubts over ability to pivot"]
+      }
+    ],
+    "Answer_Index": 0,
+    "Lesson": "Forecasted impacts should be backed by plans or appropriations; confirm with agency budgets and implementation memos.",
+    "Hint": "Prefer the option stating what the law changes (term, date, implementing guidelines) over predictions about performance."
+  },
+  {
+    "Headline": "Marcos signs law boosting judiciary’s fiscal autonomy",
+    "Choices": [
+      {
+        "Content": "The Judiciary Fiscal Autonomy Act allows the Supreme Court to submit its original budget to Congress. It adds safeguards against budget reductions. Legal groups said the reform strengthens independence.",
+        "Label": "Credible"
+      },
+      {
+        "Content": "The change was framed as granting the judiciary sweeping freedom over finances. Commentaries called it a major expansion of independence. References to checks and oversight were minimal.",
+        "Label": "Unreliable",
+        "Highlights": ["sweeping freedom", "major expansion", "minimal references to oversight"]
+      }
+    ],
+    "Answer_Index": 0,
+    "Lesson": "Large-sounding reforms need context; check oversight clauses, appropriation limits, and audit requirements.",
+    "Hint": "Scan for specific mechanisms (original budget submission, safeguards) rather than broad characterizations of 'sweeping freedom.'"
+  },
+  {
+    "Headline": "Philippine Supreme Court voids impeachment complaint against VP Duterte",
+    "Choices": [
+      {
+        "Content": "The Supreme Court struck down the impeachment complaint against Vice President Sara Duterte as unconstitutional. It cited the one-year bar rule. The decision clarified it did not absolve her of allegations.",
+        "Label": "Credible"
+      },
+      {
+        "Content": "The ruling was cast as clearing the Vice President of political liability. Allies hailed it as a decisive win. Summaries circulated ahead of full publication of the judgment.",
+        "Label": "Unreliable",
+        "Highlights": ["clearing political liability", "decisive win", "ahead of full publication"]
+      }
+    ],
+    "Answer_Index": 0,
+    "Lesson": "Distinguish procedural bars from absolution; consult the published ruling when available.",
+    "Hint": "Which option cites a specific constitutional rule and separates procedure from the merits of allegations?"
+  },
+  {
+    "Headline": "Senate returns impeachment complaints to House, sets terms for trial",
+    "Choices": [
+      {
+        "Content": "The Senate acted as an impeachment court but returned the complaints to the House due to technical defects. Leaders said a trial could proceed once the issues were resolved. The move slowed political momentum.",
+        "Label": "Credible"
+      },
+      {
+        "Content": "The action was portrayed as closing the door on the case. Predictions spread that the Senate would not take it up again. Narratives emphasized fading momentum over procedural steps.",
+        "Label": "Unreliable",
+        "Highlights": ["closing the door", "would not take it up again", "fading momentum"]
+      }
+    ],
+    "Answer_Index": 0,
+    "Lesson": "Avoid mistaking commentary for outcome; look for formal Senate and House actions that define next steps.",
+    "Hint": "Choose the account that describes the formal action taken and conditions for a trial rather than forecasts of finality."
+  },
+  {
+    "Headline": "New law gives Judiciary fiscal autonomy",
+    "Choices": [
+      {
+        "Content": "Lawmakers hailed the Judiciary Fiscal Autonomy Act as a step to strengthen independence. The law provides more flexibility in budgeting while keeping accountability. Implementation rules will define reporting standards.",
+        "Label": "Credible"
+      },
+      {
+        "Content": "The measure was depicted as giving the judiciary near-total control of its funds. Warnings circulated about weaker auditing. Reports highlighted expanded discretion in budget planning.",
+        "Label": "Unreliable",
+        "Highlights": ["near-total control", "weaker auditing", "expanded discretion"]
+      }
+    ],
+    "Answer_Index": 0,
+    "Lesson": "Claims of 'near-total control' or weaker auditing should be tested against the law’s audit, reporting, and budget provisions.",
+    "Hint": "Look for mentions of accountability or reporting requirements versus sweeping claims about control or weaker audits."
+  }
+]

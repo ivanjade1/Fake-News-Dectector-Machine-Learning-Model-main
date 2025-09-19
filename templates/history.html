@@ -1,0 +1,246 @@
+{% extends "base.html" %}
+{% block title %}Analysis History - TruthGuard{% endblock %}
+
+{% block head_extra %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/history.css') }}?v=2">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+{% endblock %}
+
+{% block content %}
+<div class="results-bg min-h-screen">
+  <div class="results-content">
+    <!-- Hero Section -->
+    <section class="relative isolate mx-auto max-w-7xl px-4 pt-12 md:px-6 md:pt-16">
+      <div class="mx-auto max-w-3xl text-center mb-8">
+        <span class="inline-flex items-center gap-2 rounded-full border border-neutral-200 bg-white px-3 py-1 text-xs text-neutral-700 shadow-sm ring-1 ring-black/10 dark:border-white/10 dark:bg-neutral-900 dark:text-neutral-300">
+          <span class="h-2 w-2 rounded-full bg-blue-500"></span>
+          Analysis History
+        </span>
+
+        <h1 class="mt-4 text-4xl font-extrabold tracking-tight sm:text-5xl">
+          Your Analysis History
+        </h1>
+
+        <p class="mt-4 mx-auto max-w-xl text-neutral-700 dark:text-neutral-300">
+          Review and explore your previous fact-checking analyses with detailed insights
+        </p>
+      </div>
+
+      <!-- Back Button -->
+      <div class="mx-auto max-w-5xl mb-6">
+        <a href="{{ url_for('main.detector_page') }}" class="action-btn action-btn-secondary">
+          <i class="bi bi-arrow-left mr-2"></i>
+          Back to Detector
+        </a>
+      </div>
+
+      <!-- Main Content Container -->
+      <div class="mx-auto max-w-5xl space-y-6">
+
+        <!-- Search and Filter Controls -->
+        <div class="results-card">
+          <div class="flex flex-col sm:flex-row sm:items-center mb-4 gap-3">
+            <div class="flex items-center gap-3">
+              <div class="results-icon bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400">
+                <i class="bi bi-funnel"></i>
+              </div>
+              <h3 class="text-lg sm:text-xl font-semibold text-neutral-800 dark:text-neutral-200">Search & Filter</h3>
+            </div>
+          </div>
+
+          <!-- Main Search Bar -->
+          <div class="relative mb-6">
+            <div class="flex items-center">
+              <div class="relative flex-1">
+                <i class="bi bi-search absolute left-4 top-1/2 transform -translate-y-1/2 text-blue-600 dark:text-blue-400 text-xl font-semibold z-10 pointer-events-none"></i>
+                <input type="text" id="searchInput" placeholder="Search articles..." 
+                       class="search-input w-full pl-12 pr-4 py-4 text-lg rounded-xl border border-gray-200 dark:border-white/10 bg-white/80 dark:bg-black/30 backdrop-blur-lg transition-all duration-200 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20">
+              </div>
+              <button id="filterToggle" class="action-btn action-btn-secondary ml-4 px-4 py-3">
+                <i class="bi bi-sliders text-lg"></i>
+                <span class="ml-2 font-medium hidden sm:inline">Filters</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Results Count (Always Visible) -->
+          <div class="flex items-center justify-between mb-4">
+            <div id="resultsCount" class="text-sm text-gray-600 dark:text-gray-400 font-medium">
+              Loading...
+            </div>
+          </div>
+          
+          <!-- Collapsible Advanced Filters -->
+          <div id="filtersPanel" class="hidden border-t border-gray-200 dark:border-white/10 pt-6">
+            <div class="grid grid-cols-1 md:grid-cols-{% if is_admin %}4{% else %}3{% endif %} gap-4 mb-4">
+              <!-- Classification Filter -->
+              <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <i class="bi bi-shield-check mr-2"></i>Classification
+                </label>
+                <select id="classificationFilter" class="form-select">
+                  <option value="">All Classifications</option>
+                  <option value="Real">Real News</option>
+                  <option value="Fake">Fake News</option>
+                </select>
+              </div>
+              
+              <!-- Input Type Filter -->
+              <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <i class="bi bi-file-text mr-2"></i>Source Type
+                </label>
+                <select id="inputTypeFilter" class="form-select">
+                  <option value="">All Source Types</option>
+                  <option value="url">Website URL</option>
+                  <option value="snippet">Text Snippet</option>
+                </select>
+              </div>
+              
+              <!-- Sort Options -->
+              <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <i class="bi bi-sort-down mr-2"></i>Sort By
+                </label>
+                <select id="sortOrder" class="form-select">
+                  <option value="newest">Latest First</option>
+                  <option value="oldest">Oldest First</option>
+                  <option value="score_high">Highest Score</option>
+                  <option value="score_low">Lowest Score</option>
+                </select>
+              </div>
+              
+              {% if is_admin %}
+              <!-- Admin-only Duplicate Filter -->
+              <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <i class="bi bi-files mr-2"></i>Duplicate Content
+                </label>
+                <select id="duplicateFilter" class="form-select">
+                  <option value="true" selected>Show All Articles</option>
+                  <option value="false">Hide Duplicates</option>
+                </select>
+              </div>
+              {% endif %}
+            </div>
+            
+            <!-- Quick Filter Chips -->
+            <div class="flex flex-wrap gap-2 mb-4">
+              <span class="text-sm font-medium text-gray-500 dark:text-gray-400 mr-2">Quick filters:</span>
+              <button class="quick-filter-chip" data-filter="classification" data-value="Real">Real News</button>
+              <button class="quick-filter-chip" data-filter="classification" data-value="Fake">Fake News</button>
+              <button class="quick-filter-chip" data-filter="inputType" data-value="url">URLs Only</button>
+              <button class="quick-filter-chip" data-filter="inputType" data-value="snippet">Text Only</button>
+            </div>
+            
+            <!-- Clear Filters -->
+            <div class="flex items-center justify-start">
+              <button id="clearFilters" class="action-btn action-btn-secondary text-sm py-2 px-3">
+                <i class="bi bi-x-circle mr-1"></i>Clear all filters
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Loading State -->
+        <div id="loadingState" class="results-card text-center">
+          <div class="loading-spinner mx-auto mb-4"></div>
+          <p class="text-neutral-600 dark:text-neutral-400">Loading analysis history...</p>
+        </div>
+
+        <!-- Articles Container -->
+        <div id="articlesContainer" class="space-y-6 hidden">
+          <!-- Articles will be populated by JavaScript -->
+        </div>
+
+        <!-- Empty State -->
+        <div id="emptyState" class="results-card text-center hidden">
+          <i class="bi bi-journal-x text-4xl text-neutral-400 mb-4"></i>
+          <h3 class="text-xl font-semibold mb-2 text-neutral-800 dark:text-neutral-200">No Analysis History Found</h3>
+          <p class="text-neutral-600 dark:text-neutral-400 mb-6">
+            You haven't analyzed any articles yet, or no articles match your current filters.
+          </p>
+          <a href="{{ url_for('main.detector_page') }}" class="action-btn action-btn-primary">
+            <i class="bi bi-plus-circle mr-2"></i>
+            Start Analyzing
+          </a>
+        </div>
+
+        <!-- Pagination -->
+        <div id="paginationContainer" class="pagination-container hidden">
+          <!-- Pagination will be populated by JavaScript -->
+          <!-- Buttons go here -->
+          <div id="paginationInfo" class="pagination-info"></div>
+        </div>
+
+      </div>
+      
+      <!-- Action Button -->
+      <div class="text-center py-8">
+        <a href="{{ url_for('main.detector_page') }}" class="action-btn action-btn-primary text-lg px-8 py-4">
+          <i class="bi bi-plus-circle mr-3"></i>
+          Analyze New Article
+        </a>
+      </div>
+    </section>
+  </div>
+</div>
+
+<!-- Article Detail Modal Template -->
+<div id="articleModal" class="fixed inset-0 modal-backdrop z-50 hidden">
+  <div class="min-h-screen flex items-center justify-center p-4">
+    <div class="modal-card w-full max-w-4xl max-h-[80vh] overflow-hidden flex flex-col">
+      <!-- Fixed Header -->
+      <div class="flex justify-between items-center p-6 border-b border-neutral-200 dark:border-neutral-700">
+        <h2 class="text-xl font-semibold text-neutral-800 dark:text-neutral-200">
+          <i class="bi bi-file-text text-indigo-600 dark:text-indigo-400 mr-2"></i>
+          Article Details
+        </h2>
+        <button id="closeModal" class="text-neutral-500 hover:text-neutral-700 dark:text-neutral-400 dark:hover:text-neutral-200 transition-colors">
+          <i class="bi bi-x-lg text-xl"></i>
+        </button>
+      </div>
+      
+      <!-- Scrollable Content -->
+      <div id="modalContent" class="flex-1 overflow-y-auto p-6">
+        <!-- Modal content will be populated by JavaScript -->
+      </div>
+      
+      <!-- Fixed Footer for Actions -->
+      <div id="modalFooter" class="border-t border-neutral-200 dark:border-neutral-700 p-4">
+        <!-- Footer content will be populated by JavaScript -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Confirmation Modal Template -->
+<div id="deleteModal" class="fixed inset-0 modal-backdrop z-50 hidden">
+  <div class="min-h-screen flex items-center justify-center p-4">
+    <div class="modal-card w-full max-w-2xl">
+      <!-- Fixed Header -->
+      <div class="flex justify-between items-center p-6 border-b border-neutral-200 dark:border-neutral-700">
+        <h2 class="text-xl font-semibold text-red-700 dark:text-red-400">
+          <i class="bi bi-trash text-red-600 dark:text-red-400 mr-2"></i>
+          Delete Article
+        </h2>
+        <button id="closeDeleteModal" class="text-neutral-500 hover:text-neutral-700 dark:text-neutral-400 dark:hover:text-neutral-200 transition-colors">
+          <i class="bi bi-x-lg text-xl"></i>
+        </button>
+      </div>
+      
+      <!-- Modal Content -->
+      <div id="deleteModalContent" class="p-6">
+        <!-- Delete modal content will be populated by JavaScript -->
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block body_extra %}
+    <!-- Timezone utilities -->
+    <script src="{{ url_for('static', filename='js/utils/timezone-utils.js') }}"></script>
+    <!-- History JavaScript Modules -->
+    <script type="module" src="{{ url_for('static', filename='js/history/main.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,261 @@
+{% extends "base.html" %}
+
+{% block title %}Content Preview • TruthGuard{% endblock %}
+
+{% block body_class %}game-stage stage3{% endblock %}
+
+{% block head_extra %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/stages/shared/stats.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/stages/stage3/stage3.css') }}">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+{% endblock %}
+
+{% block content %}
+<div class="results-bg min-h-screen">
+  <div class="results-content">
+    <!-- Hero Section with Pill Header -->
+    <section class="relative isolate mx-auto max-w-7xl px-4 pt-12 md:px-6 md:pt-16">
+      <div class="mx-auto max-w-3xl text-center mb-8">
+        <span class="inline-flex items-center gap-2 rounded-full border border-neutral-200 bg-white px-3 py-1 text-xs text-neutral-700 shadow-sm ring-1 ring-black/10 dark:border-white/10 dark:bg-neutral-900 dark:text-neutral-300">
+          <span class="h-2 w-2 rounded-full bg-indigo-500"></span>
+          Stage 3
+        </span>
+
+        <h1 class="mt-4 text-4xl font-extrabold tracking-tight sm:text-5xl">
+          Content Preview
+        </h1>
+
+        <p class="mt-4 mx-auto max-w-xl text-neutral-700 dark:text-neutral-300">
+          Judge credibility from content alone. Identify which preview reflects credible reporting and spot red-flag phrases.
+        </p>
+      </div>
+    </section>
+    
+    <!-- Include Stage Stats Header -->
+    {% include 'stages/shared/stats.html' %}
+    
+    <!-- Main Game Content Container -->
+    <div class="stage-content-container">
+      <div class="stage3-content" id="stage3-content">
+        <!-- Instructions Screen -->
+        <div class="instructions-screen" id="instructions-screen">
+          <div class="results-card instructions-container">
+            <div class="instructions-header">
+              <div class="results-icon" style="background: linear-gradient(135deg, #4f46e5, #4338ca); color: white; margin: 0 auto 1rem;">
+                <i class="bi bi-eye-fill"></i>
+              </div>
+              <h2>Game Instructions</h2>
+              <p>Ready to master content analysis skills?</p>
+            </div>
+            
+            <div class="instructions-content">
+              <div class="instructions-section">
+                <h3><i class="bi bi-controller"></i> How to Play</h3>
+                <p>You'll see one headline with two content previews. Choose the credible preview that reflects factual, neutral reporting. Optionally, highlight up to 3 red-flag phrases in the unreliable preview for bonus points.</p>
+              </div>
+              
+              <div class="instructions-section">
+                <h3><i class="bi bi-gem"></i> Scoring System</h3>
+                <div class="results-card scoring-breakdown">
+                  <div class="score-item">
+                    <span class="score-label">Correct Answer:</span>
+                    <span class="score-value">+30 XP</span>
+                  </div>
+                  <div class="score-item">
+                    <span class="score-label">Speed Bonus (&lt;8s):</span>
+                    <span class="score-value">+10 XP</span>
+                  </div>
+                  <div class="score-item">
+                    <span class="score-label">Lightning Bonus (&lt;4s):</span>
+                    <span class="score-value">+10 XP</span>
+                  </div>
+                  <div class="score-item">
+                    <span class="score-label">Suspicious Phrases Bonus (1 phrase):</span>
+                    <span class="score-value">+5 XP</span>
+                  </div>
+                  <div class="score-item">
+                    <span class="score-label">Suspicious Phrases Bonus (2+ phrases):</span>
+                    <span class="score-value">+15 XP</span>
+                  </div>
+                  <div class="score-item special">
+                    <span class="score-label">Maximum per round:</span>
+                    <span class="score-value">70 XP</span>
+                  </div>
+                  <div class="score-item penalty">
+                    <span class="score-label">Using Hint:</span>
+                    <span class="score-value">Max drops to 60 XP</span>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="instructions-section">
+                <h3><i class="bi bi-flag-fill"></i> Red-Flag Phrases to Look For</h3>
+                <ul>
+                  <li><strong>Premature Finality:</strong> "ended permanently," "fully cleared," "final exoneration"</li>
+                  <li><strong>Unverifiable Secrecy:</strong> "midnight session," "little transparency," "quietly exempts"</li>
+                  <li><strong>Absolute Outcomes:</strong> "complete lockdown," "forced removal" without official orders</li>
+                  <li><strong>Uncited Claims:</strong> "no access to ruling," "did not cite," missing documentation</li>
+                </ul>
+              </div>
+              
+              <div class="game-stats results-card">
+                <div class="stat">
+                  <span class="stat-label">Rounds:</span>
+                  <span class="stat-value">10</span>
+                </div>
+                <div class="stat">
+                  <span class="stat-label">Time per round:</span>
+                  <span class="stat-value">30s</span>
+                </div>
+                <div class="stat">
+                  <span class="stat-label">Max XP:</span>
+                  <span class="stat-value">700</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="instructions-actions">
+              <button class="action-btn action-btn-primary start-game-button" id="start-game-btn">
+                Start Game
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Game Screen -->
+        <div class="game-screen" id="game-screen" style="display: none;">
+          <div class="results-card game-container">
+            <div class="game-header">
+              <div class="game-info">
+                <h2 id="game-title">Round <span class="current-round">1</span> of <span class="total-rounds">5</span></h2>
+                <p>Choose the credible preview and optionally highlight red-flag phrases</p>
+              </div>
+              
+              <div class="game-controls">
+                <div class="timer-container">
+                  <div class="timer" id="timer">30</div>
+                </div>
+                
+                <div class="hint-section">
+                  <button class="action-btn action-btn-secondary hint-button" id="hint-button">
+                    <span class="hint-text">Hint</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+            
+            <div class="hint-container">
+              <div class="hint-text" id="hint-text" style="display: none;"></div>
+            </div>
+            
+            <!-- Headline Display -->
+            <div class="headline-display">
+              <div class="results-card headline-container">
+                <h3 class="main-headline" id="main-headline">
+                  <!-- Headline will be inserted here -->
+                </h3>
+              </div>
+            </div>
+            
+            <!-- Content Options -->
+            <div class="content-section">
+              <div class="content-option results-card" data-option="0" id="content-option-0">
+                <div class="content-header">
+                  <div class="content-number">Preview A</div>
+                </div>
+                <div class="content-text" id="content-text-0">
+                  <!-- Content preview will be inserted here -->
+                </div>
+                <div class="highlight-controls" style="display: none;">
+                  <button class="action-btn action-btn-secondary highlight-mode-btn" id="highlight-mode-0">
+                    Highlight Red Flags
+                  </button>
+                </div>
+              </div>
+              
+              <div class="content-option results-card" data-option="1" id="content-option-1">
+                <div class="content-header">
+                  <div class="content-number">Preview B</div>
+                </div>
+                <div class="content-text" id="content-text-1">
+                  <!-- Content preview will be inserted here -->
+                </div>
+                <div class="highlight-controls" style="display: none;">
+                  <button class="action-btn action-btn-secondary highlight-mode-btn" id="highlight-mode-1">
+                    Highlight Red Flags
+                  </button>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Suspicious Phrases Selection -->
+            <div class="suspicious-phrases-container" id="suspicious-phrases-container" style="display: none;">
+              <div class="results-card">
+                <div class="suspicious-phrases-header">
+                  <h4>Flag Suspicious Phrases</h4>
+                  <p>Optionally select up to 3 phrases from the <strong>unselected preview</strong> that seem suspicious or misleading:</p>
+                  <div class="selection-counter">
+                    <span id="phrases-selected">0</span> / 3 selected
+                  </div>
+                </div>
+                <div class="phrases-grid" id="phrases-grid">
+                  <!-- Phrase options will be dynamically inserted here -->
+                </div>
+              </div>
+            </div>
+            
+            <div class="action-container">
+              <button class="action-btn action-btn-primary submit-button" id="submit-button" disabled>
+                Submit Answer
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Feedback Screen -->
+        <div class="feedback-screen" id="feedback-screen" style="display: none;">
+          <!-- Feedback content will be populated by JavaScript -->
+        </div>
+        
+        <!-- Stage Complete Screen -->
+        <div class="complete-screen" id="complete-screen" style="display: none;">
+          <div class="results-card stage-complete">
+            <div class="results-icon" style="background: linear-gradient(135deg, #10b981, #059669); color: white; margin: 0 auto 1rem;">
+              <i class="bi bi-trophy-fill"></i>
+            </div>
+            <h2>Stage 3 Complete!</h2>
+            <p>Great job on completing the Content Preview stage!</p>
+            
+            <div class="stage-stats">
+              <div class="results-card stat">
+                <div class="stat-label">Total XP</div>
+                <div class="stat-value final-xp">0</div>
+              </div>
+              <div class="results-card stat">
+                <div class="stat-label">Accuracy</div>
+                <div class="stat-value final-accuracy">0%</div>
+              </div>
+              <div class="results-card stat">
+                <div class="stat-label">Correct</div>
+                <div class="stat-value"><span class="final-correct">0</span>/<span class="final-total">10</span></div>
+              </div>
+            </div>
+            
+            <div class="stage-actions">
+              <a href="/game/stage4" class="action-btn action-btn-primary next-stage-button">
+                Next Stage
+              </a>
+              <button class="action-btn action-btn-secondary" id="replay-btn">
+                Replay
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/stages/shared/stats.js') }}"></script>
+<script src="{{ url_for('static', filename='js/stages/stage3/stage3.js') }}"></script>
+{% endblock %}

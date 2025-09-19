@@ -1,0 +1,313 @@
+{% extends "base.html" %}
+
+{% block title %}Full Article Analysis • TruthGuard{% endblock %}
+
+{% block body_class %}game-stage stage5{% endblock %}
+
+{% block head_extra %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/stages/shared/stats.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/stages/stage5/stage5.css') }}">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+{% endblock %}
+
+{% block content %}
+<div class="results-bg min-h-screen">
+  <div class="results-content">
+    <!-- Hero Section with Pill Header -->
+    <section class="relative isolate mx-auto max-w-7xl px-4 pt-12 md:px-6 md:pt-16">
+      <div class="mx-auto max-w-3xl text-center mb-8">
+        <span class="inline-flex items-center gap-2 rounded-full border border-neutral-200 bg-white px-3 py-1 text-xs text-neutral-700 shadow-sm ring-1 ring-black/10 dark:border-white/10 dark:bg-neutral-900 dark:text-neutral-300">
+          <span class="h-2 w-2 rounded-full bg-indigo-500"></span>
+          Stage 5
+        </span>
+
+        <h1 class="mt-4 text-4xl font-extrabold tracking-tight sm:text-5xl">
+          Full Article Analysis
+        </h1>
+
+        <p class="mt-4 mx-auto max-w-xl text-neutral-700 dark:text-neutral-300">
+          Analyze complete news articles to determine their authenticity. Examine content, context, and credibility indicators.
+        </p>
+      </div>
+    </section>
+    
+    <!-- Include Stage Stats Header -->
+    {% include 'stages/shared/stats.html' %}
+    
+    <!-- Main Game Content Container -->
+    <div class="stage-content-container">
+      <div class="stage5-content" id="stage5-content">
+        <!-- Instructions Screen -->
+        <div class="instructions-screen" id="instructions-screen">
+          <div class="results-card instructions-container">
+            <div class="instructions-header">
+              <div class="results-icon" style="background: linear-gradient(135deg, #4f46e5, #4338ca); color: white; margin: 0 auto 1rem;">
+                <i class="bi bi-newspaper"></i>
+              </div>
+              <h2>Game Instructions</h2>
+              <p>Ready to become a full article analysis expert?</p>
+            </div>
+            
+            <div class="instructions-content">
+              <div class="instructions-section">
+                <h3><i class="bi bi-controller"></i> How to Play</h3>
+                <p>You'll analyze complete news articles to determine if they are <strong>Real</strong> or <strong>Fake</strong>. Read the article's URL, headline, source, date, and full content carefully. Use your critical thinking skills to identify signs of misinformation and make your verdict.</p>
+              </div>
+              
+              <div class="instructions-section">
+                <h3><i class="bi bi-gem"></i> Scoring System</h3>
+                <div class="results-card scoring-breakdown">
+                  <div class="score-item">
+                    <span class="score-label">Correct Answer:</span>
+                    <span class="score-value">+60 XP</span>
+                  </div>
+                  <div class="score-item">
+                    <span class="score-label">Speed Bonus (&lt;30s):</span>
+                    <span class="score-value">+15 XP</span>
+                  </div>
+                  <div class="score-item">
+                    <span class="score-label">Lightning Bonus (&lt;15s):</span>
+                    <span class="score-value">+25 XP</span>
+                  </div>
+                  <div class="score-item special">
+                    <span class="score-label">Maximum per round:</span>
+                    <span class="score-value">100 XP</span>
+                  </div>
+                  <div class="score-item penalty">
+                    <span class="score-label">Using Hint:</span>
+                    <span class="score-value">Max drops to 85 XP</span>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="instructions-section">
+                <h3><i class="bi bi-flag-fill"></i> Analysis Tips</h3>
+                <ul>
+                  <li><strong>Source Credibility:</strong> Evaluate if the source is a reputable news organization</li>
+                  <li><strong>URL Authenticity:</strong> Check for suspicious domains or misspelled news sites</li>
+                  <li><strong>Content Quality:</strong> Look for poor grammar, sensational language, or extreme bias</li>
+                  <li><strong>Date Verification:</strong> Ensure publication dates align with content claims</li>
+                  <li><strong>Factual Consistency:</strong> Identify contradictions or implausible statements</li>
+                  <li><strong>Context Analysis:</strong> Consider if information is taken out of context</li>
+                </ul>
+              </div>
+              
+              <div class="game-stats results-card">
+                <div class="stat">
+                  <span class="stat-label">Rounds:</span>
+                  <span class="stat-value">10</span>
+                </div>
+                <div class="stat">
+                  <span class="stat-label">Time per round:</span>
+                  <span class="stat-value">90s</span>
+                </div>
+                <div class="stat">
+                  <span class="stat-label">Max XP:</span>
+                  <span class="stat-value">1000</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="instructions-actions">
+              <button class="action-btn action-btn-primary start-game-button" id="start-game-btn">
+                Start Game
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Game Screen -->
+        <div class="game-screen" id="game-screen" style="display: none;">
+          <div class="results-card game-container">
+            <div class="game-header">
+              <div class="game-info">
+                <h2 id="game-title">Round <span class="current-round">1</span> of <span class="total-rounds">10</span></h2>
+                <p>Analyze the article and determine its authenticity</p>
+              </div>
+              
+              <div class="game-controls">
+                <div class="timer-container">
+                  <div class="timer" id="timer">90</div>
+                </div>
+                
+                <div class="hint-section">
+                  <button class="action-btn action-btn-secondary hint-button" id="hint-button">
+                    <span class="hint-text">Hint</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+            
+            <div class="hint-container">
+              <div class="hint-text" id="hint-text" style="display: none;"></div>
+            </div>
+            
+            <!-- Article Display -->
+            <div class="article-display">
+              <div class="results-card article-container">
+                <div class="article-header">
+                  <h4>Article Analysis</h4>
+                </div>
+                
+                <!-- URL -->
+                <div class="article-field">
+                  <label class="field-label">URL:</label>
+                  <div class="field-content url-content" id="article-url">
+                    <!-- URL will be inserted here -->
+                  </div>
+                </div>
+                
+                <!-- Headline -->
+                <div class="article-field">
+                  <label class="field-label">Headline:</label>
+                  <div class="field-content headline-content" id="article-headline">
+                    <!-- Headline will be inserted here -->
+                  </div>
+                </div>
+                
+                <!-- Source -->
+                <div class="article-field">
+                  <label class="field-label">Source:</label>
+                  <div class="field-content source-content" id="article-source">
+                    <!-- Source will be inserted here -->
+                  </div>
+                </div>
+                
+                <!-- Date -->
+                <div class="article-field">
+                  <label class="field-label">Date:</label>
+                  <div class="field-content date-content" id="article-date">
+                    <!-- Date will be inserted here -->
+                  </div>
+                </div>
+                
+                <!-- Content -->
+                <div class="article-field">
+                  <label class="field-label">Content:</label>
+                  <div class="field-content content-text" id="article-content">
+                    <!-- Content paragraphs will be inserted here -->
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Verification Choice -->
+            <div class="verification-section">
+              <h4 class="verification-title">Your Analysis</h4>
+              <div class="verification-options">
+                <button class="verification-btn real-btn" id="real-btn" data-choice="REAL">
+                  <i class="bi bi-check-circle"></i>
+                  <span>Real</span>
+                  <small>Credible article</small>
+                </button>
+                
+                <button class="verification-btn fake-btn" id="fake-btn" data-choice="FAKE">
+                  <i class="bi bi-x-circle"></i>
+                  <span>Fake</span>
+                  <small>Fabricated/False</small>
+                </button>
+              </div>
+            </div>
+            
+            <div class="action-container">
+              <button class="action-btn action-btn-primary submit-button" id="submit-button" disabled>
+                Submit Answer
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Feedback Screen -->
+        <div class="feedback-screen" id="feedback-screen" style="display: none;">
+          <div class="results-card feedback-container">
+            <div class="feedback-header">
+              <h3>Round Complete!</h3>
+              <div class="xp-badge">+0 XP</div>
+            </div>
+            
+            <div class="response-time">
+              <span class="time-label">Answered in:</span>
+              <span class="time-value">0.0s</span>
+            </div>
+            
+            <div class="xp-breakdown" style="display: none;">
+              <!-- XP breakdown will be populated by JavaScript -->
+            </div>
+            
+            <div class="feedback-content">
+              <!-- Claim Being Verified -->
+              <div class="claim-being-verified">
+                <div class="claim-header">
+                  <h4>Article Being Analyzed</h4>
+                </div>
+                <div class="claim-text-feedback" id="article-summary">
+                  <!-- Article summary will be populated -->
+                </div>
+              </div>
+              
+              <!-- Source Analysis -->
+              <div class="source-analysis">
+                <div class="analysis-header">
+                  <h4>Analysis Result</h4>
+                </div>
+                <div id="source-analysis-content">
+                  Analysis result will appear here.
+                </div>
+              </div>
+              
+              <div class="learning-point">
+                <div class="learning-header">Learning Point</div>
+                <p id="learning-text">Learning point will appear here.</p>
+              </div>
+            </div>
+            
+            <div class="continue-button">
+              <button class="action-btn action-btn-primary" id="next-round-btn">
+                Continue
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Stage Complete Screen -->
+        <div class="complete-screen" id="complete-screen" style="display: none;">
+          <div class="results-card stage-complete">
+            <div class="results-icon" style="background: linear-gradient(135deg, #10b981, #059669); color: white; margin: 0 auto 1rem;">
+              <i class="bi bi-trophy-fill"></i>
+            </div>
+            <h2>Stage 5 Complete!</h2>
+            <p>Outstanding work on completing the Full Article Analysis stage!</p>
+            
+            <div class="stage-stats">
+              <div class="results-card stat">
+                <div class="stat-label">Total XP</div>
+                <div class="stat-value final-xp">0</div>
+              </div>
+              <div class="results-card stat">
+                <div class="stat-label">Accuracy</div>
+                <div class="stat-value final-accuracy">0%</div>
+              </div>
+              <div class="results-card stat">
+                <div class="stat-label">Correct</div>
+                <div class="stat-value"><span class="final-correct">0</span>/<span class="final-total">10</span></div>
+              </div>
+            </div>
+            
+            <div class="stage-actions">
+              <button class="action-btn action-btn-primary" id="replay-btn">
+                Replay
+              </button>
+              <a href="/game" class="action-btn action-btn-secondary back-hub-button">
+                View All Stages
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/stages/shared/stats.js') }}"></script>
+<script src="{{ url_for('static', filename='js/stages/stage5/stage5.js') }}"></script>
+{% endblock %}

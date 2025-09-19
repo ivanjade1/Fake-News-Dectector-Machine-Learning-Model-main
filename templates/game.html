@@ -1,0 +1,298 @@
+{% extends "base.html" %}
+
+{% block title %}Game Hub • TruthGuard{% endblock %}
+
+{% block body_class %}game-hub{% endblock %}
+
+{% block head_extra %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/game.css') }}">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+{% endblock %}
+
+{% block content %}
+<div class="results-bg min-h-screen">
+  <div class="results-content">
+    <!-- Hero Section -->
+    <section class="relative isolate mx-auto max-w-7xl px-4 pt-12 md:px-6 md:pt-16">
+      <div class="mx-auto max-w-3xl text-center mb-8">
+        <span class="inline-flex items-center gap-2 rounded-full border border-neutral-200 bg-white px-3 py-1 text-xs text-neutral-700 shadow-sm ring-1 ring-black/10 dark:border-white/10 dark:bg-neutral-900 dark:text-neutral-300">
+          <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
+          Game Hub
+        </span>
+
+        <h1 class="mt-4 text-4xl font-extrabold tracking-tight sm:text-5xl">
+          Game Hub
+        </h1>
+
+        <p class="mt-4 mx-auto max-w-xl text-neutral-700 dark:text-neutral-300">
+          Test your fake news detection skills through interactive games and challenges. Compete, learn, and become a master fact-checker.
+        </p>
+      </div>
+
+      <!-- Main Content Container -->
+      <div class="mx-auto max-w-5xl space-y-6">
+
+        <!-- Headline Check Game (Stage 1) -->
+        <div class="results-card">
+          <div class="flex items-start gap-6">
+            <div class="results-icon bg-emerald-100 dark:bg-emerald-900/50 text-emerald-600 dark:text-emerald-400">
+              <i class="bi bi-crosshair"></i>
+            </div>
+            <div class="flex-1">
+              <div class="flex items-center gap-3 mb-3">
+                <h3 class="text-xl font-semibold text-neutral-800 dark:text-neutral-200">Headline Check</h3>
+                <span class="inline-flex items-center gap-1 rounded-full border border-emerald-200 bg-emerald-50 px-2 py-1 text-xs text-emerald-700 shadow-sm ring-1 ring-black/5 dark:border-emerald-800 dark:bg-emerald-900/50 dark:text-emerald-300">
+                  <i class="bi bi-play-circle-fill"></i>
+                  STAGE 1
+                </span>
+              </div>
+              <p class="text-neutral-600 dark:text-neutral-400 mb-4">
+                Learn to identify real vs fake news headlines in 15 seconds. Drag REAL or FAKE stamps to classify headlines based on language patterns and credibility indicators.
+              </p>
+              <div class="flex items-center gap-4 text-sm text-neutral-500 dark:text-neutral-400 mb-4">
+                <span><i class="bi bi-clock mr-1"></i> 15s per round</span>
+                <span><i class="bi bi-trophy mr-1"></i> Up to 350 XP</span>
+                <span><i class="bi bi-collection mr-1"></i> 10 rounds</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <a href="{{ url_for('game.stage1_game') }}" class="action-btn action-btn-primary w-36 whitespace-nowrap px-4 py-3">
+                  <i class="bi bi-play-fill mr-2"></i>
+                  Play Stage 1
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Source Showdown Game (Stage 2) -->
+        <div class="results-card">
+          <div class="flex items-start gap-6">
+            <div class="results-icon bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400">
+              <i class="bi bi-shield-check"></i>
+            </div>
+            <div class="flex-1">
+              <div class="flex items-center gap-3 mb-3">
+                <h3 class="text-xl font-semibold text-neutral-800 dark:text-neutral-200">Source Showdown</h3>
+                <span class="inline-flex items-center gap-1 rounded-full border border-blue-200 bg-blue-50 px-2 py-1 text-xs text-blue-700 shadow-sm ring-1 ring-black/5 dark:border-blue-800 dark:bg-blue-900/50 dark:text-blue-300">
+                  <i class="bi bi-play-circle-fill"></i>
+                  STAGE 2
+                </span>
+              </div>
+              <p class="text-neutral-600 dark:text-neutral-400 mb-4">
+                Identify the more trustworthy source by evaluating URL accuracy, outlet credibility, headline quality, and article previews. Learn to spot typosquatted domains and unreliable sources.
+              </p>
+              <div class="flex items-center gap-4 text-sm text-neutral-500 dark:text-neutral-400 mb-4">
+                <span><i class="bi bi-clock mr-1"></i> 30s per round</span>
+                <span><i class="bi bi-trophy mr-1"></i> Up to 500 XP</span>
+                <span><i class="bi bi-collection mr-1"></i> 10 rounds</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <a href="{{ url_for('game.stage2_game') }}" class="action-btn action-btn-primary w-36 whitespace-nowrap px-4 py-3">
+                  <i class="bi bi-play-fill mr-2"></i>
+                  Play Stage 2
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Content Preview Game (Stage 3) -->
+        <div class="results-card">
+          <div class="flex items-start gap-6">
+            <div class="results-icon bg-amber-100 dark:bg-amber-900/50 text-amber-600 dark:text-amber-400">
+              <i class="bi bi-eye-fill"></i>
+            </div>
+            <div class="flex-1">
+              <div class="flex items-center gap-3 mb-3">
+                <h3 class="text-xl font-semibold text-neutral-800 dark:text-neutral-200">Content Preview</h3>
+                <span class="inline-flex items-center gap-1 rounded-full border border-amber-200 bg-amber-50 px-2 py-1 text-xs text-amber-700 shadow-sm ring-1 ring-black/5 dark:border-amber-800 dark:bg-amber-900/50 dark:text-amber-300">
+                  <i class="bi bi-play-circle-fill"></i>
+                  STAGE 3
+                </span>
+              </div>
+              <p class="text-neutral-600 dark:text-neutral-400 mb-4">
+                Choose the credible content preview and analyze suspicious phrases from the unselected content. Master content analysis by identifying red-flag language and manipulation tactics.
+              </p>
+              <div class="flex items-center gap-4 text-sm text-neutral-500 dark:text-neutral-400 mb-4">
+                <span><i class="bi bi-clock mr-1"></i> 30s per round</span>
+                <span><i class="bi bi-trophy mr-1"></i> Up to 700 XP</span>
+                <span><i class="bi bi-collection mr-1"></i> 10 rounds</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <a href="{{ url_for('game.stage3_game') }}" class="action-btn action-btn-primary w-36 whitespace-nowrap px-4 py-3">
+                  <i class="bi bi-play-fill mr-2"></i>
+                  Play Stage 3
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Claim Cross-Check Game (Stage 4) -->
+        <div class="results-card">
+          <div class="flex items-start gap-6">
+            <div class="results-icon bg-purple-100 dark:bg-purple-900/50 text-purple-600 dark:text-purple-400">
+              <i class="bi bi-search"></i>
+            </div>
+            <div class="flex-1">
+              <div class="flex items-center gap-3 mb-3">
+                <h3 class="text-xl font-semibold text-neutral-800 dark:text-neutral-200">Claim Cross-Check</h3>
+                <span class="inline-flex items-center gap-1 rounded-full border border-purple-200 bg-purple-50 px-2 py-1 text-xs text-purple-700 shadow-sm ring-1 ring-black/5 dark:border-purple-800 dark:bg-purple-900/50 dark:text-purple-300">
+                  <i class="bi bi-play-circle-fill"></i>
+                  STAGE 4
+                </span>
+              </div>
+              <p class="text-neutral-600 dark:text-neutral-400 mb-4">
+                Verify claims by cross-referencing multiple reliable sources. Analyze evidence and determine if statements are factual or false based on source consistency and official confirmation.
+              </p>
+              <div class="flex items-center gap-4 text-sm text-neutral-500 dark:text-neutral-400 mb-4">
+                <span><i class="bi bi-clock mr-1"></i> 60s per round</span>
+                <span><i class="bi bi-trophy mr-1"></i> Up to 800 XP</span>
+                <span><i class="bi bi-collection mr-1"></i> 10 rounds</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <a href="{{ url_for('game.stage4_game') }}" class="action-btn action-btn-primary w-36 whitespace-nowrap px-4 py-3">
+                  <i class="bi bi-play-fill mr-2"></i>
+                  Play Stage 4
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Full Article Analysis (Stage 5) -->
+        <div class="results-card">
+          <div class="flex items-start gap-6">
+            <div class="results-icon bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400">
+              <i class="bi bi-newspaper"></i>
+            </div>
+            <div class="flex-1">
+              <div class="flex items-center gap-3 mb-3">
+                <h3 class="text-xl font-semibold text-neutral-800 dark:text-neutral-200">Full Article Analysis</h3>
+                <span class="inline-flex items-center gap-1 rounded-full border border-indigo-200 bg-indigo-50 px-2 py-1 text-xs text-indigo-700 shadow-sm ring-1 ring-black/5 dark:border-indigo-800 dark:bg-indigo-900/50 dark:text-indigo-300">
+                  <i class="bi bi-play-circle-fill"></i>
+                  STAGE 5
+                </span>
+              </div>
+              <p class="text-neutral-600 dark:text-neutral-400 mb-4">
+                Analyze complete news articles to determine if they are Real or Fake. Read the article's URL, headline, source, date, and full content carefully to identify signs of misinformation.
+              </p>
+              <div class="flex items-center gap-4 text-sm text-neutral-500 dark:text-neutral-400 mb-4">
+                <span><i class="bi bi-clock mr-1"></i> 90s per round</span>
+                <span><i class="bi bi-trophy mr-1"></i> Up to 1000 XP</span>
+                <span><i class="bi bi-collection mr-1"></i> 10 rounds</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <a href="{{ url_for('game.stage5_game') }}" class="action-btn action-btn-primary w-36 whitespace-nowrap px-4 py-3">
+                  <i class="bi bi-play-fill mr-2"></i>
+                  Play Stage 5
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Player Stats Section -->
+        <div class="results-card">
+          <div class="flex flex-col sm:flex-row sm:items-center mb-6 gap-3">
+            <div class="flex items-center gap-3">
+              <div class="results-icon bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400">
+                <i class="bi bi-person-badge"></i>
+              </div>
+              <h3 class="text-lg sm:text-xl font-semibold text-neutral-800 dark:text-neutral-200">Your Gaming Stats</h3>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="text-center p-4 bg-white dark:bg-neutral-800 rounded-lg border border-neutral-200 dark:border-neutral-700">
+              <div class="text-3xl font-bold text-emerald-600 dark:text-emerald-400 mb-2">
+                {{ user_stats['games_played'] if user_stats else 0 }}
+              </div>
+              <div class="text-sm text-neutral-600 dark:text-neutral-400 mb-2">Games Played</div>
+              {% if user_stats and user_stats['games_played'] > 0 %}
+              <div class="inline-flex items-center gap-1 rounded-full border border-emerald-200 bg-emerald-50 px-2 py-1 text-xs text-emerald-700 shadow-sm ring-1 ring-black/5 dark:border-emerald-800 dark:bg-emerald-900/50 dark:text-emerald-300">
+                <i class="bi bi-controller"></i>
+                Active Player
+              </div>
+              {% else %}
+              <div class="inline-flex items-center gap-1 rounded-full border border-neutral-200 bg-neutral-50 px-2 py-1 text-xs text-neutral-700 shadow-sm ring-1 ring-black/5 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-300">
+                <i class="bi bi-play-circle"></i>
+                Get Started
+              </div>
+              {% endif %}
+            </div>
+            <div class="text-center p-4 bg-white dark:bg-neutral-800 rounded-lg border border-neutral-200 dark:border-neutral-700">
+              <div class="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-2">
+                {{ "%.1f"|format(user_stats['overall_accuracy']) if user_stats and user_stats['games_played'] > 0 else 0.0 }}%
+              </div>
+              <div class="text-sm text-neutral-600 dark:text-neutral-400 mb-2">Accuracy Rate</div>
+              {% if user_stats and user_stats['overall_accuracy'] >= 80 %}
+              <div class="inline-flex items-center gap-1 rounded-full border border-blue-200 bg-blue-50 px-2 py-1 text-xs text-blue-700 shadow-sm ring-1 ring-black/5 dark:border-blue-800 dark:bg-blue-900/50 dark:text-blue-300">
+                <i class="bi bi-bullseye"></i>
+                Excellent
+              </div>
+              {% elif user_stats and user_stats['overall_accuracy'] >= 60 %}
+              <div class="inline-flex items-center gap-1 rounded-full border border-amber-200 bg-amber-50 px-2 py-1 text-xs text-amber-700 shadow-sm ring-1 ring-black/5 dark:border-amber-800 dark:bg-amber-900/50 dark:text-amber-300">
+                <i class="bi bi-target"></i>
+                Good
+              </div>
+              {% elif user_stats and user_stats['games_played'] > 0 %}
+              <div class="inline-flex items-center gap-1 rounded-full border border-orange-200 bg-orange-50 px-2 py-1 text-xs text-orange-700 shadow-sm ring-1 ring-black/5 dark:border-orange-800 dark:bg-orange-900/50 dark:text-orange-300">
+                <i class="bi bi-arrow-up"></i>
+                Keep Trying
+              </div>
+              {% else %}
+              <div class="inline-flex items-center gap-1 rounded-full border border-neutral-200 bg-neutral-50 px-2 py-1 text-xs text-neutral-700 shadow-sm ring-1 ring-black/5 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-300">
+                <i class="bi bi-dash"></i>
+                No Data Yet
+              </div>
+              {% endif %}
+            </div>
+            <div class="text-center p-4 bg-white dark:bg-neutral-800 rounded-lg border border-neutral-200 dark:border-neutral-700">
+              <div class="text-3xl font-bold text-amber-600 dark:text-amber-400 mb-2">
+                {{ "{:,}".format(user_stats['total_xp_earned']) if user_stats else 0 }}
+              </div>
+              <div class="text-sm text-neutral-600 dark:text-neutral-400 mb-2">Total XP Earned</div>
+              {% if user_stats and user_stats['total_xp_earned'] >= 5000 %}
+              <div class="inline-flex items-center gap-1 rounded-full border border-amber-200 bg-amber-50 px-2 py-1 text-xs text-amber-700 shadow-sm ring-1 ring-black/5 dark:border-amber-800 dark:bg-amber-900/50 dark:text-amber-300">
+                <i class="bi bi-star-fill"></i>
+                Master Level
+              </div>
+              {% elif user_stats and user_stats['total_xp_earned'] >= 2000 %}
+              <div class="inline-flex items-center gap-1 rounded-full border border-amber-200 bg-amber-50 px-2 py-1 text-xs text-amber-700 shadow-sm ring-1 ring-black/5 dark:border-amber-800 dark:bg-amber-900/50 dark:text-amber-300">
+                <i class="bi bi-star"></i>
+                Expert Level
+              </div>
+              {% elif user_stats and user_stats['total_xp_earned'] >= 500 %}
+              <div class="inline-flex items-center gap-1 rounded-full border border-amber-200 bg-amber-50 px-2 py-1 text-xs text-amber-700 shadow-sm ring-1 ring-black/5 dark:border-amber-800 dark:bg-amber-900/50 dark:text-amber-300">
+                <i class="bi bi-award"></i>
+                Advanced
+              </div>
+              {% elif user_stats and user_stats['total_xp_earned'] > 0 %}
+              <div class="inline-flex items-center gap-1 rounded-full border border-green-200 bg-green-50 px-2 py-1 text-xs text-green-700 shadow-sm ring-1 ring-black/5 dark:border-green-800 dark:bg-green-900/50 dark:text-green-300">
+                <i class="bi bi-trophy"></i>
+                Beginner
+              </div>
+              {% else %}
+              <div class="inline-flex items-center gap-1 rounded-full border border-neutral-200 bg-neutral-50 px-2 py-1 text-xs text-neutral-700 shadow-sm ring-1 ring-black/5 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-300">
+                <i class="bi bi-play-circle"></i>
+                Start Playing
+              </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+
+      </div>
+      
+      <!-- Action Button -->
+      <div class="text-center py-8">
+        <a href="{{ url_for('game.stage1_game') }}" class="action-btn action-btn-primary text-lg px-8 py-4">
+          <i class="bi bi-controller mr-3"></i>
+          Start Playing
+        </a>
+      </div>
+    </section>
+  </div>
+</div>
+{% endblock %}

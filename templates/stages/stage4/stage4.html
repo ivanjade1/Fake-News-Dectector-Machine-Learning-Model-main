@@ -1,0 +1,324 @@
+{% extends "base.html" %}
+
+{% block title %}Claim Cross-Check • TruthGuard{% endblock %}
+
+{% block body_class %}game-stage stage4{% endblock %}
+
+{% block head_extra %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/stages/shared/stats.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/stages/stage4/stage4.css') }}">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+{% endblock %}
+
+{% block content %}
+<div class="results-bg min-h-screen">
+  <div class="results-content">
+    <!-- Hero Section with Pill Header -->
+    <section class="relative isolate mx-auto max-w-7xl px-4 pt-12 md:px-6 md:pt-16">
+      <div class="mx-auto max-w-3xl text-center mb-8">
+        <span class="inline-flex items-center gap-2 rounded-full border border-neutral-200 bg-white px-3 py-1 text-xs text-neutral-700 shadow-sm ring-1 ring-black/10 dark:border-white/10 dark:bg-neutral-900 dark:text-neutral-300">
+          <span class="h-2 w-2 rounded-full bg-purple-500"></span>
+          Stage 4
+        </span>
+
+        <h1 class="mt-4 text-4xl font-extrabold tracking-tight sm:text-5xl">
+          Claim Cross-Check
+        </h1>
+
+        <p class="mt-4 mx-auto max-w-xl text-neutral-700 dark:text-neutral-300">
+          Verify claims by cross-referencing multiple reliable sources. Analyze evidence and determine if statements are factual or false.
+        </p>
+      </div>
+    </section>
+    
+    <!-- Include Stage Stats Header -->
+    {% include 'stages/shared/stats.html' %}
+    
+    <!-- Main Game Content Container -->
+    <div class="stage-content-container">
+      <div class="stage4-content" id="stage4-content">
+        <!-- Instructions Screen -->
+        <div class="instructions-screen" id="instructions-screen">
+          <div class="results-card instructions-container">
+            <div class="instructions-header">
+              <div class="results-icon" style="background: linear-gradient(135deg, #4f46e5, #4338ca); color: white; margin: 0 auto 1rem;">
+                <i class="bi bi-search"></i>
+              </div>
+              <h2>Game Instructions</h2>
+              <p>Ready to become a fact-checking expert?</p>
+            </div>
+            
+            <div class="instructions-content">
+              <div class="instructions-section">
+                <h3><i class="bi bi-controller"></i> How to Play</h3>
+                <p>You'll see a claim with contextual information and two reference snippets from reliable news sources. Read the claim carefully, analyze the evidence from both sources, and determine if the claim is <strong>Verified</strong> or <strong>False</strong>.</p>
+              </div>
+              
+              <div class="instructions-section">
+                <h3><i class="bi bi-gem"></i> Scoring System</h3>
+                <div class="results-card scoring-breakdown">
+                  <div class="score-item">
+                    <span class="score-label">Correct Answer:</span>
+                    <span class="score-value">+40 XP</span>
+                  </div>
+                  <div class="score-item">
+                    <span class="score-label">Speed Bonus (&lt;16s):</span>
+                    <span class="score-value">+15 XP</span>
+                  </div>
+                  <div class="score-item">
+                    <span class="score-label">Lightning Bonus (&lt;8s):</span>
+                    <span class="score-value">+25 XP</span>
+                  </div>
+                  <div class="score-item special">
+                    <span class="score-label">Maximum per round:</span>
+                    <span class="score-value">80 XP</span>
+                  </div>
+                  <div class="score-item penalty">
+                    <span class="score-label">Using Hint:</span>
+                    <span class="score-value">Max drops to 70 XP</span>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="instructions-section">
+                <h3><i class="bi bi-flag-fill"></i> Verification Tips</h3>
+                <ul>
+                  <li><strong>Source Consistency:</strong> Do both sources align on key facts and timeline?</li>
+                  <li><strong>Official Confirmation:</strong> Look for government or institutional verification</li>
+                  <li><strong>Date Verification:</strong> Check if dates and timelines match the claim</li>
+                  <li><strong>Detail Accuracy:</strong> Verify specific numbers, names, and circumstances</li>
+                  <li><strong>Context Matters:</strong> Consider if partial truths create misleading impressions</li>
+                </ul>
+              </div>
+              
+              <div class="game-stats results-card">
+                <div class="stat">
+                  <span class="stat-label">Rounds:</span>
+                  <span class="stat-value">10</span>
+                </div>
+                <div class="stat">
+                  <span class="stat-label">Time per round:</span>
+                  <span class="stat-value">60s</span>
+                </div>
+                <div class="stat">
+                  <span class="stat-label">Max XP:</span>
+                  <span class="stat-value">800</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="instructions-actions">
+              <button class="action-btn action-btn-primary start-game-button" id="start-game-btn">
+                Start Game
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Game Screen -->
+        <div class="game-screen" id="game-screen" style="display: none;">
+          <div class="results-card game-container">
+            <div class="game-header">
+              <div class="game-info">
+                <h2 id="game-title">Round <span class="current-round">1</span> of <span class="total-rounds">10</span></h2>
+                <p>Analyze the evidence and verify the claim</p>
+              </div>
+              
+              <div class="game-controls">
+                <div class="timer-container">
+                  <div class="timer" id="timer">60</div>
+                </div>
+                
+                <div class="hint-section">
+                  <button class="action-btn action-btn-secondary hint-button" id="hint-button">
+                    <span class="hint-text">Hint</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+            
+            <div class="hint-container">
+              <div class="hint-text" id="hint-text" style="display: none;"></div>
+            </div>
+            
+            <!-- Claim Display -->
+            <div class="claim-display">
+              <div class="results-card claim-container">
+                <div class="claim-header">
+                  <h4>Claim to Verify</h4>
+                  <div class="claim-metadata" id="claim-metadata">
+                    <!-- Metadata will be inserted here -->
+                  </div>
+                </div>
+                <p class="claim-text" id="claim-text">
+                  <!-- Claim text will be inserted here -->
+                </p>
+              </div>
+            </div>
+            
+            <!-- Reference Sources -->
+            <div class="references-section">
+              <h4 class="references-title">Reference Sources</h4>
+              <div class="references-grid">
+                <div class="reference-card results-card" id="reference-0">
+                  <div class="reference-header">
+                    <div class="reference-source" id="reference-source-0">
+                      <!-- Source name will be inserted here -->
+                    </div>
+                    <div class="reference-date" id="reference-date-0">
+                      <!-- Publish date will be inserted here -->
+                    </div>
+                  </div>
+                  <h5 class="reference-title" id="reference-title-0">
+                    <!-- Article title will be inserted here -->
+                  </h5>
+                  <p class="reference-snippet" id="reference-snippet-0">
+                    <!-- Article snippet will be inserted here -->
+                  </p>
+                  <a class="reference-url" id="reference-url-0" href="#" target="_blank" rel="noopener">
+                    <i class="bi bi-link-45deg"></i> Read Full Article
+                  </a>
+                </div>
+                
+                <div class="reference-card results-card" id="reference-1">
+                  <div class="reference-header">
+                    <div class="reference-source" id="reference-source-1">
+                      <!-- Source name will be inserted here -->
+                    </div>
+                    <div class="reference-date" id="reference-date-1">
+                      <!-- Publish date will be inserted here -->
+                    </div>
+                  </div>
+                  <h5 class="reference-title" id="reference-title-1">
+                    <!-- Article title will be inserted here -->
+                  </h5>
+                  <p class="reference-snippet" id="reference-snippet-1">
+                    <!-- Article snippet will be inserted here -->
+                  </p>
+                  <a class="reference-url" id="reference-url-1" href="#" target="_blank" rel="noopener">
+                    <i class="bi bi-link-45deg"></i> Read Full Article
+                  </a>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Verification Choice -->
+            <div class="verification-section">
+              <h4 class="verification-title">Your Verdict</h4>
+              <div class="verification-options">
+                <button class="verification-btn verified-btn" id="verified-btn" data-choice="Verified">
+                  <i class="bi bi-check-circle-fill"></i>
+                  <span>Verified</span>
+                  <small>The claim is accurate based on the evidence</small>
+                </button>
+                
+                <button class="verification-btn false-btn" id="false-btn" data-choice="False">
+                  <i class="bi bi-x-circle-fill"></i>
+                  <span>False</span>
+                  <small>The claim is inaccurate or misleading</small>
+                </button>
+              </div>
+            </div>
+            
+            <div class="action-container">
+              <button class="action-btn action-btn-primary submit-button" id="submit-button" disabled>
+                Submit Answer
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Feedback Screen -->
+        <div class="feedback-screen" id="feedback-screen" style="display: none;">
+          <div class="results-card feedback-container">
+            <div class="feedback-header">
+              <h3>Round Complete!</h3>
+              <div class="xp-badge">+0 XP</div>
+            </div>
+            
+            <div class="response-time">
+              <span class="time-label">Answered in:</span>
+              <span class="time-value">0.0s</span>
+            </div>
+            
+            <div class="xp-breakdown" style="display: none;">
+              <!-- XP breakdown will be populated by JavaScript -->
+            </div>
+            
+            <div class="feedback-content">
+              <!-- Claim Being Verified -->
+              <div class="claim-being-verified">
+                <div class="claim-header">
+                  <h4>Claim Being Verified</h4>
+                </div>
+                <div class="claim-text-feedback" id="claim-text-feedback">
+                  The claim will appear here.
+                </div>
+              </div>
+              
+              <!-- Source Analysis -->
+              <div class="source-analysis">
+                <div class="analysis-header">
+                  <h4>How Sources Address This Claim</h4>
+                </div>
+                <div id="source-analysis-content">
+                  Source analysis will appear here.
+                </div>
+              </div>
+              
+              <div class="learning-point">
+                <div class="learning-header">Learning Point</div>
+                <p id="learning-text">Learning point will appear here.</p>
+              </div>
+            </div>
+            
+            <div class="continue-button">
+              <button class="action-btn action-btn-primary" id="next-round-btn">
+                Continue
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Stage Complete Screen -->
+        <div class="complete-screen" id="complete-screen" style="display: none;">
+          <div class="results-card stage-complete">
+            <div class="results-icon" style="background: linear-gradient(135deg, #10b981, #059669); color: white; margin: 0 auto 1rem;">
+              <i class="bi bi-trophy-fill"></i>
+            </div>
+            <h2>Stage 4 Complete!</h2>
+            <p>Excellent work on completing the Claim Cross-Check stage!</p>
+            
+            <div class="stage-stats">
+              <div class="results-card stat">
+                <div class="stat-label">Total XP</div>
+                <div class="stat-value final-xp">0</div>
+              </div>
+              <div class="results-card stat">
+                <div class="stat-label">Accuracy</div>
+                <div class="stat-value final-accuracy">0%</div>
+              </div>
+              <div class="results-card stat">
+                <div class="stat-label">Correct</div>
+                <div class="stat-value"><span class="final-correct">0</span>/<span class="final-total">10</span></div>
+              </div>
+            </div>
+            
+            <div class="stage-actions">
+              <a href="/game/stage5" class="action-btn action-btn-primary next-stage-button">
+                Next Stage
+              </a>
+              <button class="action-btn action-btn-secondary" id="replay-btn">
+                Replay
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/stages/shared/stats.js') }}"></script>
+<script src="{{ url_for('static', filename='js/stages/stage4/stage4.js') }}"></script>
+{% endblock %}

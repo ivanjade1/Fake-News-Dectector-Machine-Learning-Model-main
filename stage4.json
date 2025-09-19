@@ -1,0 +1,292 @@
+[
+  {
+    "id": 1,
+    "claim_text": "Malacañang confirmed that the 'Konektadong Pinoy' bill lapsed into law after the 30-day window without presidential action.",
+    "claim_metadata": { "entities": ["Konektadong Pinoy"], "topic": "Telecom Policy", "date_hint": "2025-08-24" },
+    "references": [
+      {
+        "source": "The Manila Times",
+        "title": "Konektadong Pinoy Bill has lapsed into law — Palace",
+        "url": "https://www.manilatimes.net/2025/08/24/news/konektadong-pinoy-bill-has-lapsed-into-law-palace/2172766",
+        "snippet": "Malacañang confirmed that the Konektadong Pinoy Bill has lapsed into law. Officials said the measure became law by default after the 30-day period lapsed without presidential action. The Palace framed the development as part of a digital inclusion push.",
+        "publish_date": "2025-08-24",
+        "verdict": "supports",
+        "credibility": "high"
+      },
+      {
+        "source": "Inquirer.net",
+        "title": "‘Konektadong Pinoy’ bill lapses into law without Marcos’ signature",
+        "url": "https://newsinfo.inquirer.net/2099711/konektadong-pinoy-lapses-into-law-without-marcos-signature",
+        "snippet": "The Konektadong Pinoy bill lapsed into law without the President’s signature, Malacañang said. The measure is expected to open the market to new data-only providers and expand internet access. Industry groups and regulators flagged details to be settled in the IRR.",
+        "publish_date": "2025-08-24",
+        "verdict": "supports",
+        "credibility": "high"
+      }
+    ],
+    "player_choices": ["Verified", "False"],
+    "correct_answer": "Verified",
+    "rationale": "Both outlets report the bill became law by lapse and describe the policy context and next steps.",
+    "lesson": "When a bill ‘lapses into law,’ verify the 30-day timeline and look for official confirmation from the Executive and a major outlet."
+  },
+  {
+    "id": 2,
+    "claim_text": "President Marcos signed a law declaring Ilocos Norte’s Paoay Lake as a protected landscape and providing for a management board.",
+    "claim_metadata": { "entities": ["Paoay Lake", "RA 12230"], "topic": "Environment", "date_hint": "2025-08-05" },
+    "references": [
+      {
+        "source": "GMA News",
+        "title": "Marcos signs law declaring Paoay Lake a protected area",
+        "url": "https://www.gmanetwork.com/news/topstories/regions/954844/marcos-declares-paoay-lake-a-protected-area/story/",
+        "snippet": "A new law declared Paoay Lake in Ilocos Norte a protected area for conservation, management, and rehabilitation. It recognizes the lake’s biodiversity and ecological value. The measure mandates the creation of a Protected Area Management Board to oversee implementation.",
+        "publish_date": "2025-08-05",
+        "verdict": "supports",
+        "credibility": "high"
+      },
+      {
+        "source": "Philippine Information Agency",
+        "title": "PBBM declares Ilocos Norte’s Paoay Lake area as protected landscape",
+        "url": "https://pia.gov.ph/pbbm-declares-ilocos-nortes-paoay-lake-area-as-protected-landscape/",
+        "snippet": "The President signed Republic Act 12230 declaring the Paoay Lake Protected Landscape. Officials said the designation will support better management and appropriate funding. Agencies will draft implementing rules to operationalize protections.",
+        "publish_date": "2025-08-05",
+        "verdict": "supports",
+        "credibility": "high"
+      }
+    ],
+    "player_choices": ["Verified", "False"],
+    "correct_answer": "Verified",
+    "rationale": "GMA and PIA align on the protected status, objectives, and governance through the PAMB.",
+    "lesson": "For conservation laws, cross-check the designation, the law number/date, and the mandated governing body."
+  },
+  {
+    "id": 3,
+    "claim_text": "A law establishing a framework for the Philippine Downstream Natural Gas Industry was signed to diversify the country’s energy mix.",
+    "claim_metadata": { "entities": ["RA 12120", "Downstream Natural Gas"], "topic": "Energy Policy", "date_hint": "2025-01-15" },
+    "references": [
+      {
+        "source": "Philippine News Agency",
+        "title": "Marcos OKs natural gas industry development law",
+        "url": "https://www.pna.gov.ph/articles/1241799",
+        "snippet": "The law establishes the Philippine Downstream Natural Gas Industry to help diversify the energy mix. It promotes gas as a secure and efficient fuel for power and industry. The Department of Energy will set standards, permits, and oversight under the IRR.",
+        "publish_date": "2025-01-15",
+        "verdict": "supports",
+        "credibility": "high"
+      },
+      {
+        "source": "Inquirer.net (Business)",
+        "title": "Marcos signs into law act promoting development of natural gas in PH",
+        "url": "https://business.inquirer.net/501390/marcos-signs-into-law-act-promoting-natural-gas-devt-in-ph",
+        "snippet": "The newly signed law aims to promote natural gas as an indispensable contributor to energy security. It defines a framework for downstream activities, including standards and market development. The DOE is tasked to issue implementing rules and regulations.",
+        "publish_date": "2025-01-15",
+        "verdict": "supports",
+        "credibility": "high"
+      }
+    ],
+    "player_choices": ["Verified", "False"],
+    "correct_answer": "Verified",
+    "rationale": "Government wire and a major business desk both detail the law’s aims and DOE’s role.",
+    "lesson": "Policy framework claims should be matched with a government source and a mainstream business report."
+  },
+  {
+    "id": 4,
+    "claim_text": "A law extended the National Housing Authority’s corporate term by 25 years effective July 31, 2025.",
+    "claim_metadata": { "entities": ["NHA"], "topic": "Housing Policy", "date_hint": "2025-06-03" },
+    "references": [
+      {
+        "source": "Manila Bulletin",
+        "title": "Marcos inks law extending NHA’s corporate term",
+        "url": "https://mb.com.ph/2025/06/03/marcos-inks-law-extending-nhas-corporate-term",
+        "snippet": "The National Housing Authority’s corporate term was extended for another 25 years starting July 31, 2025. Officials said this ensures continuity for socialized housing programs. Implementing guidelines will be issued by relevant agencies.",
+        "publish_date": "2025-06-03",
+        "verdict": "supports",
+        "credibility": "high"
+      },
+      {
+        "source": "Inquirer.net",
+        "title": "Marcos signs law extending NHA’s corporate term",
+        "url": "https://newsinfo.inquirer.net/2065989/marcos-signs-law-extending-nhas-corporate-term",
+        "snippet": "The President signed the law extending the NHA’s corporate life by 25 years, effective July 31, 2025. Officials said the extension allows longer-range planning and program continuity. Agencies will release guidelines to implement the measure.",
+        "publish_date": "2025-06-02",
+        "verdict": "supports",
+        "credibility": "high"
+      }
+    ],
+    "player_choices": ["Verified", "False"],
+    "correct_answer": "Verified",
+    "rationale": "Both outlets match on duration, effective date, and program rationale.",
+    "lesson": "For institutional changes, always capture the exact effective date and duration in your verification."
+  },
+  {
+    "id": 5,
+    "claim_text": "The Judiciary Fiscal Autonomy Act lets the Supreme Court submit its original budget proposal directly to Congress and strengthens safeguards against reductions.",
+    "claim_metadata": { "entities": ["Judiciary Fiscal Autonomy Act"], "topic": "Judiciary Reform", "date_hint": "2025-08-14" },
+    "references": [
+      {
+        "source": "Inquirer.net",
+        "title": "Marcos signs law boosting judiciary’s fiscal autonomy",
+        "url": "https://newsinfo.inquirer.net/2095590/marcos-signs-law-boosting-judiciarys-fiscal-autonomy",
+        "snippet": "The new law allows the Supreme Court to submit its original budget proposal directly to Congress. It also puts safeguards against budget reductions to protect judicial independence. Court leaders said predictable funding supports case management and modernization.",
+        "publish_date": "2025-08-14",
+        "verdict": "supports",
+        "credibility": "high"
+      },
+      {
+        "source": "Presidential Communications Office",
+        "title": "PBBM welcomes Judiciary Fiscal Autonomy Act to benefit the people",
+        "url": "https://pco.gov.ph/news_releases/pbbm-welcomes-judiciary-fiscal-autonomy-act-to-benefit-the-people/",
+        "snippet": "The Palace said the Act grants budgetary independence to the judiciary by allowing a direct submission to Congress. The Executive emphasized that the reform reduces interference and improves efficiency. Officials said implementing rules will cover reporting and oversight.",
+        "publish_date": "2025-08-14",
+        "verdict": "supports",
+        "credibility": "high"
+      }
+    ],
+    "player_choices": ["Verified", "False"],
+    "correct_answer": "Verified",
+    "rationale": "Inquirer and PCO both describe the direct budget submission and purpose of the law.",
+    "lesson": "For separation-of-powers changes, confirm the process change and look for both independent and official sources."
+  },
+  {
+    "id": 6,
+    "claim_text": "A YouTube video alleged that Senator Bong Go resigned from the Senate on August 21, 2025.",
+    "claim_metadata": { "entities": ["Bong Go"], "topic": "Political Status Rumor", "date_hint": "2025-08-21" },
+    "references": [
+      {
+        "source": "VERA Files",
+        "title": "FACT CHECK: Bong Go has NOT resigned as senator",
+        "url": "https://verafiles.org/articles/fact-check-bong-go-has-not-resigned-as-senator",
+        "snippet": "A viral video claimed that Senator Bong Go resigned from his post. This is false: he remains an active member of the 20th Congress and attended plenary sessions that week. He was also named among senators elected to the Commission on Appointments.",
+        "publish_date": "2025-08-27",
+        "verdict": "refutes",
+        "credibility": "high"
+      },
+      {
+        "source": "GMA News",
+        "title": "Senate names 9 to Commission on Appointments contingent",
+        "url": "https://www.gmanetwork.com/news/topstories/nation/956258/senate-names-9-to-commission-on-appointments-contingent/story/",
+        "snippet": "The Senate elected nine members to the Commission on Appointments, including Senator Bong Go. The selection happened during the plenary session on August 18. Coverage of membership disputes shows he remained in office and functions as a senator.",
+        "publish_date": "2025-08-18",
+        "verdict": "refutes",
+        "credibility": "high"
+      }
+    ],
+    "player_choices": ["Verified", "False"],
+    "correct_answer": "False",
+    "rationale": "An official fact-check and contemporaneous reporting show Bong Go remained a senator and took on CA functions.",
+    "lesson": "When posts claim a lawmaker resigned, verify via official attendance, rosters, or appointments reported by major outlets."
+  },
+  {
+    "id": 7,
+    "claim_text": "A Facebook card and posts claimed the 2025 national budget contained ‘blank items’ and missing pages.",
+    "claim_metadata": { "entities": ["2025 GAA"], "topic": "Budget Rumor", "date_hint": "2025-01-22" },
+    "references": [
+      {
+        "source": "VERA Files",
+        "title": "FACT CHECK: Abines wrongly claims 2025 budget law has blank spaces",
+        "url": "https://verafiles.org/articles/fact-check-abines-wrongly-claims-2025-budget-law-has-blank-spaces",
+        "snippet": "A netizen claimed that the 2025 budget law had blank pages. Fact-checkers found the images were from a bicameral report, not the signed General Appropriations Act. The signed GAA contains no blank items.",
+        "publish_date": "2025-01-22",
+        "verdict": "refutes",
+        "credibility": "high"
+      },
+      {
+        "source": "Presidential Communications Office",
+        "title": "PBBM assures no blanks in 2025 GAA",
+        "url": "https://pco.gov.ph/news_releases/pbbm-assures-no-blanks-in-2025-gaa/",
+        "snippet": "The President said there are no blank items in the 2025 GAA. He urged the public to review the publicly available volumes on the DBM website. The statement contradicted claims circulating on social media.",
+        "publish_date": "2025-01-30",
+        "verdict": "refutes",
+        "credibility": "high"
+      }
+    ],
+    "player_choices": ["Verified", "False"],
+    "correct_answer": "False",
+    "rationale": "VERA Files traced the images to a bicam report while the Palace pointed to the complete signed GAA.",
+    "lesson": "Document rumors require checking the exact document version (committee report vs. enacted law) and official repositories."
+  },
+  {
+    "id": 8,
+    "claim_text": "Two YouTube videos claimed that the International Criminal Court had dismissed the crimes-against-humanity case against former President Rodrigo Duterte.",
+    "claim_metadata": { "entities": ["ICC", "Rodrigo Duterte"], "topic": "Justice System Rumor", "date_hint": "2025-08-06" },
+    "references": [
+      {
+        "source": "VERA Files",
+        "title": "FACT CHECK: Unrelated footage used to FALSELY claim ICC dismissal of Duterte case",
+        "url": "https://verafiles.org/articles/fact-check-unrelated-footage-used-to-falsely-claim-icc-dismissal-of-duterte-case",
+        "snippet": "Videos on YouTube claimed the ICC had dismissed the case against Duterte. Fact-checkers found the footage was unrelated and the case remains pending with a confirmation-of-charges hearing scheduled. The posts misled users by splicing old clips with deceptive captions.",
+        "publish_date": "2025-08-06",
+        "verdict": "refutes",
+        "credibility": "high"
+      },
+      {
+        "source": "AFP Fact Check",
+        "title": "Old news report misrepresented as proof ICC dismissed Duterte case",
+        "url": "https://factcheck.afp.com/doc.afp.com.372B6ZB",
+        "snippet": "AFP debunked claims that the ICC had thrown out the case. It explained how an old, unrelated news item was misused to insinuate dismissal. Official proceedings and filings indicated the case was still moving forward.",
+        "publish_date": "2025-03-19",
+        "verdict": "refutes",
+        "credibility": "high"
+      }
+    ],
+    "player_choices": ["Verified", "False"],
+    "correct_answer": "False",
+    "rationale": "Two independent fact-checks show the dismissal claim is fabricated and clarify the ICC timeline.",
+    "lesson": "For high-stakes legal claims, rely on fact-checkers and procedural updates; beware of repurposed old footage."
+  },
+  {
+    "id": 9,
+    "claim_text": "A blogger told a House tri-committee hearing that the Philippines also uses water cannons in the West Philippine Sea.",
+    "claim_metadata": { "entities": ["Mark Lopez", "West Philippine Sea"], "topic": "Security Rumor", "date_hint": "2025-03-21" },
+    "references": [
+      {
+        "source": "VERA Files",
+        "title": "FACT CHECK: Blogger falsely claims PH uses water cannons in WPS",
+        "url": "https://verafiles.org/articles/fact-check-blogger-falsely-claims-ph-uses-water-cannons-in-wps",
+        "snippet": "During a House hearing, a blogger claimed the Philippines ‘also uses water cannon’ in the WPS. Lawmakers challenged the assertion and the blogger later clarified he was only referring to a possibility, not an actual event. There is no evidence of Philippine deployment of water cannons in the WPS.",
+        "publish_date": "2025-03-26",
+        "verdict": "refutes",
+        "credibility": "high"
+      },
+      {
+        "source": "Inquirer.net",
+        "title": "Blogger apologizes for claiming PH uses water cannons in WPS",
+        "url": "https://newsinfo.inquirer.net/2045733/blogger-apologizes-for-claiming-ph-uses-water-cannons-in-wps",
+        "snippet": "Lawmakers warned a blogger with contempt after he claimed Philippine forces conduct water cannon attacks. He apologized, saying he meant it as a hypothetical and not a factual assertion. Officials reiterated that no such deployment has been carried out by the Philippines.",
+        "publish_date": "2025-03-21",
+        "verdict": "refutes",
+        "credibility": "high"
+      }
+    ],
+    "player_choices": ["Verified", "False"],
+    "correct_answer": "False",
+    "rationale": "A fact-check and a mainstream news report both debunk the claim and document the apology.",
+    "lesson": "Separate hypotheticals from actual policy or incidents; check for official denials and hearing records."
+  },
+  {
+    "id": 10,
+    "claim_text": "Viral posts warned that a strong earthquake would hit the Philippines on April 22, 2025 at a specific time.",
+    "claim_metadata": { "entities": ["PHIVOLCS", "Earthquake warning"], "topic": "Public Safety Rumor", "date_hint": "2025-04-22" },
+    "references": [
+      {
+        "source": "VERA Files",
+        "title": "FACT CHECK: Earthquakes CANNOT be predicted; April 22 warning fake",
+        "url": "https://verafiles.org/articles/fact-check-earthquakes-cannot-be-predicted-april-22-warning-fake",
+        "snippet": "A viral video and posts claimed a specific-date earthquake would strike the Philippines on April 22. Fact-checkers explained that no reliable technology can predict the exact date, time, and location of earthquakes. The claim was deemed fake and designed to sow panic.",
+        "publish_date": "2025-04-15",
+        "verdict": "refutes",
+        "credibility": "high"
+      },
+      {
+        "source": "ABS-CBN News",
+        "title": "Phivolcs: Earthquakes can’t be predicted, April 22 warning is fake",
+        "url": "https://www.abs-cbn.com/news/nation/2025/4/16/phivolcs-earthquakes-can-t-be-predicted-april-22-warning-is-fake-1113",
+        "snippet": "PHIVOLCS warned the public against viral posts claiming a major quake on April 22. Scientists reiterated that earthquake prediction is not yet possible. Authorities urged citizens to rely on official bulletins rather than viral videos.",
+        "publish_date": "2025-04-16",
+        "verdict": "refutes",
+        "credibility": "high"
+      }
+    ],
+    "player_choices": ["Verified", "False"],
+    "correct_answer": "False",
+    "rationale": "Both sources cite PHIVOLCS’ position that predictive claims are impossible and the posts are fake.",
+    "lesson": "For disaster warnings, check science agencies and major outlets; time-specific ‘predictions’ are red flags."
+  }
+]

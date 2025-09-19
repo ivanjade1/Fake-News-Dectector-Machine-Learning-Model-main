@@ -1,0 +1,279 @@
+{% extends "base.html" %}
+{% block title %}Admin Feedback - TruthGuard{% endblock %}
+
+{% block head_extra %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin/admin_feedback.css') }}?v=1">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+{% endblock %}
+
+{% block content %}
+<div class="results-bg min-h-screen">
+  <div class="results-content">
+    <!-- Hero Section -->
+    <section class="relative isolate mx-auto max-w-7xl px-4 pt-12 md:px-6 md:pt-16">
+      <div class="mx-auto max-w-3xl text-center mb-8">
+        <span class="inline-flex items-center gap-2 rounded-full border border-neutral-200 bg-white px-3 py-1 text-xs text-neutral-700 shadow-sm ring-1 ring-black/10 dark:border-white/10 dark:bg-neutral-900 dark:text-neutral-300">
+          <span class="h-2 w-2 rounded-full bg-orange-500"></span>
+          User Feedback
+        </span>
+
+        <h1 class="mt-4 text-4xl font-extrabold tracking-tight sm:text-5xl">
+          Feedback Management
+        </h1>
+
+        <p class="mt-4 mx-auto max-w-xl text-neutral-700 dark:text-neutral-300">
+          Review and manage user feedback, suggestions, and reports
+        </p>
+      </div>
+
+      <!-- Back Button -->
+      <div class="mx-auto max-w-5xl mb-6">
+        <a href="{{ url_for('admin.admin_dashboard') }}" class="action-btn action-btn-secondary">
+          <i class="bi bi-arrow-left mr-2"></i>
+          Back to Dashboard
+        </a>
+      </div>
+
+      <!-- Main Content Container -->
+      <div class="mx-auto max-w-5xl space-y-6">
+
+        <!-- Search and Filter Controls -->
+        <div class="results-card">
+          <div class="flex flex-col sm:flex-row sm:items-center mb-4 gap-3">
+            <div class="flex items-center gap-3">
+              <div class="results-icon bg-orange-100 dark:bg-orange-900/50 text-orange-600 dark:text-orange-400">
+                <i class="bi bi-funnel"></i>
+              </div>
+              <h3 class="text-lg sm:text-xl font-semibold text-neutral-800 dark:text-neutral-200">Search & Filter</h3>
+            </div>
+          </div>
+
+          <!-- Main Search Bar -->
+          <div class="relative mb-6">
+            <div class="flex items-center">
+              <div class="relative flex-1">
+                <i class="bi bi-search absolute left-4 top-1/2 transform -translate-y-1/2 text-orange-600 dark:text-orange-400 text-xl font-semibold z-10 pointer-events-none"></i>
+                <input type="text" id="searchInput" placeholder="Search feedback..." 
+                       class="search-input w-full pl-12 pr-4 py-4 text-lg rounded-xl border border-gray-200 dark:border-white/10 bg-white/80 dark:bg-black/30 backdrop-blur-lg transition-all duration-200 focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20">
+              </div>
+              <button id="filterToggle" class="action-btn action-btn-secondary ml-4 px-4 py-3">
+                <i class="bi bi-sliders text-lg"></i>
+                <span class="ml-2 font-medium hidden sm:inline">Filters</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Results Count (Always Visible) -->
+          <div class="flex items-center justify-between mb-4">
+            <div id="resultsCount" class="text-sm text-gray-600 dark:text-gray-400 font-medium">
+              Loading...
+            </div>
+          </div>
+          
+          <!-- Collapsible Advanced Filters -->
+          <div id="filtersPanel" class="hidden border-t border-gray-200 dark:border-white/10 pt-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+              <!-- Rating Filter -->
+              <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <i class="bi bi-star mr-2"></i>Rating
+                </label>
+                <select id="ratingFilter" class="form-select">
+                  <option value="">All Ratings</option>
+                  <option value="5">5 Stars</option>
+                  <option value="4">4 Stars</option>
+                  <option value="3">3 Stars</option>
+                  <option value="2">2 Stars</option>
+                  <option value="1">1 Star</option>
+                </select>
+              </div>
+              
+              <!-- Sort Options -->
+              <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <i class="bi bi-sort-down mr-2"></i>Sort By
+                </label>
+                <select id="sortSelect" class="form-select">
+                  <option value="date-desc">Latest First</option>
+                  <option value="date-asc">Oldest First</option>
+                  <option value="rating-desc">Highest Rating</option>
+                  <option value="rating-asc">Lowest Rating</option>
+                </select>
+              </div>
+            </div>
+            
+            <!-- Quick Filter Chips -->
+            <div class="flex flex-wrap gap-2 mb-4">
+              <span class="text-sm font-medium text-gray-500 dark:text-gray-400 mr-2">Quick filters:</span>
+              <button class="quick-filter-chip" data-filter="rating" data-value="5">5 Stars</button>
+              <button class="quick-filter-chip" data-filter="rating" data-value="4">4 Stars</button>
+              <button class="quick-filter-chip" data-filter="rating" data-value="3">3 Stars</button>
+              <button class="quick-filter-chip" data-filter="rating" data-value="2">2 Stars</button>
+              <button class="quick-filter-chip" data-filter="rating" data-value="1">1 Star</button>
+            </div>
+            
+            <!-- Clear Filters -->
+            <div class="flex items-center justify-start">
+              <button id="clearFilters" class="action-btn action-btn-secondary text-sm py-2 px-3">
+                <i class="bi bi-x-circle mr-1"></i>Clear all filters
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Feedback Statistics -->
+        <div class="results-card">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="results-icon bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400">
+              <i class="bi bi-bar-chart"></i>
+            </div>
+            <h3 class="text-lg font-semibold text-neutral-800 dark:text-neutral-200">Feedback Statistics</h3>
+          </div>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="text-center">
+              <div class="text-2xl font-bold text-blue-600 dark:text-blue-400" id="totalFeedbackStat">0</div>
+              <div class="text-sm text-neutral-600 dark:text-neutral-400">Total Feedback</div>
+            </div>
+            <div class="text-center">
+              <div class="text-2xl font-bold text-yellow-600" id="averageRating">0.0</div>
+              <div class="text-sm text-neutral-600 dark:text-neutral-400">Average Rating</div>
+            </div>
+          </div>
+          
+          <!-- Rating Distribution -->
+          <div class="mt-6">
+            <h4 class="text-md font-medium text-neutral-700 dark:text-neutral-300 mb-3">Rating Distribution</h4>
+            <div class="space-y-2">
+              <div class="flex items-center gap-3">
+                <div class="flex items-center gap-1">
+                  <span class="text-sm">5</span>
+                  <i class="bi bi-star-fill text-yellow-400"></i>
+                </div>
+                <div class="flex-1 bg-neutral-200 dark:bg-neutral-700 rounded-full h-2">
+                  <div id="rating5Bar" class="bg-yellow-400 h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+                </div>
+                <span id="rating5Count" class="text-sm text-neutral-600 dark:text-neutral-400 min-w-[2rem]">0</span>
+              </div>
+              <div class="flex items-center gap-3">
+                <div class="flex items-center gap-1">
+                  <span class="text-sm">4</span>
+                  <i class="bi bi-star-fill text-yellow-400"></i>
+                </div>
+                <div class="flex-1 bg-neutral-200 dark:bg-neutral-700 rounded-full h-2">
+                  <div id="rating4Bar" class="bg-yellow-400 h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+                </div>
+                <span id="rating4Count" class="text-sm text-neutral-600 dark:text-neutral-400 min-w-[2rem]">0</span>
+              </div>
+              <div class="flex items-center gap-3">
+                <div class="flex items-center gap-1">
+                  <span class="text-sm">3</span>
+                  <i class="bi bi-star-fill text-yellow-400"></i>
+                </div>
+                <div class="flex-1 bg-neutral-200 dark:bg-neutral-700 rounded-full h-2">
+                  <div id="rating3Bar" class="bg-yellow-400 h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+                </div>
+                <span id="rating3Count" class="text-sm text-neutral-600 dark:text-neutral-400 min-w-[2rem]">0</span>
+              </div>
+              <div class="flex items-center gap-3">
+                <div class="flex items-center gap-1">
+                  <span class="text-sm">2</span>
+                  <i class="bi bi-star-fill text-yellow-400"></i>
+                </div>
+                <div class="flex-1 bg-neutral-200 dark:bg-neutral-700 rounded-full h-2">
+                  <div id="rating2Bar" class="bg-yellow-400 h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+                </div>
+                <span id="rating2Count" class="text-sm text-neutral-600 dark:text-neutral-400 min-w-[2rem]">0</span>
+              </div>
+              <div class="flex items-center gap-3">
+                <div class="flex items-center gap-1">
+                  <span class="text-sm">1</span>
+                  <i class="bi bi-star-fill text-yellow-400"></i>
+                </div>
+                <div class="flex-1 bg-neutral-200 dark:bg-neutral-700 rounded-full h-2">
+                  <div id="rating1Bar" class="bg-yellow-400 h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+                </div>
+                <span id="rating1Count" class="text-sm text-neutral-600 dark:text-neutral-400 min-w-[2rem]">0</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Loading State -->
+        <div id="loadingState" class="results-card text-center">
+          <div class="loading-spinner mx-auto mb-4"></div>
+          <p class="text-neutral-600 dark:text-neutral-400">Loading feedback...</p>
+        </div>
+
+        <!-- Feedback Container -->
+        <div id="feedbackContainer" class="space-y-6 hidden">
+          <!-- Feedback items will be populated by JavaScript -->
+        </div>
+
+        <!-- Empty State -->
+        <div id="emptyState" class="results-card text-center hidden">
+          <i class="bi bi-chat-square-dots text-4xl text-neutral-400 mb-4"></i>
+          <h3 class="text-xl font-semibold mb-2 text-neutral-800 dark:text-neutral-200">No Feedback Found</h3>
+          <p class="text-neutral-600 dark:text-neutral-400 mb-6">
+            No user feedback has been submitted yet, or no feedback matches your search.
+          </p>
+        </div>
+
+        <!-- Error State -->
+        <div id="errorState" class="results-card text-center hidden">
+          <i class="bi bi-exclamation-triangle text-4xl text-red-500 mb-4"></i>
+          <h3 class="text-xl font-semibold mb-2 text-neutral-800 dark:text-neutral-200">Error Loading Feedback</h3>
+          <p class="text-neutral-600 dark:text-neutral-400 mb-6" id="errorMessage">
+            Unable to load feedback data. Please try refreshing the page.
+          </p>
+          <button onclick="refreshFeedback()" class="action-btn action-btn-primary">
+            <i class="bi bi-arrow-clockwise mr-2"></i>
+            Try Again
+          </button>
+        </div>
+
+        <!-- Pagination -->
+        <div id="paginationContainer" class="pagination-container hidden">
+          <!-- Pagination will be populated by JavaScript -->
+          <div id="paginationInfo" class="pagination-info"></div>
+        </div>
+
+      </div>
+    </section>
+  </div>
+</div>
+
+<!-- Feedback Detail Modal -->
+<div id="feedbackDetailModal" class="fixed inset-0 modal-backdrop z-50 hidden">
+  <div class="min-h-screen flex items-center justify-center p-4">
+    <div class="modal-card w-full max-w-4xl max-h-[80vh] overflow-hidden flex flex-col">
+      <!-- Fixed Header -->
+      <div class="flex justify-between items-center p-6 border-b border-neutral-200 dark:border-neutral-700">
+        <h2 class="text-xl font-semibold text-neutral-800 dark:text-neutral-200">
+          <i class="bi bi-chat-square-text text-orange-600 dark:text-orange-400 mr-2"></i>
+          Feedback Details
+        </h2>
+        <button onclick="adminFeedback.closeFeedbackDetail()" class="text-neutral-500 hover:text-neutral-700 dark:text-neutral-400 dark:hover:text-neutral-200 transition-colors">
+          <i class="bi bi-x-lg text-xl"></i>
+        </button>
+      </div>
+      
+      <!-- Scrollable Content -->
+      <div id="feedbackDetailContent" class="flex-1 overflow-y-auto p-6">
+        <!-- Modal content will be populated by JavaScript -->
+      </div>
+      
+      <!-- Fixed Footer -->
+      <div class="border-t border-neutral-200 dark:border-neutral-700 p-4 flex justify-end gap-3">
+        <button onclick="adminFeedback.closeFeedbackDetail()" class="action-btn action-btn-secondary">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block body_extra %}
+<script type="module" src="{{ url_for('static', filename='js/admin/admin_feedback.js') }}"></script>
+{% endblock %}

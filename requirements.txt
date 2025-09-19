@@ -1,0 +1,17 @@
+flask
+flask-mail
+pandas
+numpy
+matplotlib
+seaborn
+scikit-learn
+nltk
+joblib
+google-genai
+python-dotenv
+newspaper4k
+lxml_html_clean
+selenium
+webdriver-manager
+google-api-python-client
+supabase

@@ -1,0 +1,2000 @@
+/* ===== History Page Styling - Matching Results.css Design System ===== */
+
+:root {
+  /* Match results.css background approach exactly */
+  --results-h: 100vh;
+  --results-top: var(--nav-h);
+
+  /* Exact gradient background from results.css */
+  --results-grad: linear-gradient(
+    to bottom,
+    #ffffff 0%,
+    rgba(246,247,251,0.95) 28%,
+    rgba(238,240,248,0.88) 60%,
+    #ffffff 100%
+  );
+
+  --results-glow: radial-gradient(closest-side, rgba(99,102,241,0.25), transparent);
+  --results-glow-w: 48rem;
+}
+
+html.dark {
+  --results-grad: linear-gradient(
+    to bottom,
+    #0b0f1a 0%,
+    rgba(10,13,23,0.9) 40%,
+    rgba(10,13,23,0.66) 72%,
+    rgba(10,13,23,0) 100%
+  );
+}
+
+/* Use results.css background system exactly */
+.results-bg::before {
+  content: "";
+  position: fixed;
+  top: var(--results-top);
+  left: 50%;
+  transform: translate3d(-50%, 0, 0);
+  width: 100svw;
+  height: var(--results-h);
+  background: var(--results-grad);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.results-bg::after {
+  content: "";
+  position: fixed;
+  top: calc(var(--results-top) - 96px);
+  left: 50%;
+  transform: translate3d(-50%, 0, 0);
+  width: var(--results-glow-w);
+  height: 16rem;
+  background: var(--results-glow);
+  filter: blur(32px);
+  opacity: 0.3;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.results-content {
+  position: relative;
+  z-index: 1;
+}
+
+/* Results card styling - exactly matching results.css */
+.results-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(16px);
+  border-radius: 1.5rem;
+  border: 1px solid rgb(229, 231, 235);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05);
+  padding: 2rem;
+  transition: all 0.3s ease;
+}
+
+.results-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+}
+
+html.dark .results-card {
+  background: rgba(15, 15, 15, 0.7);
+  border-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+html.dark .results-card:hover {
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+}
+
+/* Action buttons - exactly matching results.css */
+.action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 1rem;
+  padding: 0.875rem 1.5rem;
+  font-weight: 600;
+  font-size: 0.925rem;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  border: none;
+  outline: none;
+}
+
+/* Primary button - matches detector analyzeBtn */
+.action-btn-primary {
+  background: #4f46e5;
+  color: white;
+  border-radius: 1rem;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(79, 70, 229, 0.3);
+}
+
+.action-btn-primary:hover {
+  background: #4338ca;
+}
+
+/* Secondary button - matches detector resetBtn */
+.action-btn-secondary {
+  background: white;
+  color: #4338ca;
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  border-radius: 1rem;
+  font-weight: 500;
+}
+
+.action-btn-secondary:hover {
+  background: rgba(99, 102, 241, 0.05);
+}
+
+html.dark .action-btn-secondary {
+  background: transparent;
+  color: #a5b4fc;
+  border-color: rgba(99, 102, 241, 0.3);
+}
+
+html.dark .action-btn-secondary:hover {
+  background: rgba(99, 102, 241, 0.1);
+}
+
+/* Results icon - exactly matching results.css */
+.results-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 0.75rem;
+  font-size: 1.25rem;
+}
+
+/* Form inputs - exactly matching results.css */
+.form-input, .form-select {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid rgb(209, 213, 219);
+  border-radius: 0.75rem;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(8px);
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.form-input:focus, .form-select:focus {
+  outline: none !important;
+  background-color: inherit !important;
+  border: 2px solid rgba(79, 70, 229, 0.95) !important;
+  padding: calc(0.75rem - 1px) calc(1rem - 1px); /* Adjust padding to compensate for thicker border */
+  transition: background-color 0.3s ease, color 0.3s ease !important; /* Only transition non-border properties */
+}
+
+html.dark .form-input, html.dark .form-select {
+  background: rgba(31, 41, 55, 0.8);
+  border-color: rgba(75, 85, 99, 0.5);
+  color: rgb(229, 231, 235);
+}
+
+html.dark .form-input:focus, html.dark .form-select:focus {
+  background-color: inherit !important;
+  border: 2px solid rgba(79, 70, 229, 0.95) !important;
+  padding: calc(0.75rem - 1px) calc(1rem - 1px); /* Adjust padding to compensate for thicker border */
+  transition: background-color 0.3s ease, color 0.3s ease !important; /* Only transition non-border properties */
+}
+
+html.dark .form-select option {
+  background: rgb(31, 41, 55);
+  color: rgb(229, 231, 235);
+}
+
+/* Enhanced search input */
+.search-input {
+  font-size: 1.125rem;
+  padding: 1rem 1rem 1rem 3rem;
+  border-radius: 0.75rem;
+  border: 1px solid rgb(209, 213, 219);
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(12px);
+  transition: all 0.3s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.search-input:focus {
+  outline: none !important;
+  background-color: inherit !important;
+  box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.95) !important;
+  transform: translateY(-1px);
+}
+
+html.dark .search-input {
+  background: rgba(31, 41, 55, 0.8);
+  border-color: rgba(75, 85, 99, 0.5);
+  color: rgb(229, 231, 235);
+}
+
+html.dark .search-input:focus {
+  background-color: inherit !important;
+  box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.95) !important;
+}
+
+/* Search icon specific styling to ensure visibility */
+.bi-search {
+  color: rgb(37, 99, 235) !important; /* text-blue-600 */
+  font-weight: 600 !important;
+  z-index: 10 !important;
+}
+
+html.dark .bi-search {
+  color: rgb(96, 165, 250) !important; /* text-blue-400 */
+  font-weight: 600 !important;
+}
+
+/* Quick filter chips */
+.quick-filter-chip {
+  padding: 0.5rem 1rem;
+  background: rgba(79, 70, 229, 0.1);
+  color: rgb(79, 70, 229);
+  border: 1px solid rgba(79, 70, 229, 0.2);
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.quick-filter-chip:hover {
+  background: rgba(79, 70, 229, 0.2);
+  border-color: rgba(79, 70, 229, 0.4);
+  transform: translateY(-1px);
+}
+
+.quick-filter-chip.active {
+  background: #4f46e5;
+  color: white;
+  border-color: #4f46e5;
+}
+
+html.dark .quick-filter-chip {
+  background: rgba(79, 70, 229, 0.15);
+  color: rgb(165, 180, 252);
+  border-color: rgba(79, 70, 229, 0.3);
+}
+
+html.dark .quick-filter-chip:hover {
+  background: rgba(79, 70, 229, 0.25);
+  border-color: rgba(79, 70, 229, 0.5);
+}
+
+html.dark .quick-filter-chip.active {
+  background: #4f46e5;
+  color: white;
+  border-color: #4f46e5;
+}
+
+/* Filter toggle icon rotation */
+#filterToggle i {
+  transition: transform 0.3s ease;
+}
+
+#filterToggle i.rotate-180 {
+  transform: rotate(180deg);
+}
+
+/* Filter toggle active state */
+#filterToggle.active {
+  background: rgba(99, 102, 241, 0.1) !important;
+  border-color: rgba(99, 102, 241, 0.3) !important;
+}
+
+html.dark #filterToggle.active {
+  background: rgba(99, 102, 241, 0.15) !important;
+  border-color: rgba(99, 102, 241, 0.4) !important;
+}
+
+/* Smooth panel transitions */
+#filtersPanel {
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+#filtersPanel.hidden {
+  max-height: 0;
+  opacity: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+#filtersPanel:not(.hidden) {
+  max-height: 500px;
+  opacity: 1;
+}
+
+/* Article cards for JavaScript generated content */
+.article-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgb(229, 231, 235);
+  border-radius: 1.5rem;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05);
+  padding: 0;
+  margin-bottom: 1.5rem;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.article-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+}
+
+html.dark .article-card {
+  background: rgba(15, 15, 15, 0.7);
+  border-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  color: rgb(229, 231, 235);
+}
+
+html.dark .article-card:hover {
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+}
+
+/* Article header section */
+.article-header {
+  padding: 0;
+  border-bottom: 1px solid rgba(229, 231, 235, 0.6);
+}
+
+html.dark .article-header {
+  border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Title and badge section with border */
+.title-badge-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid rgba(229, 231, 235, 0.6);
+}
+
+html.dark .title-badge-section {
+  border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+
+.title-section {
+  flex: 1;
+  /* Remove min-width: 0 to allow natural text wrapping instead of truncation */
+}
+
+.title-section .article-title {
+  margin: 0;
+  line-height: 1.4;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+
+.classification-badge {
+  flex-shrink: 0;
+}
+
+/* Remove old summary divider styles */
+.summary-divider {
+  display: none;
+}
+
+/* Full-width summary section */
+.summary-wrapper.full-width {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(4px);
+  border-radius: 0;
+  padding: 1.5rem 2rem;
+  margin: 0;
+  border: none;
+}
+
+html.dark .summary-wrapper.full-width {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.summary-wrapper.full-width .article-summary {
+  margin: 0;
+  font-size: 1rem;
+  color: rgb(107, 114, 128);
+  line-height: 1.6;
+  text-align: justify;
+  text-justify: inter-word;
+}
+
+html.dark .summary-wrapper.full-width .article-summary {
+  color: rgb(156, 163, 175);
+}
+
+/* Article meta section */
+.article-meta {
+  padding: 1rem 2rem;
+  background: rgba(248, 250, 252, 0.5);
+  border-bottom: 1px solid rgba(229, 231, 235, 0.6);
+}
+
+html.dark .article-meta {
+  background: rgba(15, 15, 15, 0.3);
+  border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Article stats section */
+.article-stats {
+  padding: 1rem 2rem;
+  border-bottom: 1px solid rgba(229, 231, 235, 0.6);
+}
+
+html.dark .article-stats {
+  border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Article breakdown section */
+.article-breakdown {
+  padding: 1rem 2rem;
+  border-bottom: 1px solid rgba(229, 231, 235, 0.6);
+  background: rgba(248, 250, 252, 0.3);
+}
+
+html.dark .article-breakdown {
+  border-bottom-color: rgba(255, 255, 255, 0.1);
+  background: rgba(15, 15, 15, 0.2);
+}
+
+.breakdown-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+  color: rgb(17, 24, 39);
+}
+
+html.dark .breakdown-header {
+  color: rgb(229, 231, 235);
+}
+
+.breakdown-header i {
+  color: #6366f1;
+  font-size: 1.1rem;
+}
+
+.breakdown-title {
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  flex: 1;
+}
+
+.breakdown-toggle {
+  background: rgba(99, 102, 241, 0.1);
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  color: #6366f1;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.breakdown-toggle:hover {
+  background: rgba(99, 102, 241, 0.15);
+  border-color: rgba(99, 102, 241, 0.3);
+}
+
+html.dark .breakdown-toggle {
+  background: rgba(99, 102, 241, 0.15);
+  border-color: rgba(99, 102, 241, 0.3);
+  color: #a5b4fc;
+}
+
+html.dark .breakdown-toggle:hover {
+  background: rgba(99, 102, 241, 0.2);
+  border-color: rgba(99, 102, 241, 0.4);
+}
+
+.breakdown-summary {
+  margin-bottom: 1rem;
+}
+
+.breakdown-details {
+  border-top: 1px solid rgba(229, 231, 235, 0.6);
+  padding-top: 1rem;
+  margin-top: 1rem;
+}
+
+html.dark .breakdown-details {
+  border-top-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Dark mode text color fixes - matching results.css exactly */
+html.dark .text-gray-800 {
+  color: #e5e7eb !important;
+}
+
+html.dark .text-gray-700 {
+  color: #d1d5db !important;
+}
+
+html.dark .text-gray-600 {
+  color: #9ca3af !important;
+}
+
+html.dark .text-gray-500 {
+  color: #6b7280 !important;
+}
+
+html.dark .text-blue-800 {
+  color: #93c5fd !important;
+}
+
+html.dark .text-blue-600 {
+  color: #60a5fa !important;
+}
+
+html.dark .text-blue-700 {
+  color: #93c5fd !important;
+}
+
+/* Icon color overrides for dark mode - matching results.css exactly */
+html.dark .text-orange-600 {
+  color: #fb923c !important;
+}
+
+html.dark .text-purple-600 {
+  color: #c084fc !important;
+}
+
+html.dark .text-red-600 {
+  color: #f87171 !important;
+}
+
+html.dark .text-green-600 {
+  color: #4ade80 !important;
+}
+
+/* Border colors for accordion - matching results.css exactly */
+html.dark .border-gray-200 {
+  border-color: rgba(75, 85, 99, 0.3) !important;
+}
+
+html.dark .border-gray-300 {
+  border-color: rgba(75, 85, 99, 0.5) !important;
+}
+
+/* Background colors for accordion - matching results.css exactly */
+html.dark .bg-gray-200 {
+  background-color: #374151 !important;
+}
+
+html.dark .bg-gray-100 {
+  background-color: rgba(55, 65, 81, 0.7) !important;
+}
+
+/* Accordion - exactly matching results.css structure and colors */
+.accordion-header {
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.accordion-header:hover {
+  background-color: rgba(99, 102, 241, 0.05) !important;
+}
+
+html.dark .accordion-header {
+  background-color: rgba(15, 15, 15, 0.5) !important;
+  color: #e5e7eb !important;
+}
+
+html.dark .accordion-header:hover {
+  background-color: rgba(99, 102, 241, 0.1) !important;
+}
+
+html.dark .accordion-header h4 {
+  color: #e5e7eb !important;
+}
+
+html.dark .accordion-icon {
+  color: #9ca3af !important;
+}
+
+.accordion-content {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(8px);
+}
+
+html.dark .accordion-content {
+  background: rgba(15, 15, 15, 0.8);
+  color: #d1d5db !important;
+}
+
+/* Spacing between accordion items - matching results.html structure */
+.border.border-gray-200.rounded-lg:not(:last-child) {
+  margin-bottom: 1rem;
+}
+
+/* Cross-check section styling - matching results.css */
+.cross-check-section {
+  width: 100%;
+  display: block;
+}
+
+.cross-check-header {
+  transition: background-color 0.2s ease;
+  width: 100%;
+  text-align: center;
+}
+
+.cross-check-header:hover {
+  background-color: rgba(59, 130, 246, 0.1) !important;
+}
+
+.cross-check-details {
+  width: 100%;
+}
+
+html.dark .cross-check-header {
+  background-color: rgba(59, 130, 246, 0.1) !important;
+  border-color: rgba(59, 130, 246, 0.2) !important;
+}
+
+html.dark .cross-check-header:hover {
+  background-color: rgba(59, 130, 246, 0.15) !important;
+}
+
+html.dark .cross-check-header .text-blue-800 {
+  color: #93c5fd !important;
+}
+
+html.dark .cross-check-header .text-blue-600 {
+  color: #60a5fa !important;
+}
+
+html.dark .cross-check-header .bg-blue-100 {
+  background-color: rgba(59, 130, 246, 0.15) !important;
+  color: #93c5fd !important;
+}
+
+.cross-check-details {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(8px);
+}
+
+html.dark .cross-check-details {
+  background: rgba(15, 15, 15, 0.8);
+  border-color: rgba(59, 130, 246, 0.2) !important;
+}
+
+/* Verification summary styling */
+.verification-summary {
+  backdrop-filter: blur(8px);
+}
+
+html.dark .verification-summary {
+  background-color: rgba(59, 130, 246, 0.1) !important;
+  border-color: rgba(59, 130, 246, 0.2) !important;
+}
+
+html.dark .verification-summary .text-blue-800 {
+  color: #93c5fd !important;
+}
+
+html.dark .verification-summary .text-blue-700 {
+  color: #93c5fd !important;
+}
+
+/* Match card styling */
+.match-card {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(8px);
+  transition: transform 0.2s ease;
+}
+
+.match-card:hover {
+  transform: translateY(-1px);
+}
+
+html.dark .match-card {
+  background: rgba(15, 15, 15, 0.7);
+  border-color: rgba(75, 85, 99, 0.3) !important;
+}
+
+/* Similarity badge styling */
+.similarity-badge {
+  backdrop-filter: blur(4px);
+}
+
+html.dark .similarity-badge {
+  background-color: rgba(59, 130, 246, 0.2) !important;
+  color: #93c5fd !important;
+}
+
+/* Line clamp utility */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Article actions section */
+.article-actions {
+  padding: 1.5rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  background: rgba(248, 250, 252, 0.3);
+}
+
+html.dark .article-actions {
+  background: rgba(15, 15, 15, 0.2);
+}
+
+/* Primary action buttons container */
+.action-primary {
+  display: flex;
+  gap: 0.75rem;
+  flex: 1;
+}
+
+.action-primary .history-btn {
+  flex: 0 0 auto; /* Don't grow or shrink, use natural size */
+  min-width: 0;
+}
+
+/* Meta row styling */
+.meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+}
+
+/* Stats grid styling */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 0.75rem;
+  border: 1px solid rgba(229, 231, 235, 0.8);
+}
+
+html.dark .stat-item {
+  background: rgba(15, 15, 15, 0.6);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.stat-item i {
+  color: #6366f1;
+  font-size: 1.1rem;
+}
+
+.stat-label {
+  font-size: 0.875rem;
+  color: rgb(107, 114, 128);
+  font-weight: 500;
+}
+
+html.dark .stat-label {
+  color: rgb(156, 163, 175);
+}
+
+.stat-value {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: rgb(17, 24, 39);
+  margin-left: auto;
+}
+
+html.dark .stat-value {
+  color: rgb(229, 231, 235);
+}
+
+/* Action secondary buttons */
+.action-secondary {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.action-secondary .action-btn {
+  padding: 0.5rem;
+  min-width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 0.75rem;
+  font-size: 0.875rem;
+}
+
+/* Article content styling */
+.article-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: rgb(17, 24, 39);
+  margin-bottom: 0.75rem;
+  line-height: 1.4;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+
+html.dark .article-title {
+  color: rgb(229, 231, 235);
+}
+
+/* Summary wrapper for proper spacing and layout */
+.summary-wrapper {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(4px);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin-top: 0.75rem;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+html.dark .summary-wrapper {
+  background: rgba(0, 0, 0, 0.1);
+  border-color: rgba(255, 255, 255, 0.05);
+}
+
+.article-summary {
+  font-size: 1rem;
+  color: rgb(107, 114, 128);
+  line-height: 1.6;
+  margin-bottom: 0;
+  text-align: justify;
+  text-justify: inter-word;
+}
+
+html.dark .article-summary {
+  color: rgb(156, 163, 175);
+}
+
+/* URL link styling */
+.url-link {
+  color: #6366f1;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.url-link:hover {
+  color: #4f46e5;
+  text-decoration: underline;
+}
+
+html.dark .url-link {
+  color: #a5b4fc;
+}
+
+html.dark .url-link:hover {
+  color: #c7d2fe;
+}
+
+/* Classification badges - improved for better UX */
+.classification-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  padding: 0.75rem 1rem;
+  border-radius: 1rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  min-width: 90px;
+  min-height: 70px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+
+/* Light mode hover effects */
+.classification-badge:hover {
+  transform: translateY(-1px);
+}
+
+.classification-text {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  margin: 0;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.classification-score {
+  font-size: 1rem;
+  font-weight: 800;
+  margin: 0;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.classification-real {
+  background: linear-gradient(135deg, rgb(34, 197, 94), rgb(22, 163, 74));
+  color: white;
+}
+
+.classification-fake {
+  background: linear-gradient(135deg, rgb(239, 68, 68), rgb(220, 38, 38));
+  color: white;
+}
+
+.classification-unknown {
+  background: linear-gradient(135deg, rgb(107, 114, 128), rgb(75, 85, 99));
+  color: white;
+}
+
+/* Dark mode classification badges - enhanced colors based on results.css */
+html.dark .classification-real {
+  background: linear-gradient(135deg, #065f46, #047857) !important;
+  color: #d1fae5 !important;
+  border: 1px solid rgba(16, 185, 129, 0.4);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+}
+
+html.dark .classification-fake {
+  background: linear-gradient(135deg, #7f1d1d, #991b1b) !important;
+  color: #fecaca !important;
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
+}
+
+html.dark .classification-unknown {
+  background: linear-gradient(135deg, #374151, #4b5563) !important;
+  color: #d1d5db !important;
+  border: 1px solid rgba(107, 114, 128, 0.4);
+  box-shadow: 0 4px 12px rgba(107, 114, 128, 0.2);
+}
+
+/* Enhanced dark mode text colors for classification badges */
+html.dark .classification-real .classification-text {
+  color: #bbf7d0 !important;
+}
+
+html.dark .classification-fake .classification-text {
+  color: #fca5a5 !important;
+}
+
+html.dark .classification-unknown .classification-text {
+  color: #e5e7eb !important;
+}
+
+/* Classification badge hover effects for dark mode */
+html.dark .classification-real:hover {
+  box-shadow: 0 6px 16px rgba(16, 185, 129, 0.3);
+  transform: translateY(-1px);
+}
+
+html.dark .classification-fake:hover {
+  box-shadow: 0 6px 16px rgba(239, 68, 68, 0.3);
+  transform: translateY(-1px);
+}
+
+html.dark .classification-unknown:hover {
+  box-shadow: 0 6px 16px rgba(107, 114, 128, 0.3);
+  transform: translateY(-1px);
+}
+
+/* Loading spinner - matching results.css */
+.loading-spinner {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(59, 130, 246, 0.3);
+  border-radius: 50%;
+  border-top-color: rgb(59, 130, 246);
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Pagination styling - matching results.css button approach */
+
+/* Pagination container */
+.pagination-container {
+  padding: 2rem 0;
+  border-top: 1px solid rgba(229, 231, 235, 0.6);
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+html.dark .pagination-container {
+  border-top-color: rgba(255, 255, 255, 0.1);
+}
+
+/* --- UPDATED: Stack buttons above info, always centered --- */
+#paginationContainer .pagination-wrapper {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0.5rem !important;
+  width: 100% !important;
+}
+
+/* Override the flex layout to stack vertically - more specific selectors */
+#paginationContainer nav,
+#paginationContainer nav > div,
+#paginationContainer .hidden.sm\\:flex-1.sm\\:flex.sm\\:items-center.sm\\:justify-between,
+#paginationContainer .hidden.sm\\:flex-1.sm\\:flex.sm\\:items-center.sm\\:justify-center,
+.pagination-container nav > div.hidden.sm\\:flex-1.sm\\:flex.sm\\:items-center.sm\\:justify-between {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  gap: 0.75rem !important;
+  justify-content: center !important;
+  width: 100% !important;
+}
+
+/* Ensure pagination controls are centered and in correct order */
+#paginationButtons,
+#paginationContainer .pagination-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.125rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-left: 0;
+  order: 1;
+}
+
+/* Pagination info styling - ensure it appears below */
+#paginationInfo,
+#paginationContainer .pagination-info {
+  display: block;
+  width: 100%;
+  font-size: 0.875rem;
+  color: rgb(107, 114, 128);
+  font-weight: 500;
+  text-align: center;
+  margin-top: 0.25rem;
+  margin-right: 0;
+  order: 2;
+}
+
+html.dark #paginationInfo,
+html.dark .pagination-info {
+  color: rgb(156, 163, 175);
+}
+
+/* Pagination ellipsis */
+.pagination-ellipsis {
+  padding: 0.75rem 0.25rem;
+  color: rgb(107, 114, 128);
+  font-weight: 500;
+  font-size: 0.875rem;
+}
+
+html.dark .pagination-ellipsis {
+  color: rgb(156, 163, 175);
+}
+
+/* Base pagination button */
+.pagination-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1rem;
+  margin: 0 0.125rem;
+  border-radius: 1rem;
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  background: white;
+  color: #4338ca;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  min-width: 2.75rem;
+  min-height: 2.75rem;
+}
+
+/* Navigation buttons (arrows) */
+.pagination-btn-nav {
+  padding: 0.75rem;
+}
+
+/* Page number buttons */
+.pagination-btn-page {
+  min-width: 3rem;
+}
+
+/* Current page button */
+.pagination-btn-current {
+  background: #4f46e5;
+  color: white;
+  border-color: rgba(79, 70, 229, 0.3);
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  font-weight: 600;
+}
+
+/* Hover state */
+.pagination-btn:hover:not(.pagination-btn-disabled):not(.pagination-btn-current) {
+  background: rgba(99, 102, 241, 0.05);
+  transform: translateY(-1px);
+}
+
+/* Active state */
+.pagination-btn.active,
+.pagination-btn-current {
+  background: #4f46e5;
+  color: white;
+  border-color: rgba(79, 70, 229, 0.3);
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+/* Disabled state */
+.pagination-btn:disabled,
+.pagination-btn-disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+  background: rgba(243, 244, 246, 0.5);
+  color: rgb(156, 163, 175);
+}
+
+/* Dark mode styles */
+html.dark .pagination-btn {
+  background: transparent;
+  color: #a5b4fc;
+  border-color: rgba(99, 102, 241, 0.3);
+}
+
+html.dark .pagination-btn:hover:not(.pagination-btn-disabled):not(.pagination-btn-current) {
+  background: rgba(99, 102, 241, 0.1);
+}
+
+html.dark .pagination-btn.active,
+html.dark .pagination-btn-current {
+  background: #4f46e5;
+  color: white;
+  border-color: rgba(79, 70, 229, 0.3);
+}
+
+html.dark .pagination-btn:disabled,
+html.dark .pagination-btn-disabled {
+  background: rgba(15, 15, 15, 0.3);
+  color: rgb(75, 85, 99);
+  border-color: rgba(75, 85, 99, 0.3);
+}
+
+/* Meta information styling */
+.meta-item {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: 0.875rem;
+  color: rgb(107, 114, 128);
+}
+
+html.dark .meta-item {
+  color: rgb(156, 163, 175);
+}
+
+/* User meta styling */
+.user-meta {
+  background: rgba(59, 130, 246, 0.1);
+  border-radius: 0.375rem;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid rgba(59, 130, 246, 0.2);
+}
+
+html.dark .user-meta {
+  background: rgba(59, 130, 246, 0.15);
+  border-color: rgba(59, 130, 246, 0.3);
+}
+
+.user-meta i {
+  color: rgb(59, 130, 246);
+}
+
+.user-info {
+  font-weight: 500;
+  color: rgb(59, 130, 246);
+}
+
+html.dark .user-info {
+  color: rgb(147, 197, 253);
+}
+
+/* Utility classes */
+.text-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.text-truncate-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.text-truncate-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .results-card {
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  /* Search input mobile adjustments */
+  .search-input {
+    font-size: 1rem;
+    padding: 0.875rem 0.875rem 0.875rem 2.75rem;
+  }
+  
+  /* Shorter placeholder for mobile */
+  .search-input::placeholder {
+    opacity: 0.7;
+  }
+  
+  .article-card {
+    margin-bottom: 1rem;
+  }
+
+  .article-header {
+    padding: 0;
+  }
+
+  /* Mobile: Title and badge section adjustments */
+  .title-badge-section {
+    padding: 1rem 1.5rem;
+    gap: 0.75rem;
+  }
+  
+  .title-section .article-title {
+    font-size: 1.125rem;
+    line-height: 1.3;
+  }
+  
+  .classification-badge {
+    flex-shrink: 0;
+    align-self: flex-start;
+  }
+  
+  /* Mobile: Summary adjustments */
+  .summary-wrapper.full-width {
+    padding: 1rem 1.5rem;
+  }
+  
+  .summary-wrapper.full-width .article-summary {
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+
+  .article-meta {
+    padding: 0.75rem 1.5rem;
+  }
+
+  .article-stats {
+    padding: 0.75rem 1.5rem;
+  }
+
+  .article-actions {
+    padding: 1rem 1.5rem;
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: stretch;
+  }
+
+  .action-primary {
+    width: 100%;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .action-primary .history-btn {
+    min-height: 2.5rem;
+    width: 100%; /* Full width only on mobile for stacking */
+    flex: none;
+    max-width: none;
+  }
+
+  .action-secondary {
+    justify-content: center;
+  }
+
+  .meta-row {
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: flex-start;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+  
+  .action-btn {
+    padding: 0.75rem 1.25rem;
+    font-size: 0.875rem;
+  }
+  
+  .view-details-btn {
+    width: 100%;
+    max-width: none;
+    flex: none;
+    margin: 0 auto;
+    text-align: center;
+    justify-content: center;
+  }
+  
+  .results-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    font-size: 1.25rem;
+  }
+
+  .classification-badge {
+    min-width: 80px;
+    min-height: 60px;
+    padding: 0.5rem 0.75rem;
+  }
+
+  .classification-text {
+    font-size: 0.625rem;
+    line-height: 1;
+  }
+
+  .classification-score {
+    font-size: 0.875rem;
+    line-height: 1;
+  }
+
+  .article-title {
+    font-size: 1.125rem;
+  }
+
+  .article-summary {
+    font-size: 0.875rem;
+  }
+
+  /* Mobile pagination improvements */
+  .pagination-container {
+    padding: 1.5rem 0.5rem; /* Add horizontal padding */
+    overflow-x: hidden; /* Prevent horizontal overflow */
+  }
+
+  #paginationContainer nav > div.hidden.sm\\:flex-1.sm\\:flex.sm\\:items-center.sm\\:justify-between,
+  #paginationContainer .hidden.sm\\:flex-1.sm\\:flex.sm\\:items-center.sm\\:justify-between {
+    gap: 0.75rem !important;
+    flex-direction: column !important; /* Ensure vertical stacking */
+    align-items: center !important;
+    width: 100% !important;
+  }
+
+  .pagination-controls,
+  #paginationButtons {
+    gap: 0.0625rem !important; /* Reduced gap to prevent wrapping */
+    flex-wrap: nowrap !important; /* Prevent wrapping to multiple lines */
+    justify-content: center !important;
+    margin-left: 0 !important;
+    overflow-x: auto !important; /* Allow horizontal scroll if needed */
+    scrollbar-width: none !important; /* Hide scrollbar in Firefox */
+    -ms-overflow-style: none !important; /* Hide scrollbar in IE/Edge */
+    max-width: 100% !important; /* Constrain width */
+  }
+  
+  /* Hide scrollbar in webkit browsers */
+  .pagination-controls::-webkit-scrollbar,
+  #paginationButtons::-webkit-scrollbar {
+    display: none;
+  }
+
+  .pagination-btn {
+    padding: 0.5rem 0.75rem; /* Reduced padding to fit more buttons */
+    margin: 0 0.03125rem; /* Reduced margin */
+    min-width: 2.5rem; /* Match admin dashboard size */
+    min-height: 2.5rem; /* Match admin dashboard size */
+    font-size: 0.8rem; /* Match admin dashboard font size */
+    flex-shrink: 0; /* Prevent buttons from shrinking */
+  }
+
+  .pagination-btn-nav {
+    padding: 0.5rem; /* Reduced padding for nav buttons */
+    min-width: 2.5rem; /* Match admin dashboard size */
+  }
+
+  .pagination-btn-page {
+    min-width: 2.5rem; /* Match admin dashboard size */
+  }
+
+  .pagination-info,
+  #paginationInfo {
+    font-size: 0.8rem;
+    text-align: center;
+    width: auto;
+    margin-bottom: 0;
+    margin-right: 0;
+  }
+
+  /* Cross-reference results mobile improvements */
+  .results-card .flex.justify-between.items-start {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: stretch;
+  }
+  
+  .results-card .text-right {
+    text-align: left;
+    align-self: flex-start;
+  }
+  
+  .similarity-badge {
+    align-self: flex-start;
+    margin-top: 0.5rem;
+  }
+
+  /* Hide some pagination elements on very small screens */
+  @media (max-width: 480px) {
+    /* Further mobile adjustments for very small screens */
+    .search-input {
+      font-size: 0.95rem;
+      padding: 0.75rem 0.75rem 0.75rem 2.5rem;
+    }
+    
+    .pagination-btn {
+      padding: 0.375rem 0.5rem; /* Even smaller padding for very small screens */
+      min-width: 2rem;
+      min-height: 2rem;
+      font-size: 0.7rem;
+      margin: 0 0.0625rem;
+    }
+    
+    .pagination-btn-nav {
+      padding: 0.375rem;
+      min-width: 2rem;
+    }
+    
+    .pagination-btn-page {
+      min-width: 2rem;
+    }
+    
+    /* Reduce gap even more on very small screens */
+    .pagination-controls,
+    #paginationButtons {
+      gap: 0.03125rem;
+    }
+    
+    /* Make ellipsis smaller */
+    .pagination-ellipsis {
+      padding: 0.375rem 0.125rem;
+      font-size: 0.7rem;
+    }
+
+    /* Ensure buttons stack and have equal width on very small screens */
+    .action-primary {
+      gap: 0.5rem;
+    }
+    
+    .action-primary .history-btn {
+      padding: 0.625rem 1rem; /* Slightly smaller padding on small screens */
+      font-size: 0.8rem;
+      min-height: 2.25rem;
+      width: 100%; /* Full width on very small screens */
+      max-width: none; /* Remove any max-width restrictions */
+    }
+  }
+}
+
+/* Enhanced button styling for history actions */
+.history-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 1rem;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  text-decoration: none;
+}
+
+.history-btn-primary {
+  background: #4f46e5;
+  color: white;
+  border: 1px solid rgba(79, 70, 229, 0.3);
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.history-btn-primary:hover {
+  background: #4338ca;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+}
+
+.history-btn-danger {
+  background: #dc2626;
+  color: white;
+  border: 1px solid rgba(220, 38, 38, 0.3);
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.history-btn-danger:hover {
+  background: #b91c1c;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+}
+
+/* Action button improvements */
+.view-details-btn,
+.delete-btn {
+  flex: 0 0 auto; /* Use natural width */
+  max-width: 200px; /* Keep reasonable max-width */
+}
+
+/* === Force a single centered pager; hide extra "Previous/Next" block === */ 
+#paginationContainer nav {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0.5rem !important;
+}
+
+/* Some pagers render two sibling wrappers; hide the first (legacy/prev-next) */
+#paginationContainer nav > div:first-child {
+  display: none !important;
+}
+
+/* Center the remaining wrapper contents and allow wrapping */
+#paginationContainer nav > div:last-child {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-wrap: wrap !important;
+  gap: 0.5rem !important;
+  width: 100% !important;
+}
+
+/* Buttons row */
+#paginationContainer .pagination-controls,
+#paginationButtons {
+  order: 1 !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  flex-wrap: wrap !important;
+  gap: 0.125rem !important;
+  margin: 0 auto !important;
+}
+
+/* Info line below buttons */
+#paginationContainer .pagination-info,
+#paginationInfo {
+  order: 2 !important;
+  display: block !important;
+  text-align: center !important;      /* always center */
+  justify-content: center !important; /* ensure flex parent centers it */
+  align-items: center !important;
+  margin-top: 0.5rem !important;
+  width: 100% !important;             /* center relative to full width */
+  flex-basis: 100% !important;
+}
+
+/* Kill any justify-between that may push items apart */
+#paginationContainer [class*="justify-between"] {
+  justify-content: center !important;
+}
+
+/* =========================
+   NO-SHIFT / NO-JITTER RULES
+   - Lock button size and typography so nothing moves
+   ========================= */
+#paginationContainer .pagination-btn,
+#paginationContainer .pagination-btn-current {
+  box-sizing: border-box !important;
+  width: 44px !important;           
+  height: 44px !important;          
+  padding: 0 !important;            
+  border-width: 1px !important;     
+  line-height: 44px !important;     
+  text-align: center !important;
+  font-variant-numeric: tabular-nums !important; 
+  font-feature-settings: "tnum" 1 !important;
+}
+
+/* If you use separate classes for page-number vs arrows, keep same size */
+#paginationContainer .pagination-btn-page,
+#paginationContainer .pagination-btn-nav {
+  width: 44px !important;
+  height: 44px !important;
+  line-height: 44px !important;
+}
+
+/* Keep current page visual without changing dimensions */
+#paginationContainer .pagination-btn-current {
+  font-weight: 600 !important;      
+  transform: none !important;       
+}
+
+/* Prevent hover elevation from nudging layout */
+#paginationContainer .pagination-btn:hover:not(.pagination-btn-disabled):not(.pagination-btn-current) {
+  transform: translateY(0) !important; 
+}
+
+/* Focus outlines should not alter layout */
+#paginationContainer .pagination-btn:focus {
+  outline-offset: 2px !important;
+}
+
+/* Disabled arrows still reserve space (no layout shift) */
+#paginationContainer .pagination-btn-disabled,
+#paginationContainer .pagination-btn:disabled {
+  visibility: visible !important;   
+  opacity: 0.45 !important;
+  pointer-events: none !important;
+}
+
+/* Responsive tidy-up */
+@media (max-width: 768px) {
+  #paginationContainer .pagination-info,
+  #paginationInfo {
+    font-size: 0.85rem !important;
+  }
+}
+
+/* === Override for small screens: keep skip/arrow buttons visible === */
+@media (max-width: 480px) {
+  #paginationContainer .pagination-controls {
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+  }
+
+  /* Show arrows/skip buttons again */
+  #paginationContainer .pagination-btn-nav {
+    display: inline-flex !important;
+  }
+
+  /* Keep ellipsis visible if needed */
+  #paginationContainer .pagination-ellipsis {
+    display: inline-block !important;
+  }
+
+  /* Slightly smaller buttons so all fit */
+  #paginationContainer .pagination-btn,
+  #paginationContainer .pagination-btn-current,
+  #paginationContainer .pagination-btn-page,
+  #paginationContainer .pagination-btn-nav {
+    width: 40px !important;
+    height: 40px !important;
+    line-height: 40px !important;
+  }
+
+  /* Ensure info stays centered under buttons */
+  #paginationContainer .pagination-info,
+  #paginationInfo {
+    text-align: center !important;
+    justify-content: center !important;
+    width: 100% !important;
+    flex-basis: 100% !important;
+  }
+}
+
+/* Focus styles for accessibility - matching results.css */
+.search-input:focus-visible,
+.form-input:focus-visible,
+.quick-filter-chip:focus-visible,
+button:focus-visible,
+.action-btn:focus-visible {
+  outline: 2px solid #4F46E5;
+  outline-offset: 2px;
+}
+
+/* Form select uses existing :focus styling with box-shadow, no additional focus-visible needed */
+
+/* Modal styling - consistent with history page design system */
+.modal-card {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(20px) saturate(180%);
+  border-radius: 1.5rem;
+  border: 1px solid rgba(229, 231, 235, 0.8);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+}
+
+html.dark .modal-card {
+  background: rgba(15, 15, 15, 0.95);
+  border-color: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+}
+
+/* Modal backdrop */
+.modal-backdrop {
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+}
+
+html.dark .modal-backdrop {
+  background: rgba(0, 0, 0, 0.8);
+}
+
+/* Modal content specific adjustments */
+.article-modal-content .results-card {
+  transition: all 0.3s ease;
+}
+
+.article-modal-content .results-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(99, 102, 241, 0.15);
+}
+
+.article-modal-content .summary-wrapper .article-summary {
+  font-size: 1.1rem;
+  line-height: 1.7;
+}
+
+/* Modal classification badge adjustments */
+.article-modal-content .classification-badge {
+  min-height: 80px;
+  min-width: 100px;
+}
+
+.article-modal-content .classification-text {
+  font-size: 0.875rem;
+}
+
+.article-modal-content .classification-score {
+  font-size: 1.25rem;
+}
+
+/* Factuality Scale Breakdown Styling for Modal */
+.results-icon {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 1.5rem;
+  transition: transform 0.18s ease;
+}
+
+/* Purple icon styling */
+.bg-purple-100 {
+  background-color: rgba(139, 92, 246, 0.1);
+}
+
+.text-purple-600 {
+  color: #9333ea;
+}
+
+html.dark .bg-purple-900\/50 {
+  background-color: rgba(139, 92, 246, 0.1);
+}
+
+html.dark .text-purple-400 {
+  color: #c084fc;
+}
+
+/* Blue section styling for score info */
+.bg-blue-50 {
+  background-color: rgba(59, 130, 246, 0.05);
+}
+
+.border-blue-200 {
+  border-color: rgba(59, 130, 246, 0.2);
+}
+
+.text-blue-600 {
+  color: #2563eb;
+}
+
+.text-blue-800 {
+  color: #1e40af;
+}
+
+html.dark .bg-blue-900\/30 {
+  background-color: rgba(59, 130, 246, 0.1);
+}
+
+html.dark .border-blue-700 {
+  border-color: rgba(59, 130, 246, 0.3);
+}
+
+html.dark .text-blue-400 {
+  color: #60a5fa;
+}
+
+/* Gradient backgrounds for scale sections */
+.bg-gradient-to-r {
+  background-image: linear-gradient(to right, var(--tw-gradient-stops));
+}
+
+.from-red-500 {
+  --tw-gradient-from: #ef4444;
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(239, 68, 68, 0));
+}
+
+.to-red-400 {
+  --tw-gradient-to: #f87171;
+}
+
+.from-orange-500 {
+  --tw-gradient-from: #f97316;
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(249, 115, 22, 0));
+}
+
+.to-orange-400 {
+  --tw-gradient-to: #fb923c;
+}
+
+.from-yellow-500 {
+  --tw-gradient-from: #eab308;
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(234, 179, 8, 0));
+}
+
+.to-yellow-400 {
+  --tw-gradient-to: #facc15;
+}
+
+.from-blue-500 {
+  --tw-gradient-from: #3b82f6;
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(59, 130, 246, 0));
+}
+
+.to-blue-400 {
+  --tw-gradient-to: #60a5fa;
+}
+
+.from-green-500 {
+  --tw-gradient-from: #22c55e;
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(34, 197, 94, 0));
+}
+
+.to-green-400 {
+  --tw-gradient-to: #4ade80;
+}
+
+.from-green-600 {
+  --tw-gradient-from: #16a34a;
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(22, 163, 74, 0));
+}
+
+.to-green-500 {
+  --tw-gradient-to: #22c55e;
+}
+
+/* Delete Modal Styles */
+.delete-modal-content {
+  color: inherit;
+}
+
+.delete-option-btn {
+  transition: all 0.2s ease;
+  border: 1px solid #d1d5db;
+  background: transparent;
+  text-decoration: none;
+}
+
+.delete-option-btn:hover {
+  background-color: var(--tw-bg-opacity, 1) * rgba(249, 250, 251, var(--tw-bg-opacity));
+  border-color: #9ca3af;
+}
+
+.dark .delete-option-btn {
+  border-color: #374151;
+}
+
+.dark .delete-option-btn:hover {
+  background-color: rgba(55, 65, 81, 0.5);
+  border-color: #6b7280;
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  font-weight: 500;
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  border: 1px solid #d1d5db;
+  background: white;
+  color: #374151;
+  text-decoration: none;
+}
+
+.btn-secondary:hover {
+  background: #f9fafb;
+  border-color: #9ca3af;
+}
+
+.dark .btn-secondary {
+  background: #374151;
+  color: #f3f4f6;
+  border-color: #4b5563;
+}
+
+.dark .btn-secondary:hover {
+  background: #4b5563;
+  border-color: #6b7280;
+}
+
+/* Delete Modal Animation and Centering - Only when visible */
+#deleteModal:not(.hidden) {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+#deleteModal.flex:not(.hidden) {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+#deleteModal:not(.hidden) .min-h-screen {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  min-height: 100vh !important;
+}
+
+#deleteModal .modal-card {
+  animation: modalSlideIn 0.3s ease-out;
+  margin: 0 auto !important;
+  position: relative !important;
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}

@@ -1,0 +1,236 @@
+/* ===== Detector Page Styling ===== */
+
+:root{
+  --detector-h:100vh;
+  --detector-top:var(--nav-h);
+  --detector-grad:linear-gradient(to bottom,#ffffff 0%,rgba(246,247,251,0.95) 28%,rgba(238,240,248,0.88) 60%,#ffffff 100%);
+  --detector-glow:radial-gradient(closest-side,rgba(99,102,241,0.25),transparent);
+  --detector-glow-w:48rem;
+}
+html.dark{
+  --detector-grad:linear-gradient(to bottom,#0b0f1a 0%,rgba(10,13,23,0.9) 40%,rgba(10,13,23,0.66) 72%,rgba(10,13,23,0) 100%);
+}
+
+/* Background */
+.detector-bg::before{
+  content:"";position:fixed;top:var(--detector-top);left:50%;transform:translate3d(-50%,0,0);
+  width:100svw;height:var(--detector-h);background:var(--detector-grad);pointer-events:none;z-index:0;
+}
+.detector-bg::after{
+  content:"";position:fixed;top:calc(var(--detector-top) - 96px);left:50%;transform:translate3d(-50%,0,0);
+  width:var(--detector-glow-w);height:16rem;background:var(--detector-glow);filter:blur(32px);opacity:.3;pointer-events:none;z-index:0;
+}
+.detector-content{position:relative;z-index:1}
+
+/* Glassy cards */
+.glass-card{background:rgba(255,255,255,.7);backdrop-filter:blur(16px) saturate(180%);border-radius:1.5rem;box-shadow:0 8px 32px rgba(0,0,0,.08);transition:all .3s ease}
+.glass-card:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(0,0,0,.12)}
+html.dark .glass-card{background:rgba(10,10,10,.7);box-shadow:0 8px 32px rgba(0,0,0,.3)}
+html.dark .glass-card:hover{box-shadow:0 12px 40px rgba(0,0,0,.4)}
+
+/* Status cards */
+.status-card{background:rgba(255,255,255,.8);backdrop-filter:blur(10px);border-radius:1rem;padding:1rem;transition:all .2s ease}
+.status-card:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(0,0,0,.08)}
+html.dark .status-card{background:rgba(15,15,15,.8)}
+html.dark .status-card:hover{box-shadow:0 4px 16px rgba(0,0,0,.2)}
+
+/* ===========================
+   Method cards (ring-only)
+   =========================== */
+.method-card{
+  transition: transform .18s ease !important; /* instant ring color via utilities */
+}
+.method-card.selected{
+  /* selected outline = indigo-600, same as primary button */
+  box-shadow:0 0 0 2px rgba(79,70,229,0.95) !important; /* #4F46E5 */
+  background:rgba(99,102,241,0.06) !important;
+}
+
+/* Icons */
+.method-icon{
+  width:3rem;height:3rem;border-radius:.75rem;display:flex;align-items:center;justify-content:center;
+  margin:0 auto 1rem;font-size:1.5rem;transition:transform .18s ease;
+}
+.method-card:hover .method-icon{transform:scale(1.05)}
+
+/* Input sections (ring-only containers) */
+.input-section{
+  background:rgba(255,255,255,.6);backdrop-filter:blur(8px);border-radius:1rem;padding:1.5rem;margin-top:1rem;transition:all .3s ease;
+}
+html.dark .input-section{background:rgba(15,15,15,.6)}
+
+/* Inputs: ring-only; focus highlight = indigo-600 like the button */
+.detector-input{
+  width:100%;padding:.875rem 1rem;border:none;border-radius:.75rem;
+  background:rgba(255,255,255,.9);backdrop-filter:blur(4px);font-size:.925rem;
+  transition: background-color .15s ease;resize:vertical;
+}
+.detector-input:focus{outline:none;background-color:inherit !important;box-shadow:none !important} /* ring utilities handle focus */
+html.dark .detector-input{background:rgba(15,15,15,.9);color:#f9fafb}
+html.dark .detector-input:focus{background-color:inherit !important;box-shadow:none !important}
+
+/* Loading + fade */
+.fade-in{animation:fadeIn .5s ease-out}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)}}
+
+/* Alerts */
+.alert{border-radius:.75rem;padding:1rem;margin:1rem 0;backdrop-filter:blur(8px)}
+.alert-success{background:rgba(34,197,94,.1);color:#065f46}
+.alert-warning{background:rgba(245,158,11,.1);color:#92400e}
+.alert-error{background:rgba(239,68,68,.1);color:#991b1b}
+html.dark .alert-success{background:rgba(34,197,94,.15);color:#6ee7b7}
+html.dark .alert-warning{background:rgba(245,158,11,.15);color:#fde68a}
+html.dark .alert-error{background:rgba(239,68,68,.15);color:#fca5a5}
+
+/* Feature grid */
+.feature-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;margin-top:2rem}
+.feature-item{background:rgba(255,255,255,.8);backdrop-filter:blur(12px);border-radius:1rem;padding:1.5rem;text-align:center;transition:all .3s ease}
+.feature-item:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(0,0,0,.08)}
+html.dark .feature-item{background:rgba(15,15,15,.8)}
+html.dark .feature-item:hover{box-shadow:0 8px 25px rgba(0,0,0,.3)}
+
+/* Modal */
+.modal-backdrop {
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+html.dark .modal-backdrop {
+  background: rgba(0, 0, 0, 0.8);
+}
+.modal-content{background:rgba(255,255,255,.95);backdrop-filter:blur(20px);border-radius:1.5rem;box-shadow:0 20px 50px rgba(0,0,0,.15)}
+html.dark .modal-content{background:rgba(15,15,15,.95);box-shadow:0 20px 50px rgba(0,0,0,.5)}
+
+/* Modal card styling - matching history.css */
+.modal-card {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px) saturate(180%);
+  border-radius: 1.5rem;
+  border: 1px solid rgba(229, 231, 235, 0.8);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+}
+
+html.dark .modal-card {
+  background: rgba(15, 15, 15, 0.95);
+  border-color: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+}
+
+/* Results card styling - exactly matching history.css */
+.results-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(16px);
+  border-radius: 1.5rem;
+  border: 1px solid rgb(229, 231, 235);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05);
+  padding: 2rem;
+  transition: all 0.3s ease;
+}
+
+.results-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+}
+
+html.dark .results-card {
+  background: rgba(15, 15, 15, 0.7);
+  border-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+html.dark .results-card:hover {
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+}
+
+/* Results icon - exactly matching history.css */
+.results-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 0.75rem;
+  font-size: 1.25rem;
+}
+
+/* Action buttons - exactly matching history.css */
+.action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 1rem;
+  padding: 0.875rem 1.5rem;
+  font-weight: 600;
+  font-size: 0.925rem;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  border: none;
+  outline: none;
+}
+
+/* Primary button - matches detector analyzeBtn */
+.action-btn-primary {
+  background: #4f46e5;
+  color: white;
+  border-radius: 1rem;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(79, 70, 229, 0.3);
+}
+
+.action-btn-primary:hover {
+  background: #4338ca;
+}
+
+/* Secondary button - matches detector resetBtn */
+.action-btn-secondary {
+  background: white;
+  color: #4338ca;
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  border-radius: 1rem;
+  font-weight: 500;
+}
+
+.action-btn-secondary:hover {
+  background: rgba(99, 102, 241, 0.05);
+}
+
+html.dark .action-btn-secondary {
+  background: transparent;
+  color: #a5b4fc;
+  border-color: rgba(99, 102, 241, 0.3);
+}
+
+html.dark .action-btn-secondary:hover {
+  background: rgba(99, 102, 241, 0.1);
+}
+
+/* Loading spinner - matching history.css */
+.loading-spinner {
+  width: 2rem;
+  height: 2rem;
+  border: 3px solid rgba(99, 102, 241, 0.2);
+  border-top: 3px solid #6366f1;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Responsive */
+@media (max-width:768px){
+  .glass-card{margin:1rem;padding:1.5rem}
+  .method-card{padding:1rem}
+  .feature-grid{grid-template-columns:1fr;gap:1rem}
+}
+
+/* Small text + a11y */
+.char-counter{font-size:.8rem;color:#6b7280;margin-top:.5rem}
+html.dark .char-counter{color:#9ca3af}
+.method-card:focus-visible,.detector-input:focus-visible{outline:2px solid #4F46E5;outline-offset:2px}

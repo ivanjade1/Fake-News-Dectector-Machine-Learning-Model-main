@@ -1,0 +1,435 @@
+{% extends "base.html" %}
+{% block title %}Analysis Results - TruthGuard{% endblock %}
+
+{% block head_extra %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/results.css') }}?v=1">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+{% endblock %}
+
+{% block content %}
+<div class="results-bg min-h-screen">
+  <div class="results-content">
+    <!-- Hero Section -->
+    <section class="relative isolate mx-auto max-w-7xl px-4 pt-12 md:px-6 md:pt-16">
+      <div class="mx-auto max-w-3xl text-center mb-8">
+        <span class="inline-flex items-center gap-2 rounded-full border border-neutral-200 bg-white px-3 py-1 text-xs text-neutral-700 shadow-sm ring-1 ring-black/10 dark:border-white/10 dark:bg-neutral-900 dark:text-neutral-300">
+          <span class="h-2 w-2 rounded-full bg-green-500"></span>
+          Analysis Complete
+        </span>
+
+        <h1 class="mt-4 text-4xl font-extrabold tracking-tight sm:text-5xl">
+          Analysis Results
+        </h1>
+
+        <p class="mt-4 mx-auto max-w-xl text-neutral-700 dark:text-neutral-300">
+          AI-powered fake news detection analysis with detailed insights
+        </p>
+      </div>
+
+      <!-- Back Button -->
+      <div class="mx-auto max-w-5xl mb-6">
+        <a href="{{ url_for('main.detector_page') }}" class="action-btn action-btn-secondary">
+          <i class="bi bi-arrow-left mr-2"></i>
+          Back to Detector
+        </a>
+      </div>
+
+      <!-- Main Results Container -->
+      <div class="mx-auto max-w-5xl space-y-6">
+
+        <!-- Extracted Content Card -->
+        <div id="extractedContent" class="hidden results-card">
+          <div class="flex flex-col sm:flex-row sm:items-center mb-4 gap-3">
+            <div class="flex items-center gap-3">
+              <div class="results-icon bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400">
+                <i class="bi bi-file-text"></i>
+              </div>
+              <h3 class="text-lg sm:text-xl font-semibold text-neutral-800 dark:text-neutral-200">Article Content</h3>
+            </div>
+            <span class="bg-indigo-100 dark:bg-indigo-900/50 text-indigo-800 dark:text-indigo-200 px-3 py-1 rounded-full text-sm font-medium self-start sm:ml-auto">
+              <i class="bi bi-link-45deg mr-1"></i>URL Source
+                    </span>
+                </div>
+                <div class="space-y-4">
+                    <div class="bg-neutral-50 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-lg p-3 sm:p-4">
+                        <p class="text-sm font-medium text-neutral-600 dark:text-neutral-400 mb-2">Article Title:</p>
+                        <h4 id="extractedTitle" class="text-base sm:text-lg font-semibold text-neutral-800 dark:text-neutral-200 leading-relaxed"></h4>
+                        <!-- Add source information after title -->
+                        <div id="sourceInfo" class="mt-2 flex flex-col sm:flex-row sm:items-center text-sm gap-1 sm:gap-0">
+                            <div class="flex items-center">
+                                <i class="bi bi-link-45deg text-neutral-500 dark:text-neutral-400 mr-1"></i>
+                                <span class="text-neutral-600 dark:text-neutral-400">Source:</span>
+                            </div>
+                            <span id="sourceLink" class="sm:ml-2 break-all"></span>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-neutral-50 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-lg p-3 sm:p-4">
+                        <p class="text-sm font-medium text-neutral-600 dark:text-neutral-400 mb-2">Content Preview:</p>
+                        <p id="extractedPreview" class="text-neutral-700 dark:text-neutral-300 leading-relaxed text-sm sm:text-base text-justify"></p>
+                    </div>
+                    
+                    <!-- Content Summary -->
+                    <div id="contentSummarySection" class="hidden bg-teal-50 dark:bg-teal-900/30 border border-teal-200 dark:border-teal-700 rounded-lg p-3 sm:p-4">
+                        <p class="text-sm font-medium text-teal-600 dark:text-teal-400 mb-2">
+                            <i class="bi bi-file-text mr-1"></i>Content Summary:
+                        </p>
+                        <p id="contentSummaryText" class="text-teal-800 dark:text-teal-200 leading-relaxed text-sm sm:text-base text-justify"></p>
+                        <div class="text-right mt-2">
+                            <span id="contentSummaryWordCount" class="text-xs text-teal-600 dark:text-teal-400"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        <!-- Main Assessment Card -->
+        <div id="predictionCard" class="results-card">
+          <div class="text-center mb-6">
+            <div class="inline-flex items-center justify-center w-20 h-20 rounded-full mb-4" id="predictionIcon">
+              <i class="text-4xl" id="predictionIconSymbol"></i>
+            </div>
+            <h2 class="text-3xl font-bold mb-2 text-neutral-800 dark:text-neutral-200" id="predictionText">Assessment</h2>
+            <p class="text-lg text-neutral-600 dark:text-neutral-400" id="factualityLevel">Analyzing...</p>
+          </div>
+          <div class="grid grid-cols-1 gap-8 mb-6">
+            <div class="text-center">
+              <div class="text-4xl font-bold mb-2 text-neutral-800 dark:text-neutral-200" id="factualityScore">--</div>
+              <p class="text-sm font-medium text-neutral-600 dark:text-neutral-400 mb-2">Factuality Score</p>
+              <div class="w-full bg-neutral-200 dark:bg-neutral-700 rounded-full h-3 mb-3">
+                <div id="scoreBar" class="h-3 rounded-full transition-all duration-1000"></div>
+              </div>
+            </div>
+          </div>
+          <div class="mb-6">
+            <p id="factualityDescription" class="text-neutral-700 dark:text-neutral-300 text-center leading-relaxed"></p>
+          </div>
+        </div>
+
+        <!-- Factuality Scale Breakdown -->
+        <div class="results-card">
+          <div class="flex flex-col sm:flex-row sm:items-center mb-6 gap-3">
+            <div class="flex items-center gap-3">
+              <div class="results-icon bg-purple-100 dark:bg-purple-900/50 text-purple-600 dark:text-purple-400">
+                <i class="bi bi-speedometer2"></i>
+              </div>
+              <h3 class="text-xl font-semibold text-neutral-800 dark:text-neutral-200">Factuality Scale Breakdown</h3>
+            </div>
+          </div>
+          <div id="currentScoreInfo" class="bg-blue-50 dark:bg-blue-900/30 rounded-lg p-4 mb-6 border border-blue-200 dark:border-blue-700">
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                        <div class="flex items-center">
+                            <div class="w-3 h-3 rounded-full mr-3" id="scoreColorDot"></div>
+                            <span class="font-semibold text-gray-800 text-sm sm:text-base">Your Article's Score:</span>
+                        </div>
+                        <button id="toggleScoreInfo" class="text-blue-600 hover:text-blue-800 text-sm self-start sm:self-auto">
+                            <i class="bi bi-chevron-down"></i> Show Details
+                        </button>
+                    </div>
+                    <div class="mt-3">
+                        <p class="text-base sm:text-lg">
+                            <span id="currentScoreValue" class="font-bold text-xl sm:text-2xl"></span>
+                            <span class="text-gray-600">falls under</span>
+                            <span id="currentScoreCategory" class="font-semibold mx-1"></span>
+                            <span class="text-gray-600">classification</span>
+                        </p>
+                    </div>
+                    <div id="scoreDetails" class="hidden mt-4 pt-4 border-t border-blue-200">
+                        <div class="text-sm text-gray-700">
+                            <p class="mb-2"><strong>Classification Rules:</strong></p>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <div class="flex items-center p-2 bg-red-50 rounded border border-red-200">
+                                    <div class="w-2 h-2 bg-red-500 rounded-full mr-2"></div>
+                                    <span><strong>Fake:</strong> 0-50%</span>
+                                </div>
+                                <div class="flex items-center p-2 bg-green-50 rounded border border-green-200">
+                                    <div class="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
+                                    <span><strong>Real:</strong> 51-100%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="relative mb-4 lg:mb-6">
+                    <div class="flex h-6 sm:h-8 rounded-full overflow-hidden shadow-inner">
+                        <div class="flex-1 bg-gradient-to-r from-red-500 to-red-400 flex items-center justify-center">
+                            <span class="text-white text-xs font-bold hidden sm:inline">0-25%</span>
+                            <span class="text-white text-xs font-bold sm:hidden">0-25</span>
+                        </div>
+                        <div class="flex-1 bg-gradient-to-r from-orange-500 to-orange-400 flex items-center justify-center">
+                            <span class="text-white text-xs font-bold hidden sm:inline">26-50%</span>
+                            <span class="text-white text-xs font-bold sm:hidden">26-50</span>
+                        </div>
+                        <div class="flex-1 bg-gradient-to-r from-blue-500 to-blue-400 flex items-center justify-center">
+                            <span class="text-white text-xs font-bold hidden sm:inline">51-74%</span>
+                            <span class="text-white text-xs font-bold sm:hidden">51-74</span>
+                        </div>
+                        <div class="flex-1 bg-gradient-to-r from-green-500 to-green-400 flex items-center justify-center">
+                            <span class="text-white text-xs font-bold hidden sm:inline">75-89%</span>
+                            <span class="text-white text-xs font-bold sm:hidden">75-89</span>
+                        </div>
+                        <div class="flex-1 bg-gradient-to-r from-green-600 to-green-500 flex items-center justify-center">
+                            <span class="text-white text-xs font-bold hidden sm:inline">90-100%</span>
+                            <span class="text-white text-xs font-bold sm:hidden">90-100</span>
+                        </div>
+                    </div>
+                    <div id="scoreIndicator" class="absolute -top-2 w-3 h-10 sm:w-4 sm:h-12 bg-gray-800 border-2 sm:border-4 border-white rounded-full shadow-lg transform -translate-x-1/2 transition-all duration-1000" style="left: 50%;">
+                        <div class="absolute -top-6 sm:-top-8 left-1/2 transform -translate-x-1/2">
+                            <div class="bg-gray-800 text-white px-1 sm:px-2 py-1 rounded text-xs font-bold" id="scoreTooltip">50%</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 sm:gap-3 text-center">
+                    <div class="p-2 sm:p-3 bg-red-50 rounded-lg border border-red-200">
+                        <div class="font-bold text-red-700 text-xs sm:text-sm">Very Low</div>
+                        <div class="text-xs text-red-600 mt-1">False/Fabricated</div>
+                    </div>
+                    <div class="p-2 sm:p-3 bg-orange-50 rounded-lg border border-orange-200">
+                        <div class="font-bold text-orange-700 text-xs sm:text-sm">Low</div>
+                        <div class="text-xs text-orange-600 mt-1">Misleading</div>
+                    </div>
+                    <div class="p-2 sm:p-3 bg-blue-50 rounded-lg border border-blue-200">
+                        <div class="font-bold text-blue-700 text-xs sm:text-sm">Mostly Factual</div>
+                        <div class="text-xs text-blue-600 mt-1">Generally Reliable</div>
+                    </div>
+                    <div class="p-2 sm:p-3 bg-green-50 rounded-lg border border-green-200">
+                        <div class="font-bold text-green-700 text-xs sm:text-sm">High</div>
+                        <div class="text-xs text-green-600 mt-1">Minor Concerns</div>
+                    </div>
+                    <div class="p-2 sm:p-3 bg-green-100 rounded-lg border border-green-300">
+                        <div class="font-bold text-green-800 text-xs sm:text-sm">Very High</div>
+                        <div class="text-xs text-green-700 mt-1">Highly Factual</div>
+                    </div>
+                </div>
+            </div>
+
+        <!-- Factuality Breakdown Card (Accordion Style) -->
+        <div id="factualityBreakdown" class="hidden results-card">
+          <div class="flex flex-col sm:flex-row sm:items-center mb-6 gap-3">
+            <div class="flex items-center gap-3">
+              <div class="results-icon bg-purple-100 dark:bg-purple-900/50 text-purple-600 dark:text-purple-400">
+                <i class="bi bi-graph-up"></i>
+              </div>
+              <h3 class="text-xl font-semibold text-neutral-800 dark:text-neutral-200">Detailed Factuality Analysis</h3>
+                    </div>
+                    <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm font-medium self-start sm:ml-auto">
+                        <i class="bi bi-shield-check mr-1"></i>Philippine Political News
+                    </span>
+                </div>
+                <div class="space-y-3">
+                    <!-- Claim Verification -->
+                    <div class="border border-gray-200 rounded-lg">
+                        <div class="accordion-header bg-gray-50 hover:bg-gray-100 p-3 sm:p-4 cursor-pointer flex justify-between items-center">
+                            <div class="flex items-center">
+                                <i class="bi bi-search text-blue-600 mr-2 sm:mr-3"></i>
+                                <h4 class="font-semibold text-gray-800 text-sm sm:text-base">Claim Verification</h4>
+                            </div>
+                            <span class="accordion-icon text-lg sm:text-xl font-bold text-gray-500">+</span>
+                        </div>
+                        <div class="accordion-content hidden p-3 sm:p-4 bg-white">
+                            <p id="claimVerification" class="text-gray-700 leading-relaxed text-sm sm:text-base text-justify"></p>
+                        </div>
+                    </div>
+                    <!-- Internal Consistency -->
+                    <div class="border border-gray-200 rounded-lg">
+                        <div class="accordion-header bg-gray-50 hover:bg-gray-100 p-3 sm:p-4 cursor-pointer flex justify-between items-center">
+                            <div class="flex items-center">
+                                <i class="bi bi-diagram-3 text-green-600 mr-2 sm:mr-3"></i>
+                                <h4 class="font-semibold text-gray-800 text-sm sm:text-base">Internal Consistency</h4>
+                            </div>
+                            <span class="accordion-icon text-lg sm:text-xl font-bold text-gray-500">+</span>
+                        </div>
+                        <div class="accordion-content hidden p-3 sm:p-4 bg-white">
+                            <p id="internalConsistency" class="text-gray-700 leading-relaxed text-sm sm:text-base text-justify"></p>
+                        </div>
+                    </div>
+                    <!-- Source Assessment -->
+                    <div class="border border-gray-200 rounded-lg">
+                        <div class="accordion-header bg-gray-50 hover:bg-gray-100 p-3 sm:p-4 cursor-pointer flex justify-between items-center">
+                            <div class="flex items-center">
+                                <i class="bi bi-shield-check text-purple-600 mr-2 sm:mr-3"></i>
+                                <h4 class="font-semibold text-gray-800 text-sm sm:text-base">Source Assessment</h4>
+                            </div>
+                            <span class="accordion-icon text-lg sm:text-xl font-bold text-gray-500">+</span>
+                        </div>
+                        <div class="accordion-content hidden p-3 sm:p-4 bg-white">
+                            <p id="sourceAssessment" class="text-gray-700 leading-relaxed text-sm sm:text-base text-justify"></p>
+                        </div>
+                    </div>
+                    <!-- Content Quality -->
+                    <div class="border border-gray-200 rounded-lg">
+                        <div class="accordion-header bg-gray-50 hover:bg-gray-100 p-3 sm:p-4 cursor-pointer flex justify-between items-center">
+                            <div class="flex items-center">
+                                <i class="bi bi-star text-orange-600 mr-2 sm:mr-3"></i>
+                                <h4 class="font-semibold text-gray-800 text-sm sm:text-base">Content Quality</h4>
+                            </div>
+                            <span class="accordion-icon text-lg sm:text-xl font-bold text-gray-500">+</span>
+                        </div>
+                        <div class="accordion-content hidden p-3 sm:p-4 bg-white">
+                            <p id="contentQuality" class="text-gray-700 leading-relaxed text-sm sm:text-base text-justify"></p>
+                        </div>
+                    </div>
+                    <!-- Conclusion -->
+                    <div class="border border-gray-200 rounded-lg">
+                        <div class="accordion-header bg-gray-50 hover:bg-gray-100 p-3 sm:p-4 cursor-pointer flex justify-between items-center">
+                            <div class="flex items-center">
+                                <i class="bi bi-check-circle text-red-600 mr-2 sm:mr-3"></i>
+                                <h4 class="font-semibold text-gray-800 text-sm sm:text-base">Conclusion</h4>
+                            </div>
+                            <span class="accordion-icon text-lg sm:text-xl font-bold text-gray-500">+</span>
+                        </div>
+                        <div class="accordion-content hidden p-3 sm:p-4 bg-white">
+                            <p id="analysisConclusion" class="text-gray-700 leading-relaxed text-sm sm:text-base text-justify"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        <!-- Cross-Check Verification Card -->
+        <div id="crossCheckSection" class="hidden results-card">
+          <div class="flex flex-col sm:flex-row sm:items-center mb-6 gap-3">
+            <div class="flex items-center gap-3">
+              <div class="results-icon bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400">
+                <i class="bi bi-search"></i>
+              </div>
+              <h3 class="text-xl font-semibold text-neutral-800 dark:text-neutral-200">Cross-Reference Verification</h3>
+            </div>
+            <span id="crossCheckBadge" class="px-3 py-1 rounded-full text-sm font-medium self-start sm:ml-auto">
+              <i class="bi bi-shield-check mr-1"></i>Verified
+                    </span>
+                </div>
+                
+                <div id="crossCheckSummary" class="bg-indigo-50 border border-indigo-200 rounded-lg p-3 sm:p-4 mb-4 lg:mb-6">
+                    <div class="flex items-start">
+                        <i class="bi bi-info-circle text-indigo-600 mr-2 sm:mr-3 mt-1"></i>
+                        <div>
+                            <h4 class="font-semibold text-indigo-800 mb-2 text-sm sm:text-base">Verification Summary</h4>
+                            <p id="crossCheckSummaryText" class="text-indigo-700 leading-relaxed text-sm sm:text-base"></p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="crossCheckMatches" class="space-y-3">
+                    <!-- Matches will be populated by JavaScript -->
+                </div>
+                
+                <div class="mt-4 text-center">
+                    <button id="toggleCrossCheck" class="text-indigo-600 hover:text-indigo-800 text-sm font-medium">
+                        <i class="bi bi-chevron-down mr-1"></i>Show Technical Details
+                    </button>
+                </div>
+                
+                <div id="crossCheckDetails" class="hidden mt-4 pt-4 border-t border-indigo-200">
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 text-sm">
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800" id="searchedCount">0</div>
+                            <div class="text-gray-600">Sources Searched</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800" id="matchedCount">0</div>
+                            <div class="text-gray-600">Matches Found</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="font-semibold text-gray-800" id="avgSimilarity">0%</div>
+                            <div class="text-gray-600">Avg. Similarity</div>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <p class="text-xs text-gray-600">
+                            <i class="bi bi-info-circle mr-1"></i>
+                            Cross-reference verification searches trusted news sources for similar reports to validate the story's authenticity.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        <!-- Feedback Section -->
+        <div id="feedbackSection" class="results-card">
+        <div class="flex flex-col sm:flex-row sm:items-center mb-6 gap-3">
+            <div class="flex items-center gap-3">
+            <div class="results-icon bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400">
+                <i class="bi bi-chat-square-heart"></i>
+            </div>
+            <h3 class="text-xl font-semibold text-neutral-800 dark:text-neutral-200">Help Improve Our AI</h3>
+            </div>
+            <span class="bg-blue-100 dark:bg-blue-900/50 text-blue-800 dark:text-blue-200 px-3 py-1 rounded-full text-sm font-medium self-start sm:ml-auto">
+            <i class="bi bi-star mr-1"></i>Your Opinion Matters
+            </span>
+        </div>
+        <div class="bg-blue-50 dark:bg-blue-900/30 rounded-lg p-4 mb-6 border border-blue-200 dark:border-blue-700">
+            <p class="text-blue-800 dark:text-blue-200 text-center">
+            <i class="bi bi-lightbulb mr-2"></i>
+            Your feedback helps train our AI to be more accurate. Do you agree with this assessment?
+            </p>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+            <button id="correctBtn" class="feedback-btn bg-gradient-to-r from-green-500 to-green-600 text-white px-6 py-4 text-center shadow-lg">
+            <i class="bi bi-check-circle text-2xl mb-2 block"></i>
+            <span class="font-semibold">Accurate Assessment</span>
+            <p class="text-green-100 text-sm mt-1">This analysis is correct</p>
+            </button>
+            <button id="inaccurateBtn" class="feedback-btn bg-gradient-to-r from-red-500 to-red-600 text-white px-6 py-4 text-center shadow-lg">
+            <i class="bi bi-x-circle text-2xl mb-2 block"></i>
+            <span class="font-semibold">Inaccurate Assessment</span>
+            <p class="text-red-100 text-sm mt-1">This analysis is wrong</p>
+            </button>
+        </div>
+
+        <div id="feedbackForm" class="hidden bg-white rounded-lg p-4 sm:p-6 border border-gray-200">
+            <div class="mb-4">
+            <label class="block text-sm font-semibold text-gray-700 mb-3">
+                <i class="bi bi-sliders mr-2"></i>What factuality score would you assign? (0-100)
+            </label>
+
+            <!-- Slider + labels (wrapper reserves space for floating box) -->
+            <div id="scoreWrapper" class="relative pb-20">
+            <input type="range" id="suggestedScore" min="0" max="100" value="50" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+            <div class="flex justify-between text-sm text-gray-600 mt-2">
+                <span>0 (Fake)</span><span>100 (Real)</span>
+            </div>
+            <div id="scoreBoxContainer" class="absolute top-15 left-1/2 -translate-x-1/2 flex flex-col items-center pointer-events-none z-10">
+                <div id="suggestedScoreValue" class="font-bold text-base sm:text-lg px-3 py-2 bg-white border border-gray-300 rounded-lg w-16 shadow-lg text-center">50</div>
+                <div id="suggestedScoreDescription" class="text-xs font-medium mt-1">Low</div>
+            </div>
+            </div>
+
+
+            <textarea id="feedbackComment" placeholder="Optional: Tell us why you think the score should be different..." class="w-full p-3 sm:p-4 border border-gray-300 rounded-lg resize-none h-20 sm:h-24 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm sm:text-base"></textarea>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
+            <button id="submitFeedback" class="detector-btn-primary opacity-50 cursor-not-allowed" disabled>
+                <i class="bi bi-send mr-2"></i>Submit Feedback
+            </button>
+            <button id="cancelFeedback" class="detector-btn-secondary">
+                Cancel
+            </button>
+            </div>
+        </div>
+
+        <div id="feedbackSuccess" class="hidden bg-green-100 border border-green-300 rounded-lg p-3 sm:p-4">
+            <div class="flex items-center text-green-800">
+            <i class="bi bi-check-circle-fill text-xl sm:text-2xl mr-3"></i>
+            <div>
+                <p class="font-semibold text-sm sm:text-base">Thank you for your feedback!</p>
+                <p class="text-xs sm:text-sm">Your input will help improve our AI model.</p>
+            </div>
+            </div>
+        </div>
+        </div>
+      </div>
+      
+      <!-- Action Button - Outside the cards container -->
+      <div class="text-center py-8">
+        <a href="{{ url_for('main.detector_page') }}" class="inline-flex items-center justify-center rounded-2xl bg-indigo-600 px-8 py-4 text-lg font-semibold text-white shadow-sm ring-1 ring-inset ring-indigo-500/30 hover:bg-indigo-700">
+          <i class="bi bi-plus-circle mr-3"></i>
+          Analyze Another Article
+        </a>
+      </div>
+    </section>
+  </div>
+</div>
+{% endblock %}
+
+{% block body_extra %}
+    <!-- External JavaScript -->
+    <script src="{{ url_for('static', filename='js/results.js') }}"></script>
+{% endblock %}

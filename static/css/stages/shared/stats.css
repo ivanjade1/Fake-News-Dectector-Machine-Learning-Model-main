@@ -1,0 +1,515 @@
+/* ===== Stage Stats Header - Consistent with History.css Design System ===== */
+
+:root {
+  /* Match history.css background approach exactly */
+  --stats-h: 100vh;
+  --stats-top: var(--nav-h);
+
+  /* Use same gradient background from history.css */
+  --stats-grad: linear-gradient(
+    to bottom,
+    #ffffff 0%,
+    rgba(246,247,251,0.95) 28%,
+    rgba(238,240,248,0.88) 60%,
+    #ffffff 100%
+  );
+
+  --stats-glow: radial-gradient(closest-side, rgba(99,102,241,0.25), transparent);
+  --stats-glow-w: 48rem;
+}
+
+html.dark {
+  --stats-grad: linear-gradient(
+    to bottom,
+    #0b0f1a 0%,
+    rgba(10,13,23,0.9) 40%,
+    rgba(10,13,23,0.66) 72%,
+    rgba(10,13,23,0) 100%
+  );
+}
+
+/* Stage Stats Header Container */
+.stage-stats-header {
+  position: relative;
+  z-index: 10;
+  padding: 1.5rem 0;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgb(229, 231, 235);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05);
+}
+
+html.dark .stage-stats-header {
+  background: rgba(15, 15, 15, 0.7);
+  border-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+/* Stats Container - Better alignment for top nav and stats */
+.stats-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Top Navigation Row */
+.stage-nav-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 1.5rem;
+}
+
+/* Action buttons - exactly matching history.css */
+.action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 1rem;
+  padding: 0.875rem 1.5rem;
+  font-weight: 600;
+  font-size: 0.925rem;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  text-decoration: none;
+}
+
+/* Primary button - matches history.css */
+.action-btn-primary {
+  background: #4f46e5;
+  color: white;
+  border-radius: 1rem;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(79, 70, 229, 0.3);
+}
+
+.action-btn-primary:hover {
+  background: #4338ca;
+}
+
+/* Secondary button - exactly matching history.css resetBtn */
+.action-btn-secondary {
+  background: white;
+  color: #4338ca;
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  border-radius: 1rem;
+  font-weight: 500;
+}
+
+.action-btn-secondary:hover {
+  background: rgba(99, 102, 241, 0.05);
+}
+
+html.dark .action-btn-secondary {
+  background: transparent;
+  color: #a5b4fc;
+  border-color: rgba(99, 102, 241, 0.3);
+}
+
+html.dark .action-btn-secondary:hover {
+  background: rgba(99, 102, 241, 0.1);
+}
+
+/* Stage Indicator */
+.stage-indicator {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.stage-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  background: linear-gradient(135deg, #4f46e5, #4338ca);
+  border-radius: 1rem;
+  color: white;
+  font-weight: 700;
+  font-size: 1.25rem;
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+}
+
+html.dark .stage-badge {
+  background: linear-gradient(135deg, #6366f1, #4f46e5);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+}
+
+.stage-number {
+  color: white;
+}
+
+.stage-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.stage-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0;
+  line-height: 1.2;
+}
+
+html.dark .stage-title {
+  color: #f9fafb;
+}
+
+/* Game Stats Section - Full width horizontal layout */
+.game-stats-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  width: 100%;
+}
+
+/* Stats Card Container - Full width */
+.stats-card {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(229, 231, 235, 0.8);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s ease;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.stats-card:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+html.dark .stats-card {
+  background: rgba(15, 15, 15, 0.8);
+  border-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+html.dark .stats-card:hover {
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+}
+
+/* Stats Grid - Full width with balanced spacing */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  width: 100%;
+  margin-bottom: 1.5rem;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 1.25rem 1rem;
+  background: rgba(248, 250, 252, 0.6);
+  border-radius: 1rem;
+  border: 1px solid rgba(229, 231, 235, 0.4);
+  transition: all 0.2s ease;
+  min-width: 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.stat-item:hover {
+  background: rgba(248, 250, 252, 0.9);
+  transform: translateY(-1px);
+}
+
+html.dark .stat-item {
+  background: rgba(31, 41, 55, 0.4);
+  border-color: rgba(75, 85, 99, 0.3);
+}
+
+html.dark .stat-item:hover {
+  background: rgba(31, 41, 55, 0.6);
+}
+
+.stat-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #6b7280;
+  margin-bottom: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+html.dark .stat-label {
+  color: #9ca3af;
+}
+
+.stat-value {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #1f2937;
+  line-height: 1;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  min-height: 2.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  text-align: center;
+  overflow: hidden;
+  word-break: break-word;
+}
+
+html.dark .stat-value {
+  color: #f9fafb;
+}
+
+/* Special styling for accuracy percentage */
+.stat-item.accuracy .stat-value {
+  color: #059669;
+}
+
+html.dark .stat-item.accuracy .stat-value {
+  color: #10b981;
+}
+
+/* Special styling for XP */
+.stat-item.xp .stat-value {
+  color: #7c3aed;
+}
+
+html.dark .stat-item.xp .stat-value {
+  color: #a78bfa;
+}
+
+/* Progress Container - Enhanced with separator */
+.progress-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(229, 231, 235, 0.5);
+}
+
+html.dark .progress-container {
+  border-top-color: rgba(75, 85, 99, 0.3);
+}
+
+/* Progress Header */
+.progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.progress-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #374151;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+html.dark .progress-label {
+  color: #d1d5db;
+}
+
+/* Progress Bar - Enhanced styling */
+.progress-bar {
+  width: 100%;
+  height: 10px;
+  background: rgba(156, 163, 175, 0.2);
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.06);
+  position: relative;
+}
+
+html.dark .progress-bar {
+  background: rgba(75, 85, 99, 0.4);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #3b82f6 0%, #1d4ed8 50%, #1e40af 100%);
+  border-radius: 6px;
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 4px rgba(59, 130, 246, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.progress-fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.2) 50%, transparent 100%);
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+html.dark .progress-fill {
+  background: linear-gradient(90deg, #4f46e5 0%, #4338ca 50%, #3730a3 100%);
+  box-shadow: 0 2px 4px rgba(79, 70, 229, 0.4);
+}
+
+/* Progress Text */
+.progress-text {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #6b7280;
+  text-align: center;
+}
+
+html.dark .progress-text {
+  color: #9ca3af;
+}
+
+/* Responsive Design - Maintain full width on all screens */
+@media (max-width: 1024px) {
+  .stats-container {
+    gap: 1.25rem;
+  }
+  
+  .stage-nav-section {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .stats-card {
+    width: 100%;
+  }
+  
+  .stats-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+  }
+  
+  .stat-item {
+    padding: 1rem 0.75rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .stage-stats-header {
+    padding: 1rem 0;
+  }
+  
+  .stats-container {
+    padding: 0 0.75rem;
+    gap: 1rem;
+  }
+  
+  .stage-nav-section {
+    gap: 0.75rem;
+  }
+  
+  .stage-indicator {
+    gap: 0.75rem;
+  }
+  
+  .stage-badge {
+    width: 2.5rem;
+    height: 2.5rem;
+    font-size: 1rem;
+  }
+  
+  .stage-title {
+    font-size: 1.25rem;
+  }
+  
+  .stats-card {
+    padding: 1.25rem;
+  }
+  
+  .stats-grid {
+    gap: 1rem;
+  }
+  
+  .stat-item {
+    padding: 0.75rem 0.5rem;
+  }
+  
+  .stat-label {
+    font-size: 0.7rem;
+  }
+  
+  .stat-value {
+    font-size: 1.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .stage-nav-section {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+  
+  .action-btn-secondary {
+    justify-content: center;
+    width: 100%;
+  }
+  
+  .stage-indicator {
+    justify-content: center;
+  }
+  
+  .stats-card {
+    padding: 1rem;
+  }
+  
+  .stats-grid {
+    gap: 0.75rem;
+  }
+  
+  .stat-item {
+    padding: 0.75rem 0.5rem;
+  }
+  
+  .stat-value {
+    font-size: 1.5rem;
+  }
+  
+  .progress-bar {
+    height: 8px;
+  }
+}
+
+/* Focus styles for accessibility - matching history.css */
+.action-btn:focus-visible {
+  outline: 2px solid #4f46e5;
+  outline-offset: 2px;
+}
+
+/* Animation for stat value updates */
+.stat-value {
+  transition: all 0.3s ease;
+}
+
+.stat-value.updated {
+  animation: statPulse 0.5s ease;
+}
+
+@keyframes statPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}

@@ -1,0 +1,45 @@
+<!-- Stage Stats Header Component -->
+<div class="stage-stats-header">
+  <div class="stats-container">
+    <!-- Left side - Navigation -->
+    <div class="stage-nav-section">
+      <a href="{{ url_for('game.game_hub') }}" class="action-btn action-btn-secondary">
+        <i class="bi bi-arrow-left mr-2"></i>
+        Back to Hub
+      </a>
+    </div>
+    
+    <!-- Right side - Game Stats Card -->
+    <div class="game-stats-section">
+      <div class="stats-card">
+        <div class="stats-grid">
+          <div class="stat-item round">
+            <div class="stat-label">Round</div>
+            <div class="stat-value" id="current-round">0/10</div>
+          </div>
+          <div class="stat-item accuracy">
+            <div class="stat-label">Accuracy</div>
+            <div class="stat-value" id="current-accuracy">0%</div>
+          </div>
+          <div class="stat-item xp">
+            <div class="stat-label">XP</div>
+            <div class="stat-value" id="current-xp">0</div>
+          </div>
+        </div>
+        
+        <!-- Progress Section -->
+        <div class="progress-container">
+          <div class="progress-header">
+            <div class="progress-label">Stage Progress</div>
+            <div class="progress-text">
+              <span id="progress-text">0/10</span>
+            </div>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

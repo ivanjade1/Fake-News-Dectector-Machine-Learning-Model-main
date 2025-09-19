@@ -1,0 +1,393 @@
+{% extends "base.html" %}
+{% block title %}About TruthGuard • Fighting Misinformation{% endblock %}
+
+{% block head_extra %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/about.css') }}?v=1">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+{% endblock %}
+
+{% block content %}
+<div class="results-bg min-h-screen">
+  <div class="results-content">
+    <!-- Hero Section -->
+    <section class="relative isolate mx-auto max-w-7xl px-4 pt-12 md:px-6 md:pt-16">
+      <div class="mx-auto max-w-3xl text-center mb-8">
+        <span class="inline-flex items-center gap-2 rounded-full border border-neutral-200 bg-white px-3 py-1 text-xs text-neutral-700 shadow-sm ring-1 ring-black/10 dark:border-white/10 dark:bg-neutral-900 dark:text-neutral-300">
+          <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
+          About TruthGuard
+        </span>
+
+        <h1 class="mt-4 text-4xl font-extrabold tracking-tight sm:text-5xl">
+          Fighting Misinformation with AI
+        </h1>
+
+        <p class="mt-4 mx-auto max-w-xl text-neutral-700 dark:text-neutral-300">
+          Learn about TruthGuard's mission, technology, and commitment to accurate Philippine political news analysis.
+        </p>
+      </div>
+
+      <!-- Back Button -->
+      <div class="mx-auto max-w-5xl mb-6">
+        <a href="{{ url_for('main.index') }}" class="action-btn action-btn-secondary">
+          <i class="bi bi-arrow-left mr-2"></i>
+          Back to Home
+        </a>
+      </div>
+
+      <!-- Main Content Container -->
+      <div class="mx-auto max-w-5xl space-y-6">
+
+        <!-- Mission Statement Card -->
+        <div class="results-card">
+          <div class="flex flex-col sm:flex-row sm:items-center mb-6 gap-3">
+            <div class="flex items-center gap-3">
+              <div class="results-icon bg-emerald-100 dark:bg-emerald-900/50 text-emerald-600 dark:text-emerald-400">
+                <i class="bi bi-bullseye"></i>
+              </div>
+              <h3 class="text-lg sm:text-xl font-semibold text-neutral-800 dark:text-neutral-200">Our Mission</h3>
+            </div>
+          </div>
+          
+          <p class="text-neutral-600 dark:text-neutral-400 mb-4">
+            TruthGuard is dedicated to combating misinformation in Philippine politics through advanced AI technology. We provide citizens, journalists, and researchers with reliable tools to verify news authenticity and make informed decisions.
+          </p>
+          <p class="text-neutral-600 dark:text-neutral-400">
+            Our hybrid machine learning and AI approach ensures accurate, real-time analysis of political content, helping preserve democratic discourse and informed public debate.
+          </p>
+        </div>
+
+        <!-- How TruthGuard Works -->
+        <div class="results-card">
+          <div class="flex flex-col sm:flex-row sm:items-center mb-6 gap-3">
+            <div class="flex items-center gap-3">
+              <div class="results-icon bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400">
+                <i class="bi bi-gear-fill"></i>
+              </div>
+              <h3 class="text-lg sm:text-xl font-semibold text-neutral-800 dark:text-neutral-200">How TruthGuard Works</h3>
+            </div>
+          </div>
+
+          <!-- Technology Accordion -->
+          <div class="space-y-3">
+            <div class="border border-gray-200 rounded-lg dark:border-white/10">
+              <button class="accordion-header w-full text-left p-4 bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 border-b border-gray-200 dark:border-white/10 rounded-t-lg" data-target="tech-analysis">
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center gap-3">
+                    <i class="bi bi-lightning-charge text-indigo-600 dark:text-indigo-400"></i>
+                    <h4 class="font-medium text-neutral-800 dark:text-neutral-200">Hybrid AI Analysis</h4>
+                  </div>
+                  <i class="bi bi-chevron-down accordion-icon transform transition-transform text-gray-500 dark:text-gray-400"></i>
+                </div>
+              </button>
+              <div id="tech-analysis" class="accordion-content hidden bg-white dark:bg-gray-900 p-4 border-t border-gray-200 dark:border-white/10 rounded-b-lg">
+                <div class="text-neutral-600 dark:text-neutral-400">
+                  <p class="mb-3">
+                    Our system combines multiple machine learning models with Gemini AI to provide comprehensive news analysis:
+                  </p>
+                  <ul class="list-disc pl-5 space-y-2">
+                    <li><strong>Machine Learning Models:</strong> Trained on Philippine political news datasets using Logistic Regression, Random Forest, and Naive Bayes algorithms</li>
+                    <li><strong>Gemini AI Integration:</strong> Advanced natural language processing for content classification and factuality assessment</li>
+                    <li><strong>Cross-Verification:</strong> Real-time source checking against trusted Philippine news outlets</li>
+                    <li><strong>Weighted Scoring:</strong> Combines ML predictions with AI insights for accurate factuality scores</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="border border-gray-200 rounded-lg dark:border-gray-700">
+              <button class="accordion-header w-full text-left p-4 bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 border-b border-gray-200 dark:border-gray-700 rounded-t-lg" data-target="factuality-scoring">
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center gap-3">
+                    <i class="bi bi-graph-up text-blue-600 dark:text-blue-400"></i>
+                    <h4 class="font-medium text-neutral-800 dark:text-neutral-200">Factuality Scale Breakdown</h4>
+                  </div>
+                  <i class="bi bi-chevron-down accordion-icon transform transition-transform text-gray-500 dark:text-gray-400"></i>
+                </div>
+              </button>
+              <div id="factuality-scoring" class="accordion-content hidden bg-white dark:bg-gray-900 p-4 border-t border-gray-200 dark:border-gray-700 rounded-b-lg">
+                <div class="text-neutral-600 dark:text-neutral-400">
+                  <p class="mb-6">
+                    Our factuality scoring system uses a 0-100% scale to classify news articles based on their accuracy and reliability. Here's how the scale works:
+                  </p>
+                  
+                  <!-- Factuality Scale Visual -->
+                  <div class="relative mb-6">
+                    <div class="flex h-8 rounded-full overflow-hidden shadow-inner">
+                      <div class="flex-1 bg-gradient-to-r from-red-500 to-red-400 flex items-center justify-center">
+                        <span class="text-white text-xs font-bold">0-25%</span>
+                      </div>
+                      <div class="flex-1 bg-gradient-to-r from-orange-500 to-orange-400 flex items-center justify-center">
+                        <span class="text-white text-xs font-bold">26-50%</span>
+                      </div>
+                      <div class="flex-1 bg-gradient-to-r from-blue-500 to-blue-400 flex items-center justify-center">
+                        <span class="text-white text-xs font-bold">51-74%</span>
+                      </div>
+                      <div class="flex-1 bg-gradient-to-r from-green-500 to-green-400 flex items-center justify-center">
+                        <span class="text-white text-xs font-bold">75-89%</span>
+                      </div>
+                      <div class="flex-1 bg-gradient-to-r from-green-600 to-green-500 flex items-center justify-center">
+                        <span class="text-white text-xs font-bold">90-100%</span>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <!-- Scale Categories -->
+                  <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 mb-6">
+                    <div class="p-3 bg-red-50 dark:bg-red-900/30 rounded-lg border border-red-200 dark:border-red-700">
+                      <div class="font-bold text-red-700 dark:text-red-300 text-sm">Very Low</div>
+                      <div class="text-xs text-red-600 dark:text-red-400 mt-1">False/Fabricated</div>
+                    </div>
+                    <div class="p-3 bg-orange-50 dark:bg-orange-900/30 rounded-lg border border-orange-200 dark:border-orange-700">
+                      <div class="font-bold text-orange-700 dark:text-orange-300 text-sm">Low</div>
+                      <div class="text-xs text-orange-600 dark:text-orange-400 mt-1">Misleading</div>
+                    </div>
+                    <div class="p-3 bg-blue-50 dark:bg-blue-900/30 rounded-lg border border-blue-200 dark:border-blue-700">
+                      <div class="font-bold text-blue-700 dark:text-blue-300 text-sm">Mostly Factual</div>
+                      <div class="text-xs text-blue-600 dark:text-blue-400 mt-1">Generally Reliable</div>
+                    </div>
+                    <div class="p-3 bg-green-50 dark:bg-green-900/30 rounded-lg border border-green-200 dark:border-green-700">
+                      <div class="font-bold text-green-700 dark:text-green-300 text-sm">High</div>
+                      <div class="text-xs text-green-600 dark:text-green-400 mt-1">Minor Concerns</div>
+                    </div>
+                    <div class="p-3 bg-green-100 dark:bg-green-900/40 rounded-lg border border-green-300 dark:border-green-600">
+                      <div class="font-bold text-green-800 dark:text-green-200 text-sm">Very High</div>
+                      <div class="text-xs text-green-700 dark:text-green-300 mt-1">Highly Factual</div>
+                    </div>
+                  </div>
+                  
+                  <!-- Classification Rules -->
+                  <div class="bg-blue-50 dark:bg-blue-900/30 rounded-lg p-4 border border-blue-200 dark:border-blue-700">
+                    <h4 class="font-semibold text-gray-800 dark:text-gray-200 mb-3">Classification Rules:</h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      <div class="flex items-center p-2 bg-red-50 dark:bg-red-900/30 rounded border border-red-200 dark:border-red-700">
+                        <span class="font-semibold text-red-700 dark:text-red-300">Fake: 0-50%</span>
+                      </div>
+                      <div class="flex items-center p-2 bg-green-50 dark:bg-green-900/30 rounded border border-green-200 dark:border-green-700">
+                        <span class="font-semibold text-green-700 dark:text-green-300">Real: 51-100%</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="border border-gray-200 rounded-lg dark:border-gray-700">
+              <button class="accordion-header w-full text-left p-4 bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 border-b border-gray-200 dark:border-gray-700 rounded-t-lg" data-target="content-processing">
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center gap-3">
+                    <i class="bi bi-cpu text-purple-600 dark:text-purple-400"></i>
+                    <h4 class="font-medium text-neutral-800 dark:text-neutral-200">Content Processing Pipeline</h4>
+                  </div>
+                  <i class="bi bi-chevron-down accordion-icon transform transition-transform text-gray-500 dark:text-gray-400"></i>
+                </div>
+              </button>
+              <div id="content-processing" class="accordion-content hidden bg-white dark:bg-gray-900 p-4 border-t border-gray-200 dark:border-gray-700 rounded-b-lg">
+                <div class="text-neutral-600 dark:text-neutral-400">
+                  <div class="space-y-3">
+                    <div class="flex items-start gap-3">
+                      <span class="bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-300 text-xs font-medium px-2 py-1 rounded-full">1</span>
+                      <div>
+                        <h5 class="font-medium text-neutral-800 dark:text-neutral-200">Content Classification</h5>
+                        <p class="text-sm">Gemini AI identifies Philippine political content and filters out non-relevant articles</p>
+                      </div>
+                    </div>
+                    <div class="flex items-start gap-3">
+                      <span class="bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-300 text-xs font-medium px-2 py-1 rounded-full">2</span>
+                      <div>
+                        <h5 class="font-medium text-neutral-800 dark:text-neutral-200">ML Model Analysis</h5>
+                        <p class="text-sm">Trained models analyze text patterns, language use, and structural indicators</p>
+                      </div>
+                    </div>
+                    <div class="flex items-start gap-3">
+                      <span class="bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-300 text-xs font-medium px-2 py-1 rounded-full">3</span>
+                      <div>
+                        <h5 class="font-medium text-neutral-800 dark:text-neutral-200">Source Cross-Checking</h5>
+                        <p class="text-sm">Real-time verification against trusted Philippine news sources and fact-checkers</p>
+                      </div>
+                    </div>
+                    <div class="flex items-start gap-3">
+                      <span class="bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-300 text-xs font-medium px-2 py-1 rounded-full">4</span>
+                      <div>
+                        <h5 class="font-medium text-neutral-800 dark:text-neutral-200">Final Scoring</h5>
+                        <p class="text-sm">Weighted combination of ML predictions, AI analysis, and source verification</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Privacy Policy -->
+        <div class="results-card">
+          <div class="flex flex-col sm:flex-row sm:items-center mb-6 gap-3">
+            <div class="flex items-center gap-3">
+              <div class="results-icon bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400">
+                <i class="bi bi-shield-lock"></i>
+              </div>
+              <h3 class="text-lg sm:text-xl font-semibold text-neutral-800 dark:text-neutral-200" id="privacy">Privacy Policy</h3>
+            </div>
+          </div>
+              
+          <div class="space-y-3">
+                <div class="border border-gray-200 rounded-lg dark:border-gray-700">
+                  <button class="accordion-header w-full text-left p-4 bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 border-b border-gray-200 dark:border-gray-700 rounded-t-lg" data-target="data-collection">
+                    <div class="flex items-center justify-between">
+                      <div class="flex items-center gap-3">
+                        <i class="bi bi-database text-blue-600 dark:text-blue-400"></i>
+                        <h4 class="font-medium text-neutral-800 dark:text-neutral-200">Data Collection & Usage</h4>
+                      </div>
+                      <i class="bi bi-chevron-down accordion-icon transform transition-transform text-gray-500 dark:text-gray-400"></i>
+                    </div>
+                  </button>
+                  <div id="data-collection" class="accordion-content hidden bg-white dark:bg-gray-900 p-4 border-t border-gray-200 dark:border-gray-700 rounded-b-lg">
+                    <div class="text-neutral-600 dark:text-neutral-400">
+                      <ul class="list-disc pl-5 space-y-2">
+                        <li>We collect only necessary information for analysis purposes</li>
+                        <li>Article URLs and text are processed for fake news detection</li>
+                        <li>User feedback is collected to improve model accuracy</li>
+                        <li>No personal information is shared with third parties</li>
+                        <li>All data is encrypted and stored securely</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="border border-gray-200 rounded-lg dark:border-gray-700">
+                  <button class="accordion-header w-full text-left p-4 bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 border-b border-gray-200 dark:border-gray-700 rounded-t-lg" data-target="user-rights">
+                    <div class="flex items-center justify-between">
+                      <div class="flex items-center gap-3">
+                        <i class="bi bi-person-check text-blue-600 dark:text-blue-400"></i>
+                        <h4 class="font-medium text-neutral-800 dark:text-neutral-200">User Rights</h4>
+                      </div>
+                      <i class="bi bi-chevron-down accordion-icon transform transition-transform text-gray-500 dark:text-gray-400"></i>
+                    </div>
+                  </button>
+                  <div id="user-rights" class="accordion-content hidden bg-white dark:bg-gray-900 p-4 border-t border-gray-200 dark:border-gray-700 rounded-b-lg">
+                    <div class="text-neutral-600 dark:text-neutral-400">
+                      <ul class="list-disc pl-5 space-y-2">
+                        <li>Right to access your personal data</li>
+                        <li>Right to request data correction or deletion</li>
+                        <li>Right to withdraw consent at any time</li>
+                        <li>Right to data portability</li>
+                        <li>Right to object to data processing</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+        </div>
+
+        <!-- Terms of Service -->
+        <div class="results-card">
+          <div class="flex flex-col sm:flex-row sm:items-center mb-6 gap-3">
+            <div class="flex items-center gap-3">
+              <div class="results-icon bg-orange-100 dark:bg-orange-900/50 text-orange-600 dark:text-orange-400">
+                <i class="bi bi-file-text"></i>
+              </div>
+              <h3 class="text-lg sm:text-xl font-semibold text-neutral-800 dark:text-neutral-200" id="terms">Terms of Service</h3>
+            </div>
+          </div>
+              
+          <div class="space-y-3">
+                <div class="border border-gray-200 rounded-lg dark:border-gray-700">
+                  <button class="accordion-header w-full text-left p-4 bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 border-b border-gray-200 dark:border-gray-700 rounded-t-lg" data-target="acceptable-use">
+                    <div class="flex items-center justify-between">
+                      <div class="flex items-center gap-3">
+                        <i class="bi bi-check-circle text-orange-600 dark:text-orange-400"></i>
+                        <h4 class="font-medium text-neutral-800 dark:text-neutral-200">Acceptable Use</h4>
+                      </div>
+                      <i class="bi bi-chevron-down accordion-icon transform transition-transform text-gray-500 dark:text-gray-400"></i>
+                    </div>
+                  </button>
+                  <div id="acceptable-use" class="accordion-content hidden bg-white dark:bg-gray-900 p-4 border-t border-gray-200 dark:border-gray-700 rounded-b-lg">
+                    <div class="text-neutral-600 dark:text-neutral-400">
+                      <ul class="list-disc pl-5 space-y-2">
+                        <li>TruthGuard is intended for legitimate fact-checking purposes</li>
+                        <li>Users must not attempt to manipulate the system</li>
+                        <li>Commercial use requires explicit authorization</li>
+                        <li>Users must respect intellectual property rights</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="border border-gray-200 rounded-lg dark:border-gray-700">
+                  <button class="accordion-header w-full text-left p-4 bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 border-b border-gray-200 dark:border-gray-700 rounded-t-lg" data-target="disclaimers">
+                    <div class="flex items-center justify-between">
+                      <div class="flex items-center gap-3">
+                        <i class="bi bi-exclamation-triangle text-orange-600 dark:text-orange-400"></i>
+                        <h4 class="font-medium text-neutral-800 dark:text-neutral-200">Disclaimers & Limitations</h4>
+                      </div>
+                      <i class="bi bi-chevron-down accordion-icon transform transition-transform text-gray-500 dark:text-gray-400"></i>
+                    </div>
+                  </button>
+                  <div id="disclaimers" class="accordion-content hidden bg-white dark:bg-gray-900 p-4 border-t border-gray-200 dark:border-gray-700 rounded-b-lg">
+                    <div class="text-neutral-600 dark:text-neutral-400">
+                      <ul class="list-disc pl-5 space-y-2">
+                        <li>System only processes text content - images, videos, and multimedia are not analyzed</li>
+                        <li>Analysis is limited to URL links and text snippets - file uploads are not supported</li>
+                        <li>System accuracy may vary based on content type and quality</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+        </div>
+
+        <!-- Contact Information -->
+        <div class="results-card">
+          <div class="flex flex-col sm:flex-row sm:items-center mb-6 gap-3">
+            <div class="flex items-center gap-3">
+              <div class="results-icon bg-green-100 dark:bg-green-900/50 text-green-600 dark:text-green-400">
+                <i class="bi bi-envelope"></i>
+              </div>
+              <h3 class="text-lg sm:text-xl font-semibold text-neutral-800 dark:text-neutral-200" id="contact">Contact Us</h3>
+            </div>
+          </div>
+          
+          <p class="text-neutral-600 dark:text-neutral-400 mb-6">
+            Have questions, concerns, or feedback? We'd love to hear from you.
+          </p>
+              
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="p-4 rounded-lg border border-neutral-200 bg-neutral-50 dark:border-neutral-700 dark:bg-neutral-800/50">
+                  <h4 class="font-medium text-neutral-800 dark:text-neutral-200 mb-2">John Lloyd E. Dela Cuesta</h4>
+                  <a href="mailto:johnlloyd.delacuesta@perpetual.edu.ph" class="text-indigo-600 hover:text-indigo-700 dark:text-indigo-400 dark:hover:text-indigo-300 font-medium">
+                    johnlloyd.delacuesta@perpetual.edu.ph
+                  </a>
+                </div>
+                
+                <div class="p-4 rounded-lg border border-neutral-200 bg-neutral-50 dark:border-neutral-700 dark:bg-neutral-800/50">
+                  <h4 class="font-medium text-neutral-800 dark:text-neutral-200 mb-2">Ivan Jade E. Prejoles</h4>
+                  <a href="mailto:ivanjade.prejoles@perpetual.edu.ph" class="text-indigo-600 hover:text-indigo-700 dark:text-indigo-400 dark:hover:text-indigo-300 font-medium">
+                    ivanjade.prejoles@perpetual.edu.ph
+                  </a>
+                </div>
+                
+                <div class="p-4 rounded-lg border border-neutral-200 bg-neutral-50 dark:border-neutral-700 dark:bg-neutral-800/50">
+                  <h4 class="font-medium text-neutral-800 dark:text-neutral-200 mb-2">Patrick Kyle E. Gutierrez</h4>
+                  <a href="mailto:patrickkyle.gutierrez@perpetual.edu.ph" class="text-indigo-600 hover:text-indigo-700 dark:text-indigo-400 dark:hover:text-indigo-300 font-medium">
+                    patrickkyle.gutierrez@perpetual.edu.ph
+                  </a>
+                </div>
+                
+                <div class="p-4 rounded-lg border border-neutral-200 bg-neutral-50 dark:border-neutral-700 dark:bg-neutral-800/50">
+                  <h4 class="font-medium text-neutral-800 dark:text-neutral-200 mb-2">Byron M. Lontoc</h4>
+                  <a href="mailto:byron.lontoc@perpetual.edu.ph" class="text-indigo-600 hover:text-indigo-700 dark:text-indigo-400 dark:hover:text-indigo-300 font-medium">
+                    byron.lontoc@perpetual.edu.ph
+                  </a>
+                </div>
+              </div>
+        </div>
+
+      </div>
+    </section>
+  </div>
+</div>
+{% endblock %}
+
+{% block body_extra %}
+<script src="{{ url_for('static', filename='js/about.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,502 @@
+/* ===== Admin Feedback Styling - Based on History.css Design System ===== */
+
+/* Import all base styles from history.css */
+@import url('../history.css');
+
+/* Admin feedback-specific color overrides */
+:root {
+  /* Orange theme for feedback */
+  --feedback-primary: #f97316;
+  --feedback-primary-hover: #ea580c;
+  --feedback-secondary: rgba(249, 115, 22, 0.1);
+  --feedback-border: rgba(249, 115, 22, 0.2);
+}
+
+html.dark {
+  --feedback-primary: #fb923c;
+  --feedback-primary-hover: #f97316;
+  --feedback-secondary: rgba(251, 146, 60, 0.15);
+  --feedback-border: rgba(251, 146, 60, 0.3);
+}
+
+/* Feedback-specific search input styling */
+.search-input:focus {
+  border-color: var(--feedback-primary) !important;
+  box-shadow: 0 0 0 2px var(--feedback-secondary) !important;
+}
+
+/* Orange search icon */
+.bi-search {
+  color: var(--feedback-primary) !important;
+  font-weight: 600 !important;
+}
+
+/* Feedback card styling - based on article cards from history.css */
+.feedback-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgb(229, 231, 235);
+  border-radius: 1.5rem;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05);
+  padding: 0;
+  margin-bottom: 1.5rem;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.feedback-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(249, 115, 22, 0.15);
+  border-color: var(--feedback-border);
+}
+
+html.dark .feedback-card {
+  background: rgba(15, 15, 15, 0.7);
+  border-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  color: rgb(229, 231, 235);
+}
+
+html.dark .feedback-card:hover {
+  box-shadow: 0 12px 40px rgba(251, 146, 60, 0.2);
+  border-color: var(--feedback-border);
+}
+
+/* Feedback header section */
+.feedback-header {
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid rgba(229, 231, 235, 0.6);
+}
+
+html.dark .feedback-header {
+  border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Feedback meta section */
+.feedback-meta {
+  padding: 1rem 2rem;
+  background: rgba(249, 250, 252, 0.5);
+  border-bottom: 1px solid rgba(229, 231, 235, 0.6);
+}
+
+html.dark .feedback-meta {
+  background: rgba(15, 15, 15, 0.3);
+  border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Feedback content section */
+.feedback-content {
+  padding: 1.5rem 2rem;
+}
+
+/* Feedback actions section */
+.feedback-actions {
+  padding: 1rem 2rem;
+  background: rgba(249, 250, 252, 0.3);
+  border-top: 1px solid rgba(229, 231, 235, 0.6);
+}
+
+html.dark .feedback-actions {
+  background: rgba(15, 15, 15, 0.2);
+  border-top-color: rgba(255, 255, 255, 0.1);
+}
+
+/* User info styling */
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.user-avatar {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--feedback-primary), var(--feedback-primary-hover));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 600;
+  font-size: 1.25rem;
+}
+
+.user-details h4 {
+  margin: 0;
+  font-weight: 600;
+  color: rgb(55, 65, 81);
+}
+
+.user-details p {
+  margin: 0;
+  font-size: 0.875rem;
+  color: rgb(107, 114, 128);
+}
+
+html.dark .user-details h4 {
+  color: rgb(229, 231, 235);
+}
+
+html.dark .user-details p {
+  color: rgb(156, 163, 175);
+}
+
+/* Feedback type badges */
+.feedback-type {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.feedback-type.guest {
+  background: rgba(107, 114, 128, 0.1);
+  color: rgb(107, 114, 128);
+  border: 1px solid rgba(107, 114, 128, 0.2);
+}
+
+.feedback-type.user {
+  background: rgba(59, 130, 246, 0.1);
+  color: rgb(59, 130, 246);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+}
+
+html.dark .feedback-type.guest {
+  background: rgba(156, 163, 175, 0.15);
+  color: rgb(156, 163, 175);
+  border-color: rgba(156, 163, 175, 0.3);
+}
+
+html.dark .feedback-type.user {
+  background: rgba(96, 165, 250, 0.15);
+  color: rgb(96, 165, 250);
+  border-color: rgba(96, 165, 250, 0.3);
+}
+
+/* Feedback content text */
+.feedback-text {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: rgb(55, 65, 81);
+  margin: 0;
+}
+
+html.dark .feedback-text {
+  color: rgb(229, 231, 235);
+}
+
+/* Feedback timestamp */
+.feedback-timestamp {
+  font-size: 0.875rem;
+  color: rgb(107, 114, 128);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+html.dark .feedback-timestamp {
+  color: rgb(156, 163, 175);
+}
+
+/* Action buttons specific to feedback */
+.feedback-action-btn {
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  border-radius: 0.75rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.feedback-action-btn.primary {
+  background: var(--feedback-primary);
+  color: white;
+}
+
+.feedback-action-btn.primary:hover {
+  background: var(--feedback-primary-hover);
+}
+
+.feedback-action-btn.secondary {
+  background: var(--feedback-secondary);
+  color: var(--feedback-primary);
+  border: 1px solid var(--feedback-border);
+}
+
+.feedback-action-btn.secondary:hover {
+  background: rgba(249, 115, 22, 0.2);
+}
+
+/* Priority indicators */
+.priority-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.priority-high {
+  background: rgba(239, 68, 68, 0.1);
+  color: rgb(239, 68, 68);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.priority-medium {
+  background: rgba(245, 158, 11, 0.1);
+  color: rgb(245, 158, 11);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+}
+
+.priority-low {
+  background: rgba(34, 197, 94, 0.1);
+  color: rgb(34, 197, 94);
+  border: 1px solid rgba(34, 197, 94, 0.2);
+}
+
+html.dark .priority-high {
+  background: rgba(248, 113, 113, 0.15);
+  color: rgb(248, 113, 113);
+  border-color: rgba(248, 113, 113, 0.3);
+}
+
+html.dark .priority-medium {
+  background: rgba(251, 191, 36, 0.15);
+  color: rgb(251, 191, 36);
+  border-color: rgba(251, 191, 36, 0.3);
+}
+
+html.dark .priority-low {
+  background: rgba(74, 222, 128, 0.15);
+  color: rgb(74, 222, 128);
+  border-color: rgba(74, 222, 128, 0.3);
+}
+
+/* Long text truncation for feedback preview */
+.feedback-preview {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  line-height: 1.5;
+}
+
+/* Responsive design for feedback cards */
+@media (max-width: 768px) {
+  .feedback-card {
+    margin-bottom: 1rem;
+  }
+  
+  .feedback-header,
+  .feedback-meta,
+  .feedback-content,
+  .feedback-actions {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+  
+  .user-info {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  /* Left align stars in mobile view */
+  .results-card .flex.flex-col.items-end {
+    align-items: flex-start !important;
+  }
+  
+  .feedback-action-btn {
+    font-size: 0.75rem;
+    padding: 0.375rem 0.75rem;
+  }
+}
+
+/* Enhanced modal content for feedback details */
+.feedback-modal-content {
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.feedback-full-content {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: rgb(55, 65, 81);
+  white-space: pre-wrap;
+}
+
+html.dark .feedback-full-content {
+  color: rgb(229, 231, 235);
+}
+
+/* Feedback statistics summary */
+.feedback-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.feedback-stat-item {
+  text-align: center;
+  padding: 1rem;
+  background: rgba(249, 115, 22, 0.05);
+  border-radius: 1rem;
+  border: 1px solid var(--feedback-border);
+}
+
+.feedback-stat-number {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--feedback-primary);
+  display: block;
+}
+
+.feedback-stat-label {
+  font-size: 0.75rem;
+  color: rgb(107, 114, 128);
+  margin-top: 0.25rem;
+}
+
+html.dark .feedback-stat-item {
+  background: var(--feedback-secondary);
+}
+
+html.dark .feedback-stat-label {
+  color: rgb(156, 163, 175);
+}
+
+/* ===== Search and Filter Styles ===== */
+
+/* Quick filter chips */
+.quick-filter-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.375rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1;
+  border-radius: 9999px;
+  border: 1px solid rgb(209, 213, 219);
+  background-color: rgb(249, 250, 251);
+  color: rgb(55, 65, 81);
+  cursor: pointer;
+  transition: all 0.15s ease-in-out;
+  user-select: none;
+}
+
+.quick-filter-chip:hover {
+  background-color: rgb(243, 244, 246);
+  border-color: rgb(156, 163, 175);
+}
+
+.quick-filter-chip.active {
+  background-color: rgba(249, 115, 22, 0.1);
+  color: rgb(194, 65, 12);
+  border-color: rgba(249, 115, 22, 0.2);
+}
+
+/* Form select styling */
+.form-select {
+  appearance: none;
+  background-color: rgb(255, 255, 255);
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+  background-position: right 0.5rem center;
+  background-repeat: no-repeat;
+  background-size: 1.5em 1.5em;
+  border: 1px solid rgb(209, 213, 219);
+  border-radius: 0.5rem;
+  color: rgb(55, 65, 81);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  padding: 0.5rem 2.5rem 0.5rem 0.75rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  width: 100%;
+}
+
+.form-select:focus {
+  border-color: var(--feedback-primary);
+  box-shadow: 0 0 0 2px rgba(249, 115, 22, 0.2);
+  outline: none;
+}
+
+.form-select:disabled {
+  background-color: rgb(249, 250, 251);
+  color: rgb(156, 163, 175);
+}
+
+/* Dark mode for form elements */
+html.dark .quick-filter-chip {
+  background-color: rgba(55, 65, 81, 0.5);
+  border-color: rgba(75, 85, 99, 0.5);
+  color: rgb(209, 213, 219);
+}
+
+html.dark .quick-filter-chip:hover {
+  background-color: rgba(75, 85, 99, 0.5);
+  border-color: rgba(107, 114, 128, 0.5);
+}
+
+html.dark .quick-filter-chip.active {
+  background-color: rgba(251, 146, 60, 0.15);
+  color: rgb(251, 146, 60);
+  border-color: rgba(251, 146, 60, 0.3);
+}
+
+html.dark .form-select {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-color: rgba(75, 85, 99, 0.5);
+  color: rgb(209, 213, 219);
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%9ca3af' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+}
+
+html.dark .form-select:focus {
+  border-color: var(--feedback-primary);
+  box-shadow: 0 0 0 2px rgba(251, 146, 60, 0.2);
+}
+
+html.dark .form-select:disabled {
+  background-color: rgba(55, 65, 81, 0.5);
+  color: rgb(107, 114, 128);
+}
+
+/* Filter panel animation */
+#filtersPanel {
+  transition: all 0.3s ease-in-out;
+}
+
+#filtersPanel:not(.hidden) {
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Results count styling */
+#resultsCount {
+  font-weight: 500;
+  color: rgb(107, 114, 128);
+}
+
+html.dark #resultsCount {
+  color: rgb(156, 163, 175);
+}

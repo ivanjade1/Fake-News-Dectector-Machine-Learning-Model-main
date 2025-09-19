@@ -1,0 +1,383 @@
+{% extends "base.html" %}
+{% block title %}TruthGuard • Login{% endblock %}
+
+{% block head_extra %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/auth/auth.css') }}?v=1">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/auth/profile.css') }}?v=1">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+{% endblock %}
+
+{% block content %}
+<div class="auth-bg min-h-screen">
+  <div class="auth-content">
+    <!-- Hero Section -->
+    <section class="relative isolate mx-auto max-w-7xl px-4 pt-12 md:px-6 md:pt-16">
+      <div class="mx-auto max-w-md">
+        <!-- Hero -->
+        <div class="auth-hero fade-in">
+          <span class="auth-badge">
+            <span class="h-2 w-2 rounded-full bg-indigo-500"></span>
+            Welcome back
+          </span>
+          <h1 class="auth-title">Sign In</h1>
+          <p class="auth-subtitle">Access your TruthGuard account to continue fact-checking</p>
+        </div>
+
+        <!-- Login Form Card -->
+        <div class="auth-card p-8 fade-in">
+          <div class="text-center mb-8">
+            <div class="method-icon bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 mx-auto mb-4">
+              <i class="bi bi-person-check"></i>
+            </div>
+            <h2 class="text-xl font-semibold text-neutral-800 dark:text-neutral-200 mb-2">Welcome Back</h2>
+            <p class="text-neutral-600 dark:text-neutral-400">Sign in to continue your fact-checking journey</p>
+          </div>
+
+          <!-- Messages Display -->
+          {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+              {% for category, message in messages %}
+                {% if category == 'error' %}
+                <div class="alert alert-error">
+                  <div class="flex items-center">
+                    <i class="bi bi-exclamation-triangle mr-2"></i>
+                    <span>{{ message }}</span>
+                  </div>
+                </div>
+                {% elif category == 'success' %}
+                <div class="alert alert-success">
+                  <div class="flex items-center">
+                    <i class="bi bi-check-circle mr-2"></i>
+                    <span>{{ message }}</span>
+                  </div>
+                </div>
+                {% elif category == 'info' %}
+                <div class="alert alert-success">
+                  <div class="flex items-center">
+                    <i class="bi bi-info-circle mr-2"></i>
+                    <span>{{ message }}</span>
+                  </div>
+                </div>
+                {% endif %}
+              {% endfor %}
+            {% endif %}
+          {% endwith %}
+
+          <!-- Login Form -->
+          <form method="POST" class="space-y-6" id="loginForm" autocomplete="on">
+            <div class="form-group">
+              <label for="username" class="form-label">
+                <i class="bi bi-person form-icon"></i>
+                Username or Email
+              </label>
+              <div class="relative">
+                <input 
+                  type="text" 
+                  id="username"
+                  name="username"
+                  class="auth-input ring-1 ring-inset ring-neutral-400/40 dark:ring-white/15 focus:ring-2 focus:ring-indigo-600 dark:focus:ring-2 dark:focus:ring-indigo-600"
+                  placeholder="Enter your username or email"
+                  required
+                  autocomplete="username"
+                  autocapitalize="none"
+                  autocorrect="off"
+                  inputmode="email"
+                  readonly
+                  data-unlock-on-focus
+                />
+                <div class="absolute inset-y-0 right-0 flex items-center pr-3">
+                  <i class="bi bi-envelope text-neutral-400"></i>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="password" class="form-label">
+                <i class="bi bi-lock form-icon"></i>
+                Password
+              </label>
+              <div class="relative">
+                <input 
+                  type="password" 
+                  id="password"
+                  name="password"
+                  class="auth-input ring-1 ring-inset ring-neutral-400/40 dark:ring-white/15 focus:ring-2 focus:ring-indigo-600 dark:focus:ring-2 dark:focus:ring-indigo-600"
+                  placeholder="Enter your password"
+                  required
+                  autocomplete="current-password"
+                  readonly
+                  data-unlock-on-focus
+                />
+                <button 
+                  type="button" 
+                  class="password-toggle" 
+                  onclick="togglePassword('password')"
+                  aria-label="Toggle password visibility"
+                >
+                  <i class="bi bi-eye"></i>
+                </button>
+              </div>
+            </div>
+
+            <button type="submit" class="auth-btn-primary" id="loginBtn">
+              <i class="bi bi-box-arrow-in-right mr-2"></i>
+              Sign In
+            </button>
+          </form>
+
+          <!-- Forgot Password Link -->
+          <div class="text-center mt-4">
+            <button type="button" class="auth-link text-sm" onclick="openForgotPasswordModal()">
+              <i class="bi bi-question-circle mr-1"></i>
+              Forgot your password?
+            </button>
+          </div>
+
+          <!-- Register Link -->
+          <div class="text-center mt-6">
+            <p class="text-neutral-600 dark:text-neutral-400">
+              Don't have an account? 
+              <a href="{{ url_for('auth.register') }}" class="auth-link">Create one here</a>
+            </p>
+          </div>
+        </div>
+
+        <!-- Features Section -->
+        <div class="features-grid fade-in">
+          <div class="feature-item">
+            <div class="feature-icon bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400">
+              <i class="bi bi-shield-check"></i>
+            </div>
+            <h3 class="text-sm font-semibold text-neutral-800 dark:text-neutral-200 mb-1">Secure Access</h3>
+            <p class="text-xs text-neutral-600 dark:text-neutral-400">Protected login system</p>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400">
+              <i class="bi bi-clock-history"></i>
+            </div>
+            <h3 class="text-sm font-semibold text-neutral-800 dark:text-neutral-200 mb-1">Your History</h3>
+            <p class="text-xs text-neutral-600 dark:text-neutral-400">Access past analyses</p>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400">
+              <i class="bi bi-lightning"></i>
+            </div>
+            <h3 class="text-sm font-semibold text-neutral-800 dark:text-neutral-200 mb-1">Quick Access</h3>
+            <p class="text-xs text-neutral-600 dark:text-neutral-400">Instant fact-checking</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<!-- Forgot Password Modal -->
+<div id="forgot-password-modal" class="fixed inset-0 modal-backdrop z-50 hidden">
+    <div class="min-h-screen flex items-center justify-center p-4">
+        <div class="modal-card w-full max-w-md">
+            <div class="flex justify-between items-center p-6 border-b border-gray-300 dark:border-neutral-700">
+                <h3 class="text-xl font-semibold text-neutral-800 dark:text-neutral-200">Forgot Your Password?</h3>
+                <button type="button" class="text-neutral-500 hover:text-neutral-700 dark:text-neutral-400 dark:hover:text-neutral-200 transition-colors" onclick="closeForgotPasswordModal()">
+                    <i class="bi bi-x-lg text-xl"></i>
+                </button>
+            </div>
+            
+            <form method="POST" action="{{ url_for('passwordreset.request_password_reset') }}" class="p-6">
+                <div class="text-center mb-6">
+                    <div class="w-16 h-16 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="bi bi-envelope text-2xl text-blue-600 dark:text-blue-400"></i>
+                    </div>
+                    <p class="text-neutral-600 dark:text-neutral-400">
+                        Enter your username or email address and we'll help you reset your password.
+                    </p>
+                </div>
+                
+                <div class="form-group">
+                    <label for="user_identifier" class="form-label">
+                        <i class="bi bi-person form-icon"></i>
+                        Username or Email
+                    </label>
+                    <input 
+                        type="text" 
+                        id="user_identifier" 
+                        name="user_identifier" 
+                        class="auth-input ring-1 ring-inset ring-neutral-400/40 dark:ring-white/15 focus:ring-2 focus:ring-indigo-600 dark:focus:ring-2 dark:focus:ring-indigo-600"
+                        placeholder="Enter your username or email"
+                        required
+                        autocomplete="username"
+                    />
+                </div>
+                
+                <div class="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4 mb-6">
+                    <div class="flex items-start">
+                        <i class="bi bi-info-circle text-blue-600 dark:text-blue-400 mr-3 mt-0.5"></i>
+                        <div class="text-sm text-blue-800 dark:text-blue-300">
+                            <p class="font-medium mb-1">What happens next?</p>
+                            <ul class="text-xs space-y-1 text-blue-700 dark:text-blue-400">
+                                <li>• Your request is sent to administrators</li>
+                                <li>• An admin will review and approve your request</li>
+                                <li>• You'll receive an email with reset instructions</li>
+                                <li>• Use the email link to set a new password</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex gap-3 mt-6 pt-4 border-t border-gray-300 dark:border-neutral-700">
+                    <button type="button" onclick="closeForgotPasswordModal()" class="auth-btn-secondary flex-1">
+                        Cancel
+                    </button>
+                    <button type="submit" class="auth-btn-primary flex-1">
+                        <i class="bi bi-send mr-2"></i>
+                        Request Reset
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block body_extra %}
+<script>
+// 1) Unlock BOTH inputs before the browser tries to autofill (fixes "username fills, password doesn't")
+(function() {
+  const form = document.getElementById('loginForm');
+  const user = document.getElementById('username');
+  const pass = document.getElementById('password');
+
+  function unlockBothIfNeeded(target) {
+    if (!form || !target || !form.contains(target)) return;
+    [user, pass].forEach(el => {
+      if (el && el.hasAttribute('readonly')) el.removeAttribute('readonly');
+    });
+  }
+
+  // Mouse/touch: unlock in capture phase BEFORE focus/autofill
+  document.addEventListener('pointerdown', (e) => {
+    unlockBothIfNeeded(e.target);
+  }, { capture: true });
+
+  // Keyboard (Tab): unlock before focus lands
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Tab') unlockBothIfNeeded(document.activeElement || form);
+  }, { capture: true });
+
+  // Fallback: if something still gains focus while readonly, unlock immediately
+  document.addEventListener('focusin', (e) => {
+    unlockBothIfNeeded(e.target);
+  }, { capture: true });
+})();
+
+// 2) Password toggle
+function togglePassword(inputId) {
+  const input = document.getElementById(inputId);
+  const icon = input.nextElementSibling.querySelector('i');
+  const showing = input.type === 'password';
+  input.type = showing ? 'text' : 'password';
+  icon.classList.toggle('bi-eye', !showing);
+  icon.classList.toggle('bi-eye-slash', showing);
+}
+
+// 3) Forgot Password Modal Functions
+function openForgotPasswordModal() {
+  document.getElementById('forgot-password-modal').classList.remove('hidden');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeForgotPasswordModal() {
+  document.getElementById('forgot-password-modal').classList.add('hidden');
+  document.body.style.overflow = '';
+}
+
+// Close modal when clicking outside
+document.addEventListener('DOMContentLoaded', function() {
+  const modal = document.getElementById('forgot-password-modal');
+  if (modal) {
+    modal.addEventListener('click', function(e) {
+      if (e.target === this) {
+        closeForgotPasswordModal();
+      }
+    });
+  }
+});
+
+// Close modal with Escape key
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    const modal = document.getElementById('forgot-password-modal');
+    if (modal && !modal.classList.contains('hidden')) {
+      closeForgotPasswordModal();
+    }
+  }
+});
+
+// 4) Lightweight form UX
+document.addEventListener('DOMContentLoaded', function() {
+  const form = document.getElementById('loginForm');
+  const usernameInput = document.getElementById('username');
+  const passwordInput = document.getElementById('password');
+  const submitBtn = document.getElementById('loginBtn');
+  const errorAlert = document.querySelector('.alert-error');
+  const successAlert = document.querySelector('.alert-success');
+
+  form.addEventListener('submit', function(e) {
+    let ok = true;
+    if (!usernameInput.value.trim()) { usernameInput.classList.add('input-error'); ok = false; }
+    if (!passwordInput.value) { passwordInput.classList.add('input-error'); ok = false; }
+    if (!ok) { e.preventDefault(); return; }
+    submitBtn.innerHTML = '<span class="loading-spinner"></span>Signing In...';
+    submitBtn.disabled = true;
+  });
+
+  // Clear error states and hide both error and success alerts when user starts typing
+  function clearLoginMessages() {
+    usernameInput.classList.remove('input-error');
+    passwordInput.classList.remove('input-error');
+    if (errorAlert) errorAlert.style.display = 'none';
+    if (successAlert) successAlert.style.display = 'none';
+  }
+
+  if (errorAlert) {
+    usernameInput.addEventListener('input', clearLoginMessages);
+    passwordInput.addEventListener('input', clearLoginMessages);
+    usernameInput.classList.add('input-error');
+    passwordInput.classList.add('input-error');
+    
+    // Auto-hide error messages after 5 seconds (faster for better UX)
+    setTimeout(() => {
+      if (errorAlert && errorAlert.style.display !== 'none') {
+        // Clear field highlighting when error message starts to hide
+        usernameInput.classList.remove('input-error');
+        passwordInput.classList.remove('input-error');
+        
+        errorAlert.style.transition = 'opacity 0.5s ease-out, transform 0.5s ease-out';
+        errorAlert.style.opacity = '0';
+        errorAlert.style.transform = 'translateY(-10px)';
+        setTimeout(() => {
+          errorAlert.style.display = 'none';
+          errorAlert.style.opacity = '1';
+          errorAlert.style.transform = 'translateY(0)';
+        }, 500);
+      }
+    }, 5000); // Hide after 5 seconds (faster for better UX)
+  }
+
+  if (successAlert) {
+    usernameInput.addEventListener('input', clearLoginMessages);
+    passwordInput.addEventListener('input', clearLoginMessages);
+    
+    // Auto-hide success messages after 8 seconds
+    setTimeout(() => {
+      if (successAlert && successAlert.style.display !== 'none') {
+        successAlert.style.opacity = '0';
+        setTimeout(() => {
+          successAlert.style.display = 'none';
+          successAlert.style.opacity = '1';
+        }, 300);
+      }
+    }, 8000);
+  }
+});
+</script>
+{% endblock %}

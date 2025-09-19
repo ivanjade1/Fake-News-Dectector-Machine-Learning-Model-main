@@ -1,0 +1,209 @@
+/* ===== Base Styles for All Pages ===== */
+
+:root {
+  /* Navigation height for consistent spacing */
+  --nav-h: 72px;
+  
+  /* Base gradient system */
+  --page-grad: linear-gradient(
+    to bottom,
+    #ffffff 0%,
+    rgba(246,247,251,0.95) 28%,
+    rgba(238,240,248,0.88) 60%,
+    #ffffff 100%
+  );
+
+  --page-glow: radial-gradient(closest-side, rgba(99,102,241,0.25), transparent);
+  --page-glow-w: 48rem;
+}
+
+html.dark {
+  --page-grad: linear-gradient(
+    to bottom,
+    #0b0f1a 0%,
+    rgba(10,13,23,0.9) 40%,
+    rgba(10,13,23,0.66) 72%,
+    rgba(10,13,23,0) 100%
+  );
+}
+
+body { 
+  position: relative; 
+}
+
+/* Keep page content above background layers */
+main, section, footer, .page-content { 
+  position: relative; 
+  z-index: 1; 
+}
+
+/* ===== NAVIGATION STYLES ===== */
+/* Navigation styles are defined inline in base.html template for consistency */
+
+/* Desktop nav: no background box on hover, but change text color */
+.nav-link:hover {
+  background: none !important;
+  background-color: transparent !important;
+  color: #6366f1 !important; /* Indigo-500 - same as active */
+}
+
+html.dark .nav-link:hover {
+  color: #818cf8 !important; /* Indigo-400 for dark mode */
+}
+
+/* --- Mobile nav: desktop-like hover (no grey box) --- */
+.nav-link-mobile { 
+  position: relative; 
+  background: transparent; 
+}
+
+.nav-link-mobile:hover {
+  background: transparent !important;
+  color: #4f46e5; /* indigo-600 to match desktop hover */
+}
+
+.nav-link-mobile:hover::before {
+  content: "";
+  position: absolute;
+  left: 8px; 
+  top: 6px; 
+  bottom: 6px;
+  width: 2px;
+  background: #4f46e5;
+  border-radius: 9999px;
+  opacity: 0.9;
+}
+
+html.dark .nav-link-mobile:hover { 
+  color: #a5b4fc; /* indigo-300-ish */ 
+}
+html.dark .nav-link-mobile:hover::before { 
+  background: #6366f1; /* indigo-500 */ 
+}
+
+.nav-link-mobile.active { 
+  color: #4f46e5 !important; 
+}
+html.dark .nav-link-mobile.active { 
+  color: #a5b4fc !important; 
+}
+
+.nav-link-mobile.active::before { 
+  width: 3px; 
+  opacity: 1; 
+}
+
+/* Remove iOS grey tap flash */
+#mobileMenu a, #mobileMenu button { 
+  -webkit-tap-highlight-color: transparent; 
+}
+
+/* ===== THEME OPTIONS - Consistent across all pages ===== */
+
+/* Space between items inside desktop dropdown to avoid stacking/overlap */
+#themeMenu {
+  display: flex;
+  flex-direction: column;
+  gap: .25rem; /* 4px separation */
+}
+
+/* Base: remove movement everywhere */
+#themeMenu [data-theme-option],
+#mobileMenu [data-theme-option] {
+  transform: none !important; /* kill vertical hover shift */
+  transition: background-color .18s ease, color .18s ease, box-shadow .18s ease;
+}
+
+/* Hover: light */
+html:not(.dark) #themeMenu [data-theme-option]:hover,
+html:not(.dark) #mobileMenu [data-theme-option]:hover {
+  background-color: rgba(2,6,23,.05);
+  box-shadow: 0 4px 12px rgba(2,6,23,.08);
+}
+
+/* Hover: dark */
+html.dark #themeMenu [data-theme-option]:hover,
+html.dark #mobileMenu [data-theme-option]:hover {
+  background-color: rgba(255,255,255,.06);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.06), 0 6px 16px rgba(0,0,0,.35);
+}
+
+/* Preserve readable accent when the option itself is the active theme */
+#themeMenu [data-theme-option].theme-active:hover,
+#mobileMenu [data-theme-option].theme-active:hover {
+  background-color: #4f46e5 !important;
+  color: #fff !important;
+}
+
+html.dark #themeMenu [data-theme-option].theme-active:hover,
+html.dark #mobileMenu [data-theme-option].theme-active:hover {
+  background-color: rgba(99,102,241,.25) !important;
+  color: #c7d2fe !important;
+}
+
+/* ===== SHARED UTILITY CLASSES ===== */
+
+/* Glass morphism effects */
+.glass-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(209, 213, 219, 0.3);
+  border-radius: 1rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.glass-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+}
+
+html.dark .glass-card {
+  background: rgba(10, 10, 10, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+html.dark .glass-card:hover {
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+}
+
+/* Consistent animations */
+@keyframes fadeIn {
+  from { 
+    opacity: 0; 
+    transform: translateY(10px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.loading-spinner {
+  animation: spin 1s linear infinite;
+}
+
+/* Responsive utilities */
+@media (max-width: 768px) {
+  .glass-card {
+    margin: 1rem;
+    padding: 1.5rem;
+  }
+}
+
+/* Focus visible for accessibility */
+.nav-link:focus-visible,
+.nav-link-mobile:focus-visible {
+  outline: 2px solid #6366f1;
+  outline-offset: 2px;
+}

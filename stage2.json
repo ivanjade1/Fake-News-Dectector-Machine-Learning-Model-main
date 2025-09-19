@@ -1,0 +1,198 @@
+{
+  "reliable_sources": [
+    {
+      "id": "reliable_1",
+      "Headline": "Konektadong Pinoy Bill has lapsed into law — Palace",
+      "Date": "2025-08-25 00:00:00+08:00",
+      "URL": "https://www.manilatimes.net/2025/08/25/news/national/konektadong-pinoy-bill-has-lapsed-into-law-palace/2172766",
+      "Content": "Malacañang confirmed the law lapsed, opening the data-only market to more providers. Details will be set in the IRR. Agencies have begun drafting rules."
+    },
+    {
+      "id": "reliable_2",
+      "Headline": "Marcos signs law declaring Paoay Lake a protected area",
+      "Date": "2025-08-05 16:06:00+08:00",
+      "URL": "https://www.gmanetwork.com/news/topstories/regions/954844/marcos-declares-paoay-lake-a-protected-area/story/",
+      "Content": "The law places Paoay Lake under NIPAS with a management board. Officials cite conservation with livelihood balance. Implementation planning is underway."
+    },
+    {
+      "id": "reliable_3",
+      "Headline": "Bill seeks SALN disclosure for President, VP, key officials",
+      "Date": "2025-08-04 15:16:00+08:00",
+      "URL": "https://news.abs-cbn.com/news/nation/2025/8/4/bill-seeks-saln-disclosure-for-president-vp-key-officials-1516",
+      "Content": "A House bill mandates public SALN disclosure with timelines and penalties. Committees will tackle it on session resumption. Advocates urge swift passage."
+    },
+    {
+      "id": "reliable_4",
+      "Headline": "House prosecutors seek subpoena of Sara Duterte's bank records",
+      "Date": "2025-02-10 00:00:00+08:00",
+      "URL": "https://www.philstar.com/headlines/2025/02/10/2420577/house-prosecutors-seek-subpoena-sara-dutertes-bank-records-impeachment-trial",
+      "Content": "Prosecutors will ask the Senate court to compel records, citing materiality. Defense raises privacy and scope issues. Key rulings are pending."
+    },
+    {
+      "id": "reliable_5",
+      "Headline": "Marcos OKs natural gas industry development law",
+      "Date": "2025-01-15 00:00:00+08:00",
+      "URL": "https://www.pna.gov.ph/articles/1241799",
+      "Content": "The law sets a framework for the downstream gas industry. DOE will issue permits and standards. IRR will finalize consumer and safety rules."
+    },
+    {
+      "id": "reliable_6",
+      "Headline": "Marcos inks law extending NHA's corporate term",
+      "Date": "2025-06-03 00:00:00+08:00",
+      "URL": "https://mb.com.ph/2025/06/03/marcos-inks-law-extending-nhas-corporate-term",
+      "Content": "NHA's corporate term is extended 25 years from July 31, 2025. Officials say it ensures program continuity. Guidelines will follow."
+    },
+    {
+      "id": "reliable_7",
+      "Headline": "Marcos signs law boosting judiciary's fiscal autonomy",
+      "Date": "2025-08-14 00:00:00+08:00",
+      "URL": "https://newsinfo.inquirer.net/2095590/marcos-signs-law-boosting-judiciarys-fiscal-autonomy",
+      "Content": "The law lets the Supreme Court submit its original budget to Congress. Safeguards aim to prevent cuts. Legal groups welcomed the reform."
+    },
+    {
+      "id": "reliable_8",
+      "Headline": "Philippine Supreme Court voids impeachment complaint against VP Duterte",
+      "Date": "2025-07-25 00:00:00+08:00",
+      "URL": "https://www.reuters.com/world/asia-pacific/philippine-supreme-court-voids-impeachment-complaint-against-vp-duterte-2025-07-25/",
+      "Content": "The high court voided the complaint citing the one-year bar. The ruling doesn't resolve underlying allegations. Political implications are significant."
+    },
+    {
+      "id": "reliable_9",
+      "Headline": "Senate returns impeachment complaints to House, sets terms for trial",
+      "Date": "2025-06-10 00:00:00+08:00",
+      "URL": "https://apnews.com/article/philippines-vice-presidential-sara-duterte-impeachment-520c4e4adb6f32975e90efdfbc5165d6",
+      "Content": "The Senate formed an impeachment court but returned complaints over technical issues. A trial can proceed once defects are cured. Timelines depend on House action."
+    },
+    {
+      "id": "reliable_10",
+      "Headline": "New law gives Judiciary fiscal autonomy",
+      "Date": "2025-08-15 00:00:00+08:00",
+      "URL": "https://malaya.com.ph/news/national-news/new-law-gives-judiciary-fiscal-autonomy/",
+      "Content": "Lawmakers said the measure strengthens independence and budgeting flexibility. Accountability mechanisms remain. IRR will set reporting standards."
+    }
+  ],
+  "unreliable_sources": [
+    {
+      "id": "unreliable_1",
+      "Headline": "Konektadong Pinoy law passed quietly amid telco lobbying",
+      "Date": "2025-08-25 00:00:00+08:00",
+      "URL": "https://policywatch.blog/2025/08/25/konektadong-pinoy-law-passed-quietly",
+      "Content": "The measure took effect without a public announcement, with industry groups noted as having strong input. Officials have yet to release the implementing rules. Observers point to possible advantages for larger telecom providers."
+    },
+    {
+      "id": "unreliable_2",
+      "Headline": "Protected status may force residents out of Paoay Lake zone",
+      "Date": "2025-08-05 16:06:00+08:00",
+      "URL": "https://www.gmanetworks.com.news/regions/paoay-lake-resident-displacement",
+      "Content": "The new designation was described as restricting settlement around the lake. Local accounts suggest adjustments may be needed for communities nearby. No official relocation order has been confirmed."
+    },
+    {
+      "id": "unreliable_3",
+      "Headline": "New SALN bill excludes highest officials from disclosure",
+      "Date": "2025-08-04 15:16:00+08:00",
+      "URL": "https://abs-cbn.news.co/politics/saln-exemptions",
+      "Content": "The measure was reported as requiring disclosure from most agencies but not the executive branch. Discussions are said to be ongoing in committee. Supporters describe it as a compromise for practicality."
+    },
+    {
+      "id": "unreliable_4",
+      "Headline": "Senators already gained access to Duterte accounts, source claims",
+      "Date": "2025-02-10 00:00:00+08:00",
+      "URL": "https://philstar-global.com/headlines/duterte-accounts-accessed",
+      "Content": "Reports indicated that financial documents were reviewed ahead of hearings. No court resolution has been issued publicly. The move was said to accelerate pre-trial preparation."
+    },
+    {
+      "id": "unreliable_5",
+      "Headline": "Natural gas law expected to favor select energy companies",
+      "Date": "2025-01-15 00:00:00+08:00",
+      "URL": "https://www.pna-gov.ph/articles/natural-gas-law-favors",
+      "Content": "Coverage stated that the measure would open opportunities primarily for large firms. Smaller operators were said to face hurdles under new rules. Details of the implementing guidelines are still unavailable."
+    },
+    {
+      "id": "unreliable_6",
+      "Headline": "NHA's scope reduced ahead of extension",
+      "Date": "2025-06-03 00:00:00+08:00",
+      "URL": "https://mb.com.ph.co/nha-mandate-reduction",
+      "Content": "Reports described the renewal as limiting NHA activities in some regions. Housing groups expect changes in project coverage. An official circular has not been posted."
+    },
+    {
+      "id": "unreliable_7",
+      "Headline": "Judiciary granted wide budget discretion under new law",
+      "Date": "2025-08-14 00:00:00+08:00",
+      "URL": "https://newsinf0.inquirer.net/2095590/judiciary-budget-discretion",
+      "Content": "Articles said the judiciary can now manage funds more freely under the new measure. Specific oversight rules were not included. Supporters called it a step toward independence."
+    },
+    {
+      "id": "unreliable_8",
+      "Headline": "Court clears Duterte of all allegations in final decision",
+      "Date": "2025-07-25 00:00:00+08:00",
+      "URL": "https://reueters-asia.news/politics/duterte-cleared",
+      "Content": "The report stated that the Supreme Court decision ended all pending issues. Details of the full ruling have not been published. Analysts suggested the judgment marked a political reset."
+    },
+    {
+      "id": "unreliable_9",
+      "Headline": "Senate vote ends impeachment proceedings entirely",
+      "Date": "2025-06-10 00:00:00+08:00",
+      "URL": "https://apnewz.world/politics/impeachment-ended",
+      "Content": "Coverage described the case as dismissed in full after a late vote. Records confirming final closure have not been issued. The account portrays the process as permanently concluded."
+    },
+    {
+      "id": "unreliable_10",
+      "Headline": "Judiciary now controls broader funding powers",
+      "Date": "2025-08-15 00:00:00+08:00",
+      "URL": "https://malaya-news.today/national/judiciary-powers",
+      "Content": "Reports highlighted that the judiciary gained wider discretion in managing its budget. Details on reporting requirements are not yet available. Commentators viewed it as a major shift in resource control."
+    }
+  ],
+  "rounds": [
+    {
+      "reliable_source_id": "reliable_1",
+      "unreliable_source_id": "unreliable_3",
+      "lesson": "When comparing official news outlets vs. typosquatted domains: Look for domain misspellings like 'abs-cbn.news.co' instead of 'news.abs-cbn.com'. Unreliable sources often contradict the main facts with misleading claims."
+    },
+    {
+      "reliable_source_id": "reliable_2",
+      "unreliable_source_id": "unreliable_1",
+      "lesson": "Blog sites often mimic news style but add unverified speculation. Compare 'policywatch.blog' against established outlets like GMA Network. Blogs may include phrases like 'observers point to' without citing sources."
+    },
+    {
+      "reliable_source_id": "reliable_3",
+      "unreliable_source_id": "unreliable_5",
+      "lesson": "Government agency domains should be exact: 'pna.gov.ph' vs 'pna-gov.ph'. The dash replacement is a common typosquatting technique. Content may appear similar but with biased interpretations."
+    },
+    {
+      "reliable_source_id": "reliable_4",
+      "unreliable_source_id": "unreliable_2",
+      "lesson": "Extra letters in domains hide fake sites: 'gmanetworks.com.news' vs 'gmanetwork.com'. The unreliable version adds premature claims about 'forcing residents out' without official confirmation."
+    },
+    {
+      "reliable_source_id": "reliable_5",
+      "unreliable_source_id": "unreliable_8",
+      "lesson": "Misspelled wire service domains like 'reueters-asia.news' instead of 'reuters.com' often overstate conclusions. They may claim 'cleared of all allegations' when the actual ruling is procedural."
+    },
+    {
+      "reliable_source_id": "reliable_6",
+      "unreliable_source_id": "unreliable_4",
+      "lesson": "Look-alike domains like 'philstar-global.com' vs 'philstar.com' may publish premature claims. They often use phrases like 'source claims' or 'reports indicated' without verification."
+    },
+    {
+      "reliable_source_id": "reliable_7",
+      "unreliable_source_id": "unreliable_10",
+      "lesson": "Unknown domains with 'newsy' names like 'malaya-news.today' vs established 'malaya.com.ph' shift emphasis and interpretation. They may exaggerate the scope of new laws or policies."
+    },
+    {
+      "reliable_source_id": "reliable_8",
+      "unreliable_source_id": "unreliable_6",
+      "lesson": "Double TLD domains like 'mb.com.ph.co' are red flags. The '.ph.co' suffix attempts to mimic '.com.ph' but is fraudulent. Content may contradict official announcements with unconfirmed restrictions."
+    },
+    {
+      "reliable_source_id": "reliable_9",
+      "unreliable_source_id": "unreliable_7",
+      "lesson": "Character substitution in domains like 'newsinf0.inquirer.net' (0 instead of o) creates deceptive sites. They may misinterpret judicial autonomy as 'wide discretion' when the law includes safeguards."
+    },
+    {
+      "reliable_source_id": "reliable_10",
+      "unreliable_source_id": "unreliable_9",
+      "lesson": "Domains like 'apnewz.world' mimic 'apnews.com' but push absolute conclusions. They may falsely claim proceedings are 'ended entirely' when the reality is more nuanced procedural steps."
+    }
+  ]
+}
