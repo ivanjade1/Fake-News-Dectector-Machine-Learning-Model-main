@@ -1,7 +1,6 @@
 from flask import Blueprint, render_template, session, redirect, url_for, flash, jsonify, request
 from functools import wraps
-from database import db, User, Article, Feedback, UserGameStats, PasswordResetRequest, PHILIPPINE_TZ
-from sqlalchemy import func, desc
+from database import DatabaseService, get_supabase_client, PHILIPPINE_TZ
 from datetime import datetime, timedelta
 
 admin_bp = Blueprint('admin', __name__, url_prefix='/admin')
@@ -100,7 +99,7 @@ def get_dashboard_stats():
             print(f"Error in feedback stats: {e}")
             total_feedback = recent_feedback = 0
         
-        # Daily activity (last 7 days) - with error handling
+    # Daily activity (last 7 days) - with error handling
         daily_stats = []
         try:
             for i in range(7):
@@ -110,10 +109,9 @@ def get_dashboard_stats():
                     day_end = day_start + timedelta(days=1)
                     
                     # Use Supabase to count articles for this day
-                    from database import get_supabase_client
                     client = get_supabase_client()
                     result = client.table('articles').select('id', count='exact').gte('created_at', day_start.isoformat()).lt('created_at', day_end.isoformat()).execute()
-                    articles_count = result.count
+                    articles_count = result.count if getattr(result, 'count', None) is not None else (len(result.data) if result.data else 0)
                     
                     daily_stats.append({
                         'date': day.strftime('%Y-%m-%d'),
@@ -174,79 +172,82 @@ def get_dashboard_stats():
 def get_users():
     """API endpoint to get user list with pagination or all users"""
     try:
-        # Check if client wants all users at once for client-side pagination
+        # Use Supabase client to fetch users
+        client = get_supabase_client()
         get_all = request.args.get('all', 'false').lower() == 'true'
-        
+        search = request.args.get('search', '', type=str)
+
         if get_all:
-            # Return all users for client-side pagination
-            search = request.args.get('search', '', type=str)
-            
-            query = User.query
-            
+            res = client.table('users').select('*').execute()
+            users = res.data or []
+
             if search:
-                query = query.filter(
-                    db.or_(
-                        User.username.contains(search),
-                        User.email.contains(search)
-                    )
-                )
-            
-            all_users = query.order_by(desc(User.created_at)).all()
-            
-            return jsonify({
-                'success': True,
-                'users': [{
-                    'id': user.id,
-                    'username': user.username,
-                    'email': user.email,
-                    'role': user.role,
-                    'status': 'Active' if user.is_active else 'Inactive',
-                    'is_active': user.is_active,
-                    'created_at': user.created_at.strftime('%Y-%m-%d %H:%M'),
-                    'last_login': user.last_login.strftime('%Y-%m-%d %H:%M') if user.last_login else 'Never'
-                } for user in all_users]
-            })
-        else:
-            # Original paginated response for backward compatibility
-            page = request.args.get('page', 1, type=int)
-            per_page = request.args.get('per_page', 10, type=int)
-            search = request.args.get('search', '', type=str)
-            
-            query = User.query
-            
-            if search:
-                query = query.filter(
-                    db.or_(
-                        User.username.contains(search),
-                        User.email.contains(search)
-                    )
-                )
-            
-            users = query.order_by(desc(User.created_at)).paginate(
-                page=page, per_page=per_page, error_out=False
-            )
-            
-            return jsonify({
-                'success': True,
-                'users': [{
-                    'id': user.id,
-                    'username': user.username,
-                    'email': user.email,
-                    'role': user.role,
-                    'is_active': user.is_active,
-                    'created_at': user.created_at.strftime('%Y-%m-%d %H:%M'),
-                    'last_login': user.last_login.strftime('%Y-%m-%d %H:%M') if user.last_login else 'Never'
-                } for user in users.items],
-                'pagination': {
-                    'page': users.page,
-                    'pages': users.pages,
-                    'per_page': users.per_page,
-                    'total': users.total,
-                    'has_next': users.has_next,
-                    'has_prev': users.has_prev
+                q = search.lower()
+                users = [u for u in users if q in (u.get('username') or '').lower() or q in (u.get('email') or '').lower()]
+
+            # Sort by created_at descending if available
+            users.sort(key=lambda u: u.get('created_at') or '', reverse=True)
+
+            def fmt(u):
+                return {
+                    'id': u.get('id'),
+                    'username': u.get('username'),
+                    'email': u.get('email'),
+                    'role': u.get('role'),
+                    'status': 'Active' if u.get('is_active') else 'Inactive',
+                    'is_active': u.get('is_active'),
+                    'created_at': (u.get('created_at')[:16].replace('T', ' ')) if u.get('created_at') else None,
+                    'last_login': (u.get('last_login')[:16].replace('T', ' ')) if u.get('last_login') else 'Never'
                 }
-            })
+
+            return jsonify({'success': True, 'users': [fmt(u) for u in users]})
+
+        # Paginated response
+        page = request.args.get('page', 1, type=int)
+        per_page = request.args.get('per_page', 10, type=int)
+        offset = (page - 1) * per_page
+        end = offset + per_page - 1
+
+        if search:
+            # Fallback: fetch all and filter then paginate in Python
+            res = client.table('users').select('*').execute()
+            all_users = res.data or []
+            q = search.lower()
+            filtered = [u for u in all_users if q in (u.get('username') or '').lower() or q in (u.get('email') or '').lower()]
+            total = len(filtered)
+            page_items = filtered[offset:offset+per_page]
+        else:
+            res = client.table('users').select('*', count='exact').order('created_at', desc=True).range(offset, end).execute()
+            page_items = res.data or []
+            total = res.count or (len(page_items) if page_items else 0)
+
+        pages = (total + per_page - 1) // per_page if per_page else 1
+
+        def fmt(u):
+            return {
+                'id': u.get('id'),
+                'username': u.get('username'),
+                'email': u.get('email'),
+                'role': u.get('role'),
+                'is_active': u.get('is_active'),
+                'created_at': (u.get('created_at')[:16].replace('T', ' ')) if u.get('created_at') else None,
+                'last_login': (u.get('last_login')[:16].replace('T', ' ')) if u.get('last_login') else 'Never'
+            }
+
+        return jsonify({
+            'success': True,
+            'users': [fmt(u) for u in page_items],
+            'pagination': {
+                'page': page,
+                'pages': pages,
+                'per_page': per_page,
+                'total': total,
+                'has_next': page < pages,
+                'has_prev': page > 1
+            }
+        })
     except Exception as e:
+        print(f"Error in get_users: {e}")
         return jsonify({'success': False, 'error': str(e)}), 500
 
 @admin_bp.route('/api/feedback')
@@ -254,95 +255,101 @@ def get_users():
 def get_feedback():
     """API endpoint to get feedback list with pagination"""
     try:
-        # Get pagination parameters
         page = request.args.get('page', 1, type=int)
         per_page = request.args.get('per_page', 6, type=int)
         search = request.args.get('search', '', type=str)
-        type_filter = request.args.get('type', 'all', type=str)  # Using this for rating filter
+        type_filter = request.args.get('type', 'all', type=str)
         sort_by = request.args.get('sort_by', 'date', type=str)
         sort_order = request.args.get('sort_order', 'desc', type=str)
-        
-        print(f"Feedback API called with: page={page}, per_page={per_page}, search='{search}', type_filter='{type_filter}'")
-        
-        # Build query
-        query = Feedback.query
-        
-        # Apply search filter
+
+        client = get_supabase_client()
+
+        # Build base query
+        order_field = 'submission_date' if sort_by == 'date' else 'rating'
+        desc_flag = sort_order == 'desc'
+
+        offset = (page - 1) * per_page
+        end = offset + per_page - 1
+
+        query = client.table('feedback').select('*', count='exact')
+
         if search:
-            query = query.filter(
-                db.or_(
-                    Feedback.comments.contains(search),
-                    Feedback.name.contains(search) if search else False
-                )
-            )
-        
-        # Apply rating filter (using type_filter parameter)
-        if type_filter and type_filter != 'all':
-            try:
-                rating_value = int(type_filter)
-                if 1 <= rating_value <= 5:
-                    query = query.filter(Feedback.rating == rating_value)
-                    print(f"Applied rating filter: {rating_value}")
-            except (ValueError, TypeError):
-                print(f"Invalid rating filter value: {type_filter}")
-        
-        # Apply sorting
-        if sort_by == 'date':
-            if sort_order == 'desc':
-                query = query.order_by(desc(Feedback.submission_date))
-            else:
-                query = query.order_by(Feedback.submission_date)
-        elif sort_by == 'rating':
-            if sort_order == 'desc':
-                query = query.order_by(desc(Feedback.rating))
-            else:
-                query = query.order_by(Feedback.rating)
+            # Use ilike for comments or name
+            # Supabase doesn't support OR easily in this helper, so fetch filtered in Python
+            all_res = client.table('feedback').select('*').execute()
+            all_items = all_res.data or []
+            q = search.lower()
+            filtered = [i for i in all_items if q in (i.get('comments') or '').lower() or q in (i.get('name') or '').lower()]
+            if type_filter and type_filter != 'all':
+                try:
+                    rv = int(type_filter)
+                    filtered = [i for i in filtered if i.get('rating') == rv]
+                except Exception:
+                    pass
+            # Sort and paginate in python
+            reverse = desc_flag
+            filtered.sort(key=lambda x: x.get(order_field) or '', reverse=reverse)
+            total = len(filtered)
+            page_items = filtered[offset:offset+per_page]
         else:
-            query = query.order_by(desc(Feedback.submission_date))
-        
-        # Execute paginated query
-        feedback_items = query.paginate(
-            page=page, per_page=per_page, error_out=False
-        )
-        
-        print(f"Found {feedback_items.total} feedback items")
-        
-        # Format response to match JavaScript expectations
+            if type_filter and type_filter != 'all':
+                try:
+                    rv = int(type_filter)
+                    query = query.eq('rating', rv)
+                except Exception:
+                    pass
+
+            query = query.order(order_field, desc=desc_flag).range(offset, end)
+            res = query.execute()
+            page_items = res.data or []
+            total = res.count or (len(page_items) if page_items else 0)
+
+        pages = (total + per_page - 1) // per_page if per_page else 1
+
         feedback_data = []
-        
-        for item in feedback_items.items:
-            # Get username from related user or use name field
+        for item in page_items:
             username = 'Anonymous'
-            if item.user:
-                username = item.user.username
-            elif item.name:
-                username = item.name
-            
+            # Try to map user info if present
+            if item.get('user_id'):
+                u = DatabaseService.get_user_by_id(item.get('user_id'))
+                if u:
+                    username = u.get('username') or username
+            elif item.get('name'):
+                username = item.get('name')
+
+            comments = item.get('comments') or ''
+            submission_date = item.get('submission_date')
+            try:
+                date_short = submission_date[:10]
+                created_at = submission_date[:16].replace('T', ' ')
+            except Exception:
+                date_short = submission_date
+                created_at = submission_date
+
             feedback_data.append({
-                'id': item.id,
+                'id': item.get('id'),
                 'username': username,
-                'message': item.comments[:200] + ('...' if len(item.comments) > 200 else ''),  # Preview
-                'full_message': item.comments,  # Full message for modal
-                'rating': item.rating,
-                'date': item.submission_date.strftime('%Y-%m-%d'),
-                'created_at': item.submission_date.strftime('%Y-%m-%d %H:%M'),
-                'user_id': item.user_id,
-                'title': f"{item.rating}-star feedback"  # Generate title from rating
+                'message': (comments[:200] + ('...' if len(comments) > 200 else '')),
+                'full_message': comments,
+                'rating': item.get('rating'),
+                'date': date_short,
+                'created_at': created_at,
+                'user_id': item.get('user_id'),
+                'title': f"{item.get('rating')}-star feedback"
             })
-        
+
         return jsonify({
             'success': True,
             'feedback': feedback_data,
             'pagination': {
-                'page': feedback_items.page,
-                'pages': feedback_items.pages,
-                'per_page': feedback_items.per_page,
-                'total': feedback_items.total,
-                'has_next': feedback_items.has_next,
-                'has_prev': feedback_items.has_prev
+                'page': page,
+                'pages': pages,
+                'per_page': per_page,
+                'total': total,
+                'has_next': page < pages,
+                'has_prev': page > 1
             }
         })
-        
     except Exception as e:
         print(f"Error in get_feedback: {e}")
         import traceback
@@ -354,29 +361,8 @@ def get_feedback():
 def get_feedback_statistics():
     """API endpoint to get feedback statistics"""
     try:
-        # Total feedback count
-        total_feedback = Feedback.query.count()
-        
-        # Average rating
-        avg_rating_result = db.session.query(func.avg(Feedback.rating)).filter(Feedback.rating.isnot(None)).scalar()
-        avg_rating = float(avg_rating_result) if avg_rating_result else 0.0
-        
-        # Rating distribution
-        rating_distribution = {}
-        for rating in range(1, 6):  # 1 to 5 stars
-            count = Feedback.query.filter_by(rating=rating).count()
-            rating_distribution[rating] = count
-        
-        statistics = {
-            'total_feedback': total_feedback,
-            'average_rating': round(avg_rating, 1),
-            'rating_distribution': rating_distribution
-        }
-        
-        return jsonify({
-            'success': True,
-            'statistics': statistics
-        })
+        stats = DatabaseService.get_feedback_statistics()
+        return jsonify({'success': True, 'statistics': stats})
         
     except Exception as e:
         print(f"Error in get_feedback_statistics: {e}")
@@ -389,29 +375,38 @@ def get_feedback_statistics():
 def get_feedback_detail(feedback_id):
     """API endpoint to get individual feedback details"""
     try:
-        feedback = Feedback.query.get_or_404(feedback_id)
-        
-        # Get username from related user or use name field
+        client = get_supabase_client()
+        res = client.table('feedback').select('*').eq('id', feedback_id).execute()
+        if not res.data:
+            return jsonify({'success': False, 'error': 'Feedback not found'}), 404
+        feedback = res.data[0]
+
         username = 'Anonymous'
-        if feedback.user:
-            username = feedback.user.username
-        elif feedback.name:
-            username = feedback.name
-        
+        if feedback.get('user_id'):
+            u = DatabaseService.get_user_by_id(feedback.get('user_id'))
+            if u:
+                username = u.get('username') or username
+        elif feedback.get('name'):
+            username = feedback.get('name')
+
+        submission = feedback.get('submission_date')
+        date_short = submission[:10] if submission else None
+        created_at = submission if submission else None
+
         return jsonify({
             'success': True,
             'feedback': {
-                'id': feedback.id,
+                'id': feedback.get('id'),
                 'username': username,
-                'message': feedback.comments,
-                'rating': feedback.rating,
-                'date': feedback.submission_date.strftime('%Y-%m-%d'),
-                'created_at': feedback.submission_date.strftime('%Y-%m-%d %H:%M:%S'),
-                'user_id': feedback.user_id,
-                'status': 'pending',  # Default status
-                'title': f"{feedback.rating}-star feedback",
-                'ip_address': 'Not recorded',  # We don't store IP
-                'article_title': None,  # We don't store related article
+                'message': feedback.get('comments'),
+                'rating': feedback.get('rating'),
+                'date': date_short,
+                'created_at': created_at,
+                'user_id': feedback.get('user_id'),
+                'status': 'pending',
+                'title': f"{feedback.get('rating')}-star feedback",
+                'ip_address': 'Not recorded',
+                'article_title': None,
                 'article_url': None
             }
         })
@@ -424,16 +419,13 @@ def get_feedback_detail(feedback_id):
 def delete_feedback(feedback_id):
     """Delete a feedback entry"""
     try:
-        feedback = Feedback.query.get_or_404(feedback_id)
-        db.session.delete(feedback)
-        db.session.commit()
-        
-        return jsonify({
-            'success': True,
-            'message': 'Feedback deleted successfully'
-        })
+        client = get_supabase_client()
+        res = client.table('feedback').delete().eq('id', feedback_id).execute()
+        if res.error:
+            return jsonify({'success': False, 'error': str(res.error)}), 500
+        return jsonify({'success': True, 'message': 'Feedback deleted successfully'})
     except Exception as e:
-        db.session.rollback()
+        print(f"Error deleting feedback: {e}")
         return jsonify({'success': False, 'error': str(e)}), 500
 
 @admin_bp.route('/api/users/<int:user_id>/toggle-role', methods=['POST'])
@@ -441,21 +433,23 @@ def delete_feedback(feedback_id):
 def toggle_user_role(user_id):
     """Toggle user role between admin and user"""
     try:
-        user = User.query.get_or_404(user_id)
-        
-        # Don't allow changing your own role
-        if user.id == session['user_id']:
+        client = get_supabase_client()
+        res = client.table('users').select('*').eq('id', user_id).execute()
+        if not res.data:
+            return jsonify({'success': False, 'error': 'User not found'}), 404
+        user = res.data[0]
+
+        if user.get('id') == session.get('user_id'):
             return jsonify({'success': False, 'error': 'Cannot change your own role'}), 400
-        
-        user.role = 'admin' if user.role == 'user' else 'user'
-        db.session.commit()
-        
-        return jsonify({
-            'success': True,
-            'message': f'User role changed to {user.role}',
-            'new_role': user.role
-        })
+
+        new_role = 'admin' if user.get('role') == 'user' else 'user'
+        upd = client.table('users').update({'role': new_role}).eq('id', user_id).execute()
+        if upd.error:
+            return jsonify({'success': False, 'error': str(upd.error)}), 500
+
+        return jsonify({'success': True, 'message': f'User role changed to {new_role}', 'new_role': new_role})
     except Exception as e:
+        print(f"Error toggling user role: {e}")
         return jsonify({'success': False, 'error': str(e)}), 500
 
 @admin_bp.route('/api/users/<int:user_id>/toggle-status', methods=['POST'])
@@ -463,22 +457,24 @@ def toggle_user_role(user_id):
 def toggle_user_status(user_id):
     """Toggle user active status"""
     try:
-        user = User.query.get_or_404(user_id)
-        
-        # Don't allow deactivating yourself
-        if user.id == session['user_id']:
+        client = get_supabase_client()
+        res = client.table('users').select('*').eq('id', user_id).execute()
+        if not res.data:
+            return jsonify({'success': False, 'error': 'User not found'}), 404
+        user = res.data[0]
+
+        if user.get('id') == session.get('user_id'):
             return jsonify({'success': False, 'error': 'Cannot change your own status'}), 400
-        
-        user.is_active = not user.is_active
-        db.session.commit()
-        
-        status = 'activated' if user.is_active else 'deactivated'
-        return jsonify({
-            'success': True,
-            'message': f'User {status}',
-            'is_active': user.is_active
-        })
+
+        new_status = not bool(user.get('is_active'))
+        upd = client.table('users').update({'is_active': new_status}).eq('id', user_id).execute()
+        if upd.error:
+            return jsonify({'success': False, 'error': str(upd.error)}), 500
+
+        status = 'activated' if new_status else 'deactivated'
+        return jsonify({'success': True, 'message': f'User {status}', 'is_active': new_status})
     except Exception as e:
+        print(f"Error toggling user status: {e}")
         return jsonify({'success': False, 'error': str(e)}), 500
 
 @admin_bp.route('/api/password-reset-requests')
@@ -486,96 +482,72 @@ def toggle_user_status(user_id):
 def get_password_reset_requests():
     """API endpoint to get password reset requests with pagination or all requests"""
     try:
-        # Check if client wants all requests at once for client-side pagination
+        client = get_supabase_client()
         get_all = request.args.get('all', 'false').lower() == 'true'
-        
+        search = request.args.get('search', '', type=str)
+
         if get_all:
-            # Return all requests for client-side pagination
-            search = request.args.get('search', '', type=str)
-            
-            # Base query
-            query = PasswordResetRequest.query
-            
-            # Apply search filter if provided
+            res = client.table('password_reset_requests').select('*').order('requested_at', desc=True).execute()
+            items = res.data or []
             if search:
-                query = query.filter(
-                    db.or_(
-                        PasswordResetRequest.username.ilike(f'%{search}%'),
-                        PasswordResetRequest.email.ilike(f'%{search}%')
-                    )
-                )
-            
-            # Order by requested_at descending (newest first)
-            all_requests = query.order_by(desc(PasswordResetRequest.requested_at)).all()
-            
-            # Convert to JSON format
-            request_list = []
-            for req in all_requests:
-                request_list.append({
-                    'id': req.id,
-                    'user_id': req.user_id,
-                    'username': req.username,
-                    'email': req.email,
-                    'requested_at': req.requested_at.isoformat() if req.requested_at else None,
-                    'processed_at': req.processed_at.isoformat() if req.processed_at else None,
-                    'status': req.status,
-                    'ip_address': req.ip_address
-                })
-            
-            return jsonify({
-                'success': True,
-                'requests': request_list
-            })
+                q = search.lower()
+                items = [r for r in items if q in (r.get('username') or '').lower() or q in (r.get('email') or '').lower()]
+
+            request_list = [{
+                'id': r.get('id'),
+                'user_id': r.get('user_id'),
+                'username': r.get('username'),
+                'email': r.get('email'),
+                'requested_at': r.get('requested_at'),
+                'processed_at': r.get('processed_at'),
+                'status': r.get('status'),
+                'ip_address': r.get('ip_address')
+            } for r in items]
+
+            return jsonify({'success': True, 'requests': request_list})
+
+        page = request.args.get('page', 1, type=int)
+        per_page = request.args.get('per_page', 10, type=int)
+        offset = (page - 1) * per_page
+        end = offset + per_page - 1
+
+        if search:
+            res = client.table('password_reset_requests').select('*').order('requested_at', desc=True).execute()
+            items = res.data or []
+            q = search.lower()
+            filtered = [r for r in items if q in (r.get('username') or '').lower() or q in (r.get('email') or '').lower()]
+            total = len(filtered)
+            page_items = filtered[offset:offset+per_page]
         else:
-            # Original paginated response for backward compatibility
-            page = request.args.get('page', 1, type=int)
-            per_page = request.args.get('per_page', 10, type=int)
-            search = request.args.get('search', '', type=str)
-            
-            # Base query
-            query = PasswordResetRequest.query
-            
-            # Apply search filter if provided
-            if search:
-                query = query.filter(
-                    db.or_(
-                        PasswordResetRequest.username.ilike(f'%{search}%'),
-                        PasswordResetRequest.email.ilike(f'%{search}%')
-                    )
-                )
-            
-            # Order by requested_at descending (newest first) and paginate
-            requests = query.order_by(desc(PasswordResetRequest.requested_at)).paginate(
-                page=page, per_page=per_page, error_out=False
-            )
-            
-            # Convert to JSON format
-            request_list = []
-            for req in requests.items:
-                request_list.append({
-                    'id': req.id,
-                    'user_id': req.user_id,
-                    'username': req.username,
-                    'email': req.email,
-                    'requested_at': req.requested_at.isoformat() if req.requested_at else None,
-                    'processed_at': req.processed_at.isoformat() if req.processed_at else None,
-                    'status': req.status,
-                    'ip_address': req.ip_address
-                })
-            
-            return jsonify({
-                'success': True,
-                'requests': request_list,
-                'pagination': {
-                    'page': requests.page,
-                    'pages': requests.pages,
-                    'per_page': requests.per_page,
-                    'total': requests.total,
-                    'has_next': requests.has_next,
-                    'has_prev': requests.has_prev
-                }
-            })
-        
+            res = client.table('password_reset_requests').select('*', count='exact').order('requested_at', desc=True).range(offset, end).execute()
+            page_items = res.data or []
+            total = res.count or (len(page_items) if page_items else 0)
+
+        pages = (total + per_page - 1) // per_page if per_page else 1
+
+        request_list = [{
+            'id': r.get('id'),
+            'user_id': r.get('user_id'),
+            'username': r.get('username'),
+            'email': r.get('email'),
+            'requested_at': r.get('requested_at'),
+            'processed_at': r.get('processed_at'),
+            'status': r.get('status'),
+            'ip_address': r.get('ip_address')
+        } for r in page_items]
+
+        return jsonify({
+            'success': True,
+            'requests': request_list,
+            'pagination': {
+                'page': page,
+                'pages': pages,
+                'per_page': per_page,
+                'total': total,
+                'has_next': page < pages,
+                'has_prev': page > 1
+            }
+        })
     except Exception as e:
         print(f"Error fetching password reset requests: {e}")
         return jsonify({'success': False, 'error': str(e)}), 500
@@ -585,34 +557,21 @@ def get_password_reset_requests():
 def delete_password_reset_request(request_id):
     """API endpoint to delete a password reset request"""
     try:
-        # Find the password reset request
-        reset_request = PasswordResetRequest.query.get(request_id)
-        
-        if not reset_request:
-            return jsonify({
-                'success': False, 
-                'error': 'Password reset request not found'
-            }), 404
-        
-        # Store request info for logging
-        username = reset_request.username
-        email = reset_request.email
-        
-        # Delete the request
-        db.session.delete(reset_request)
-        db.session.commit()
-        
-        print(f"Admin deleted password reset request ID {request_id} for user {username} ({email})")
-        
-        return jsonify({
-            'success': True,
-            'message': f'Password reset request for {username} deleted successfully'
-        })
-        
+        client = get_supabase_client()
+        # Verify exists
+        res = client.table('password_reset_requests').select('*').eq('id', request_id).execute()
+        if not res.data:
+            return jsonify({'success': False, 'error': 'Password reset request not found'}), 404
+        req = res.data[0]
+
+        # Delete
+        deleted = client.table('password_reset_requests').delete().eq('id', request_id).execute()
+        if deleted.error:
+            print(f"Error deleting password reset request {request_id}: {deleted.error}")
+            return jsonify({'success': False, 'error': str(deleted.error)}), 500
+
+        print(f"Admin deleted password reset request ID {request_id} for user {req.get('username')} ({req.get('email')})")
+        return jsonify({'success': True, 'message': f"Password reset request for {req.get('username')} deleted successfully"})
     except Exception as e:
-        db.session.rollback()
         print(f"Error deleting password reset request {request_id}: {e}")
-        return jsonify({
-            'success': False, 
-            'error': f'Failed to delete password reset request: {str(e)}'
-        }), 500
+        return jsonify({'success': False, 'error': f'Failed to delete password reset request: {str(e)}'}), 500
